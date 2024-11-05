@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1502</width>
-    <height>477</height>
+    <width>1280</width>
+    <height>720</height>
    </rect>
+  </property>
+  <property name="sizeIncrement">
+   <size>
+    <width>1</width>
+    <height>1</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -17,10 +23,10 @@
    <widget class="QGraphicsView" name="canvas">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>370</x>
       <y>0</y>
-      <width>460</width>
-      <height>441</height>
+      <width>521</width>
+      <height>521</height>
      </rect>
     </property>
     <property name="minimumSize">
@@ -33,7 +39,7 @@
    <widget class="QWidget" name="animationPreview" native="true">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>230</x>
       <y>10</y>
       <width>121</width>
       <height>111</height>
@@ -43,7 +49,7 @@
    <widget class="QWidget" name="animationPreviewOptions" native="true">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>230</x>
       <y>140</y>
       <width>120</width>
       <height>101</height>
@@ -53,30 +59,36 @@
    <widget class="QWidget" name="colorSelector" native="true">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>230</x>
       <y>260</y>
       <width>120</width>
-      <height>191</height>
+      <height>251</height>
      </rect>
     </property>
    </widget>
    <widget class="QListWidget" name="frameNavigator">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>449</y>
-      <width>741</width>
-      <height>101</height>
+      <x>220</x>
+      <y>530</y>
+      <width>821</width>
+      <height>131</height>
      </rect>
+    </property>
+    <property name="sizeIncrement">
+     <size>
+      <width>1</width>
+      <height>1</height>
+     </size>
     </property>
    </widget>
    <widget class="QToolButton" name="toolButton">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>30</y>
-      <width>81</width>
-      <height>81</height>
+      <x>910</x>
+      <y>10</y>
+      <width>111</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="text">
@@ -86,10 +98,10 @@
    <widget class="QToolButton" name="toolButton_2">
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>910</x>
       <y>140</y>
-      <width>81</width>
-      <height>81</height>
+      <width>111</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="text">
@@ -99,10 +111,10 @@
    <widget class="QToolButton" name="toolButton_3">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>250</y>
-      <width>81</width>
-      <height>81</height>
+      <x>910</x>
+      <y>270</y>
+      <width>111</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="text">
@@ -112,10 +124,10 @@
    <widget class="QToolButton" name="toolButton_4">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>360</y>
-      <width>81</width>
-      <height>81</height>
+      <x>910</x>
+      <y>400</y>
+      <width>111</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="text">
@@ -137,8 +149,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1502</width>
-     <height>18</height>
+     <width>1280</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">
