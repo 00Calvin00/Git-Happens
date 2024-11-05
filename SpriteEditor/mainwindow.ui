@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1502</width>
+    <height>477</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>20</y>
+      <y>0</y>
       <width>460</width>
       <height>441</height>
      </rect>
@@ -34,9 +34,9 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>20</y>
+      <y>10</y>
       <width>121</width>
-      <height>101</height>
+      <height>111</height>
      </rect>
     </property>
    </widget>
@@ -56,89 +56,88 @@
       <x>30</x>
       <y>260</y>
       <width>120</width>
-      <height>201</height>
+      <height>191</height>
      </rect>
     </property>
    </widget>
    <widget class="QListWidget" name="frameNavigator">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>470</y>
-      <width>761</width>
-      <height>91</height>
+      <x>30</x>
+      <y>449</y>
+      <width>741</width>
+      <height>101</height>
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="toolSelector" native="true">
+   <widget class="QToolButton" name="toolButton">
     <property name="geometry">
      <rect>
-      <x>650</x>
-      <y>20</y>
-      <width>120</width>
-      <height>441</height>
+      <x>660</x>
+      <y>30</y>
+      <width>81</width>
+      <height>81</height>
      </rect>
     </property>
-    <widget class="QToolButton" name="toolButton">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>0</y>
-       <width>81</width>
-       <height>81</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_3">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>240</y>
-       <width>80</width>
-       <height>80</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="toolButton_2">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>120</y>
-       <width>81</width>
-       <height>81</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_4">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>360</y>
-       <width>80</width>
-       <height>80</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
+    <property name="text">
+     <string/>
+    </property>
    </widget>
+   <widget class="QToolButton" name="toolButton_2">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>140</y>
+      <width>81</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButton_3">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>250</y>
+      <width>81</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="toolButton_4">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>360</y>
+      <width>81</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>canvas</zorder>
+   <zorder>animationPreview</zorder>
+   <zorder>animationPreviewOptions</zorder>
+   <zorder>colorSelector</zorder>
+   <zorder>toolButton</zorder>
+   <zorder>toolButton_2</zorder>
+   <zorder>toolButton_3</zorder>
+   <zorder>toolButton_4</zorder>
+   <zorder>frameNavigator</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1502</width>
      <height>18</height>
     </rect>
    </property>
@@ -187,6 +186,14 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>frameNavigator</tabstop>
+  <tabstop>toolButton</tabstop>
+  <tabstop>canvas</tabstop>
+  <tabstop>toolButton_2</tabstop>
+  <tabstop>toolButton_3</tabstop>
+  <tabstop>toolButton_4</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
