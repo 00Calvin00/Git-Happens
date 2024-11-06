@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1280</width>
-    <height>720</height>
+    <height>740</height>
    </rect>
   </property>
   <property name="sizeIncrement">
@@ -20,22 +20,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGraphicsView" name="uiCanvas">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>0</y>
-      <width>521</width>
-      <height>521</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>460</width>
-      <height>441</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QWidget" name="animationPreview" native="true">
     <property name="geometry">
      <rect>
@@ -134,20 +118,16 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="canvasLabel">
+   <widget class="Canvas" name="uiCanvas" native="true">
     <property name="geometry">
      <rect>
-      <x>427</x>
-      <y>45</y>
-      <width>441</width>
-      <height>401</height>
+      <x>230</x>
+      <y>0</y>
+      <width>641</width>
+      <height>521</height>
      </rect>
     </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
    </widget>
-   <zorder>uiCanvas</zorder>
    <zorder>animationPreview</zorder>
    <zorder>animationPreviewOptions</zorder>
    <zorder>colorSelector</zorder>
@@ -156,7 +136,7 @@
    <zorder>toolButton_3</zorder>
    <zorder>toolButton_4</zorder>
    <zorder>frameNavigator</zorder>
-   <zorder>canvasLabel</zorder>
+   <zorder>uiCanvas</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -212,10 +192,17 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Canvas</class>
+   <extends>QWidget</extends>
+   <header>canvas.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>frameNavigator</tabstop>
   <tabstop>toolButton</tabstop>
-  <tabstop>uiCanvas</tabstop>
   <tabstop>toolButton_2</tabstop>
   <tabstop>toolButton_3</tabstop>
   <tabstop>toolButton_4</tabstop>

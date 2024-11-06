@@ -11,13 +11,13 @@ class Canvas : public QWidget
     Q_OBJECT
 
 public:
-    explicit Canvas(QWidget *parent = nullptr);
+    explicit Canvas(QWidget *parent = nullptr, int size = 240);
     ~Canvas();
 
     QPixmap getPixmap() const;  // Method to return the pixmap
 
 signals:
-    void canvasUpdated();  // Signal to notify that the canvas has been updated
+    void updateCanvas();  // Signal to notify that the canvas needs to be updated
 
 protected:
     void paintEvent(QPaintEvent *event) override;

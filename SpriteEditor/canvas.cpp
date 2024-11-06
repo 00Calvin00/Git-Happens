@@ -1,11 +1,11 @@
 #include "canvas.h"
 #include <QPainter>
 
-Canvas::Canvas(QWidget *parent)
-    : QWidget{parent}, pressed(false)
+Canvas::Canvas(QWidget *parent, int size)
+    : QWidget{parent}, pressed(false), canvasSize(size)
 {
     color = Qt::black;
-    pixmap = new QPixmap(240, 240);  // Initialize a blank pixmap of the desired size
+    pixmap = new QPixmap(canvasSize, canvasSize);  // Initialize a blank pixmap of the desired size
     pixmap->fill(Qt::white);         // Fill with a default background color (e.g., white)
     resize(canvasSize, canvasSize);
 }
@@ -49,12 +49,12 @@ void Canvas::draw(QMouseEvent *event)
         painter.setPen(color);
 
         // Calculate grid positions to draw on
-        int x = event->pos().x() / canvasSize; //What do we need to divide by here??
-        int y = event->pos().y() / canvasSize; //What do we need to divide by here??
+        int x = event->pos().x() / 12; //What do we need to divide by here??
+        int y = event->pos().y() / 12; //What do we need to divide by here??
 
         painter.drawPoint(x, y);
         repaint();
-        emit canvasUpdated();  // Emit signal to update the display in MainWindow
+        emit updateCanvas();  // Emit signal to update the display in MainWindow
     }
 }
 
