@@ -20,7 +20,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGraphicsView" name="canvas">
+   <widget class="QGraphicsView" name="uiCanvas">
     <property name="geometry">
      <rect>
       <x>370</x>
@@ -134,7 +134,20 @@
      <string/>
     </property>
    </widget>
-   <zorder>canvas</zorder>
+   <widget class="QLabel" name="canvasLabel">
+    <property name="geometry">
+     <rect>
+      <x>427</x>
+      <y>45</y>
+      <width>441</width>
+      <height>401</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <zorder>uiCanvas</zorder>
    <zorder>animationPreview</zorder>
    <zorder>animationPreviewOptions</zorder>
    <zorder>colorSelector</zorder>
@@ -143,6 +156,7 @@
    <zorder>toolButton_3</zorder>
    <zorder>toolButton_4</zorder>
    <zorder>frameNavigator</zorder>
+   <zorder>canvasLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -150,7 +164,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">
@@ -201,7 +215,7 @@
  <tabstops>
   <tabstop>frameNavigator</tabstop>
   <tabstop>toolButton</tabstop>
-  <tabstop>canvas</tabstop>
+  <tabstop>uiCanvas</tabstop>
   <tabstop>toolButton_2</tabstop>
   <tabstop>toolButton_3</tabstop>
   <tabstop>toolButton_4</tabstop>
