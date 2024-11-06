@@ -196,7 +196,7 @@
   <customwidget>
    <class>Canvas</class>
    <extends>QWidget</extends>
-   <header>canvas.h</header>
+   <header location="global">canvas.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

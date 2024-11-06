@@ -1,13 +1,13 @@
 #include "canvas.h"
 #include <QPainter>
 
-Canvas::Canvas(QWidget *parent, int size)
-    : QWidget{parent}, pressed(false), canvasSize(size)
+Canvas::Canvas(int canvasSize, int scale, QWidget *parent)
+    : QWidget{parent}, canvasSize(canvasSize), scale(scale), pressed(false)
 {
     color = Qt::black;
     pixmap = new QPixmap(canvasSize, canvasSize);  // Initialize a blank pixmap of the desired size
     pixmap->fill(Qt::white);         // Fill with a default background color (e.g., white)
-    resize(canvasSize, canvasSize);
+    resize(canvasSize * scale, canvasSize * scale);
 }
 
 Canvas::~Canvas()
@@ -20,7 +20,7 @@ Canvas::~Canvas()
 void Canvas::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    painter.drawPixmap(0, 0, *pixmap);  // Draw the pixmap on the widget
+    painter.drawPixmap(0, 0, pixmap->scaled(canvasSize * scale, canvasSize * scale)); // Draw the pixmap on the widget
 }
 
 void Canvas::mousePressEvent(QMouseEvent *event)
@@ -46,13 +46,14 @@ void Canvas::draw(QMouseEvent *event)
 {
     if (pressed) {
         QPainter painter(pixmap);
-        painter.setPen(color);
+        painter.setPen(QPen(color, scale));
 
         // Calculate grid positions to draw on
-        int x = event->pos().x() / 12; //What do we need to divide by here??
-        int y = event->pos().y() / 12; //What do we need to divide by here??
+        int x = event->pos().x() / scale; //What do we need to divide by here??
+        int y = event->pos().y() / scale; //What do we need to divide by here??
 
-        painter.drawPoint(x, y);
+        painter.drawRect(x, y, 1, 1); // Draw a filled rectangle to represent the "pixel" at the scaled size
+
         repaint();
         emit updateCanvas();  // Emit signal to update the display in MainWindow
     }
