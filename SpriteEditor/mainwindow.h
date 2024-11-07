@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QColorDialog>
+#include "model.h"
+#include "canvas.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -15,13 +17,17 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(Model& model, int canvasSize = 64, QWidget *parent = nullptr) ;
     ~MainWindow();
 
 private slots:
     void getCustomColor();
+    void updateCanvasDisplay();  // Slot to update the canvas display
 
 private:
     Ui::MainWindow *ui;
+    Canvas *canvas;  // Pointer to Canvas
+    Model *model;    // Pointer to Model
 };
+
 #endif // MAINWINDOW_H
