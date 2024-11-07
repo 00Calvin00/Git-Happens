@@ -23,7 +23,8 @@ public:
 private slots:
     void getCustomColor();
     void updateCanvasDisplay();  // Slot to update the canvas display
-    void onActionSaveTriggered();
+    void onSaveTriggered();
+    void onLoadTriggered();
 
 private:
     Ui::MainWindow *ui;
