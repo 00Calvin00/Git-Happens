@@ -15,7 +15,7 @@ public:
     ~Canvas();
 
     QPixmap getPixmap() const;  // Method to return the pixmap
-    QColor color;               // Color to be drawn
+    QColor penColor;               // Color to be drawn
 
 signals:
     void updateCanvas();  // Signal to notify that the canvas needs to be updated

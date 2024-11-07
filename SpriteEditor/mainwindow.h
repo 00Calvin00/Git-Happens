@@ -21,9 +21,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void updateColorWithCustom();       // Update the color to custom color
-    void updateColorWithPreset();       // Update the color to quick access color
-    void updateCanvasDisplay();  // Update the canvas display
+    void updateCanvasDisplay();             // Update the canvas display
+    void updateColorWithCustom();           // Update the color to custom color
+    void updateColorWithPreset(QColor);     // Update the color to quick access color
 
 private:
     Ui::MainWindow *ui;
