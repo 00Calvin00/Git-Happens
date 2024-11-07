@@ -63,3 +63,9 @@ QPixmap Canvas::getPixmap() const
 {
     return *pixmap;  // Return the current QPixmap that represents the drawing
 }
+
+void Canvas::setPixmap(const QPixmap &newPixmap)
+{
+    *pixmap = newPixmap;  // Replace the current pixmap
+    repaint();             // Update the display
+}

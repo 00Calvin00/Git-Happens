@@ -24,6 +24,8 @@ private slots:
     void updateCanvasDisplay();             // Update the canvas display
     void updateColorWithCustom();           // Update the color to custom color
     void updateColorWithPreset(QColor);     // Update the color to quick access color
+    void onSaveTriggered();
+    void onLoadTriggered();
 
 private:
     Ui::MainWindow *ui;
