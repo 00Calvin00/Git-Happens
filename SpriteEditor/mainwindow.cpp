@@ -6,9 +6,11 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), model(&model)
 {
     ui->setupUi(this);
+<<<<<<< HEAD
     this->showMaximized();
 
     connect(ui->customColor, &QPushButton::clicked, this, &MainWindow::getCustomColor);
+=======
     this->showMaximized(); //Fill the screen with the sprite editor
 
     canvas = ui->uiCanvas;
@@ -31,6 +33,7 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 void MainWindow::updateCanvasDisplay()
 {
     canvas->repaint();
+>>>>>>> 110aae1f3c07af8e309e1bf14129ade534c5686c
 }
 
 MainWindow::~MainWindow()
@@ -38,6 +41,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+<<<<<<< HEAD
 void MainWindow::getCustomColor()
 {
     // Open the QColorDialog and get the selected color
@@ -48,3 +52,6 @@ void MainWindow::getCustomColor()
         ui->customColor->setStyleSheet(QString("background-color: %1").arg(selectedColor.name()));
     }
 }
+=======
+
+>>>>>>> 110aae1f3c07af8e309e1bf14129ade534c5686c
