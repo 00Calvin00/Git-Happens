@@ -12,6 +12,14 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     ui->setupUi(this);
     this->showMaximized(); // Fill the screen with the sprite editor
 
+    // Set up the canvas
+    canvas = ui->uiCanvas;
+    canvas->setFixedSize(512, 512); //Setting locked size to a power of two so zoom in conversions are easy
+
+    //Connect the signal for draw and erase
+    connect(ui->drawButton, &QToolButton::clicked, canvas, &Canvas::drawActivated);
+    connect(ui->eraseButton, &QToolButton::clicked, canvas, &Canvas::eraseActivated);
+
     // Connect the signal for custom color selection
     connect(ui->customColor, &QPushButton::clicked, this, &MainWindow::updateColorWithCustom);
 
@@ -20,14 +28,8 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     connect(ui->gray, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(127, 127, 127)); });
     connect(ui->black, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor("black")); });
 
-    // Set up the canvas
-    canvas = ui->uiCanvas;
-    canvas->setFixedSize(canvasSize * 10, canvasSize * 10); //need to swap out 10 for scale variable
-
     // Center canvas in the main window
-    int centerX = (this->width() - canvas->width()) / 2;
-    int centerY = (this->height() - canvas->height()) / 2;
-    canvas->move(centerX, centerY);
+    canvas->move(370, 0);
 
     // Connect the signal for drawing updates
     connect(canvas, &Canvas::updateCanvas, this, &MainWindow::updateCanvasDisplay);

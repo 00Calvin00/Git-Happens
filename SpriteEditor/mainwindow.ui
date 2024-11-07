@@ -671,36 +671,36 @@
      </size>
     </property>
    </widget>
-   <widget class="QToolButton" name="toolButton">
+   <widget class="QToolButton" name="drawButton">
     <property name="geometry">
      <rect>
-      <x>910</x>
+      <x>920</x>
       <y>0</y>
       <width>110</width>
       <height>110</height>
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>Draw</string>
     </property>
    </widget>
-   <widget class="QToolButton" name="toolButton_2">
+   <widget class="QToolButton" name="eraseButton">
     <property name="geometry">
      <rect>
-      <x>910</x>
+      <x>920</x>
       <y>130</y>
       <width>110</width>
       <height>110</height>
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>Erase</string>
     </property>
    </widget>
    <widget class="QToolButton" name="toolButton_3">
     <property name="geometry">
      <rect>
-      <x>910</x>
+      <x>920</x>
       <y>260</y>
       <width>110</width>
       <height>110</height>
@@ -713,7 +713,7 @@
    <widget class="QToolButton" name="toolButton_4">
     <property name="geometry">
      <rect>
-      <x>910</x>
+      <x>920</x>
       <y>390</y>
       <width>110</width>
       <height>110</height>
@@ -728,16 +728,16 @@
      <rect>
       <x>370</x>
       <y>0</y>
-      <width>641</width>
-      <height>521</height>
+      <width>512</width>
+      <height>512</height>
      </rect>
     </property>
    </widget>
    <zorder>animationPreview</zorder>
    <zorder>animationPreviewOptions</zorder>
    <zorder>colorSelector</zorder>
-   <zorder>toolButton</zorder>
-   <zorder>toolButton_2</zorder>
+   <zorder>drawButton</zorder>
+   <zorder>eraseButton</zorder>
    <zorder>toolButton_3</zorder>
    <zorder>toolButton_4</zorder>
    <zorder>frameNavigator</zorder>
@@ -748,8 +748,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1280</width>
-     <height>21</height>
+     <width>1262</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">
@@ -807,8 +807,8 @@
  </customwidgets>
  <tabstops>
   <tabstop>frameNavigator</tabstop>
-  <tabstop>toolButton</tabstop>
-  <tabstop>toolButton_2</tabstop>
+  <tabstop>drawButton</tabstop>
+  <tabstop>eraseButton</tabstop>
   <tabstop>toolButton_3</tabstop>
   <tabstop>toolButton_4</tabstop>
  </tabstops>
