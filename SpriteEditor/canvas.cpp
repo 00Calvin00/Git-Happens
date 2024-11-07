@@ -1,8 +1,8 @@
 #include "canvas.h"
 #include <QPainter>
 
-Canvas::Canvas(QWidget *parent, int canvasSize, int scale)
-    : QWidget{parent}, canvasSize(canvasSize), scale(scale), pressed(false)
+Canvas::Canvas(QWidget *parent, int canvasSize, int scale, QColor color)
+    : QWidget{parent}, canvasSize(canvasSize), scale(scale), pressed(false), color(color)
 {
     color = Qt::black;
     pixmap = new QPixmap(canvasSize, canvasSize);  // Initialize a blank pixmap of the desired size

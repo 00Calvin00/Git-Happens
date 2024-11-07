@@ -6,11 +6,9 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), model(&model)
 {
     ui->setupUi(this);
-    this->showMaximized();
+    this->showMaximized(); // Fill the screen with the sprite editor
 
-    connect(ui->customColor, &QPushButton::clicked, this, &MainWindow::getCustomColor);
-
-    this->showMaximized(); //Fill the screen with the sprite editor
+    connect(ui->customColor, &QPushButton::clicked, this, &MainWindow::updateColorWithCustom);
 
     canvas = ui->uiCanvas;
     canvas->setFixedSize(canvasSize * 10, canvasSize * 10); //need to swap out 10 for scale variable
@@ -39,13 +37,19 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::getCustomColor()
+void MainWindow::updateColorWithCustom()
 {
     // Open the QColorDialog and get the selected color
-    QColor selectedColor = QColorDialog::getColor(Qt::white, this, "Select a Color");
+    canvas->color = QColorDialog::getColor(Qt::white, this, "Select a Color");
 
-    if (selectedColor.isValid()) {
-        // If the color is valid, set the background color of the button
-        ui->customColor->setStyleSheet(QString("background-color: %1").arg(selectedColor.name()));
+    if (canvas->color.isValid()) {
+        // Set the color of the button to show current custom color being used
+        ui->customColor->setStyleSheet(QString("background-color: %1").arg(canvas->color.name()));
     }
+}
+
+void MainWindow::updateColorWithPreset()
+{
+    canvas->color = ;
+
 }

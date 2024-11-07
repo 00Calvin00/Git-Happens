@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
-    <height>740</height>
+    <width>1262</width>
+    <height>745</height>
    </rect>
   </property>
   <property name="sizeIncrement">
@@ -52,7 +52,7 @@
       <height>250</height>
      </rect>
     </property>
-    <widget class="QPushButton" name="brightRed">
+    <widget class="QPushButton" name="red">
      <property name="geometry">
       <rect>
        <x>90</x>
@@ -97,7 +97,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_7">
+    <widget class="QPushButton" name="forestGreen">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -116,7 +116,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="violet">
+    <widget class="QPushButton" name="purple">
      <property name="geometry">
       <rect>
        <x>90</x>
@@ -135,7 +135,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="magenta">
+    <widget class="QPushButton" name="berry">
      <property name="geometry">
       <rect>
        <x>50</x>
@@ -154,7 +154,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="pink">
+    <widget class="QPushButton" name="magenta">
      <property name="geometry">
       <rect>
        <x>90</x>
@@ -211,7 +211,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_4">
+    <widget class="QPushButton" name="burgundy">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -230,7 +230,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_5">
+    <widget class="QPushButton" name="burntOrange">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -268,7 +268,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="brightGreen">
+    <widget class="QPushButton" name="neonGreen">
      <property name="geometry">
       <rect>
        <x>90</x>
@@ -317,7 +317,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(0, 0, 130); 
+    background-color: rgb(1, 3, 147); 
     border-radius: 10px;
 }</string>
      </property>
@@ -325,7 +325,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="brightBlue">
+    <widget class="QPushButton" name="blue">
      <property name="geometry">
       <rect>
        <x>50</x>
@@ -420,7 +420,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="brightOrange">
+    <widget class="QPushButton" name="orange">
      <property name="geometry">
       <rect>
        <x>50</x>
@@ -439,7 +439,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="red">
+    <widget class="QPushButton" name="darkRed">
      <property name="geometry">
       <rect>
        <x>50</x>
@@ -458,7 +458,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="orange">
+    <widget class="QPushButton" name="brightOrange">
      <property name="geometry">
       <rect>
        <x>90</x>
@@ -578,7 +578,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="magenta_2">
+    <widget class="QPushButton" name="plum">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -597,7 +597,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="lightBlue">
+    <widget class="QPushButton" name="skyBlue">
      <property name="geometry">
       <rect>
        <x>90</x>
@@ -635,7 +635,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="violet_2">
+    <widget class="QPushButton" name="violet">
      <property name="geometry">
       <rect>
        <x>50</x>
@@ -726,7 +726,7 @@
    <widget class="Canvas" name="uiCanvas" native="true">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>370</x>
       <y>0</y>
       <width>641</width>
       <height>521</height>
@@ -748,8 +748,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1280</width>
-     <height>22</height>
+     <width>1262</width>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">
