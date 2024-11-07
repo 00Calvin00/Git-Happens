@@ -1,7 +1,7 @@
 #include "canvas.h"
 #include <QPainter>
 
-Canvas::Canvas(int canvasSize, int scale, QWidget *parent)
+Canvas::Canvas(QWidget *parent, int canvasSize, int scale)
     : QWidget{parent}, canvasSize(canvasSize), scale(scale), pressed(false)
 {
     color = Qt::black;

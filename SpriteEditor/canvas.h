@@ -11,7 +11,7 @@ class Canvas : public QWidget
     Q_OBJECT
 
 public:
-    explicit Canvas(int canvasSize = 64, int scale = 10, QWidget *parent = nullptr);
+    explicit Canvas(QWidget *parent = nullptr, int canvasSize = 64, int scale = 10);
     ~Canvas();
 
     QPixmap getPixmap() const;  // Method to return the pixmap
