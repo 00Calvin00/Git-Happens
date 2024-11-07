@@ -1,8 +1,8 @@
 #include "canvas.h"
 #include <QPainter>
 
-Canvas::Canvas(QWidget *parent, int canvasSize, int scale)
-    : QWidget{parent}, canvasSize(canvasSize), scale(scale), pressed(false)
+Canvas::Canvas(QWidget *parent, int canvasSize, int scale, QColor color)
+    : QWidget{parent}, canvasSize(canvasSize), scale(scale), pressed(false), penColor(color)
 {
     color = Qt::black;
     pixmap = new QPixmap(canvasSize, canvasSize);  // Initialize a blank pixmap of the desired size
@@ -48,7 +48,7 @@ void Canvas::draw(QMouseEvent *event)
     if (pressed)
     {
         QPainter painter(pixmap);
-        painter.setPen(QPen(color, scale));
+        painter.setPen(QPen(penColor, scale));
 
         // Calculate grid positions to draw on
         int x = event->pos().x() / scale; //What do we need to divide by here??
@@ -64,4 +64,10 @@ void Canvas::draw(QMouseEvent *event)
 QPixmap Canvas::getPixmap() const
 {
     return *pixmap;  // Return the current QPixmap that represents the drawing
+}
+
+void Canvas::setPixmap(const QPixmap &newPixmap)
+{
+    *pixmap = newPixmap;  // Replace the current pixmap
+    repaint();             // Update the display
 }
