@@ -57,10 +57,16 @@ void MainWindow::updateColorWithCustom()
     // Open the QColorDialog and get the selected color
     canvas->penColor = QColorDialog::getColor(Qt::white, this, "Select a Color");
 
-    if (canvas->penColor.isValid()) {
+    if (canvas->penColor.isValid())
+    {
         // Set the color of the button to show current custom color being used
         ui->customColor->setStyleSheet(QString("background-color: %1").arg(canvas->penColor.name()));
     }
+}
+
+void MainWindow::updateColorWithPreset(QColor color)
+{
+    canvas->penColor = color;
 }
 
 void MainWindow::onSaveTriggered()
@@ -69,31 +75,36 @@ void MainWindow::onSaveTriggered()
     QString filePath = QFileDialog::getSaveFileName(this, tr("Save Pixmap"), "", tr("JSON Files (*.json);;All Files (*)"));
 
     // Check if a path was actually selected
-    if (!filePath.isEmpty()) {
+    if (!filePath.isEmpty())
+    {
 
         // Get current QPixmap from canvas
         QPixmap pixmap = canvas->getPixmap();
 
         // Save Json file using QPixmap and the user-selected file path
-        if (JsonReader::savePixmapToJson(pixmap, filePath)) {
+        if (JsonReader::savePixmapToJson(pixmap, filePath))
+        {
             QMessageBox::information(this, tr("Save Successful"), tr("File saved successfully!"));
-        } else {
+        } else
+        {
             QMessageBox::warning(this, tr("Save Failed"), tr("Could not save the file."));
         }
     }
+}
 
-void MainWindow::onLoadTriggered()
-{
+void MainWindow::onLoadTriggered(){
     // Open QFileDialog for user to choose a filepath to load the pixmap from
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open Pixmap"), "", tr("JSON Files (*.json);;All Files (*)"));
 
     // Check if a path was selected
-    if (!filePath.isEmpty()) {
+    if (!filePath.isEmpty())
+        {
         // Load the pixmap using JsonReader
         QPixmap pixmap;
         JsonReader jsonReader;
 
-        if (jsonReader.loadPixmapFromJson(pixmap, filePath)) {
+        if (jsonReader.loadPixmapFromJson(pixmap, filePath))
+        {
             // Successfully loaded the pixmap, update the canvas
             canvas->setPixmap(pixmap); // Assuming you have a setter for pixmap in your Canvas class
 
@@ -101,14 +112,10 @@ void MainWindow::onLoadTriggered()
             canvas->repaint();
 
             QMessageBox::information(this, tr("Load Successful"), tr("File loaded successfully!"));
-        } else {
+        } else
+        {
             QMessageBox::warning(this, tr("Load Failed"), tr("Could not load the file."));
         }
     }
 }
 
-  
-void MainWindow::updateColorWithPreset(QColor color)
-{
-    canvas->penColor = color;
-}
