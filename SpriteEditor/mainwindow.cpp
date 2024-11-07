@@ -82,25 +82,25 @@ void MainWindow::onSaveTriggered()
 
 void MainWindow::onLoadTriggered()
 {
-    // // Open QFileDialog for user to choose a filepath to load the pixmap from
-    // QString filePath = QFileDialog::getOpenFileName(this, tr("Open Pixmap"), "", tr("JSON Files (*.json);;All Files (*)"));
+    // Open QFileDialog for user to choose a filepath to load the pixmap from
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Open Pixmap"), "", tr("JSON Files (*.json);;All Files (*)"));
 
-    // // Check if a path was selected
-    // if (!filePath.isEmpty()) {
-    //     // Load the pixmap using JsonReader
-    //     QPixmap pixmap;
-    //     JsonReader jsonReader;
+    // Check if a path was selected
+    if (!filePath.isEmpty()) {
+        // Load the pixmap using JsonReader
+        QPixmap pixmap;
+        JsonReader jsonReader;
 
-    //     if (jsonReader.loadPixmapFromJson(pixmap, filePath)) {
-    //         // Successfully loaded the pixmap, update the canvas
-    //         canvas->setPixmap(pixmap); // Assuming you have a setter for pixmap in your Canvas class
+        if (jsonReader.loadPixmapFromJson(pixmap, filePath)) {
+            // Successfully loaded the pixmap, update the canvas
+            canvas->setPixmap(pixmap); // Assuming you have a setter for pixmap in your Canvas class
 
-    //         // Optionally, you can update the canvas display (it might already be done in setPixmap)
-    //         canvas->repaint();
+            // Optionally, you can update the canvas display (it might already be done in setPixmap)
+            canvas->repaint();
 
-    //         QMessageBox::information(this, tr("Load Successful"), tr("File loaded successfully!"));
-    //     } else {
-    //         QMessageBox::warning(this, tr("Load Failed"), tr("Could not load the file."));
-    //     }
-    // }
+            QMessageBox::information(this, tr("Load Successful"), tr("File loaded successfully!"));
+        } else {
+            QMessageBox::warning(this, tr("Load Failed"), tr("Could not load the file."));
+        }
+    }
 }
