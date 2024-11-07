@@ -2,12 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-<<<<<<< HEAD
 #include <QColorDialog>
-=======
 #include "model.h"
 #include "canvas.h"
->>>>>>> 110aae1f3c07af8e309e1bf14129ade534c5686c
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,11 +21,8 @@ public:
     ~MainWindow();
 
 private slots:
-<<<<<<< HEAD
     void getCustomColor();
-=======
     void updateCanvasDisplay();  // Slot to update the canvas display
->>>>>>> 110aae1f3c07af8e309e1bf14129ade534c5686c
 
 private:
     Ui::MainWindow *ui;
