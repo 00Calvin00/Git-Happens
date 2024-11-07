@@ -11,11 +11,12 @@ class Canvas : public QWidget
     Q_OBJECT
 
 public:
-    explicit Canvas(QWidget *parent = nullptr, int canvasSize = 64, int scale = 10);
+    explicit Canvas(QWidget *parent = nullptr, int canvasSize = 64, int scale = 10, QColor color = QColor(0, 0, 0));
     ~Canvas();
-
-    QPixmap getPixmap() const;  // Method to return the pixmap
+    
     void setPixmap(const QPixmap &newPixmap); // Method to set the pixmap
+    QPixmap getPixmap() const;  // Method to return the pixmap
+    QColor penColor;               // Color to be drawn
 
 signals:
     void updateCanvas();  // Signal to notify that the canvas needs to be updated
@@ -29,7 +30,6 @@ protected:
 private:
     void draw(QMouseEvent *event);
 
-    QColor color;
     QPixmap *pixmap;
     int canvasSize;
     int scale;

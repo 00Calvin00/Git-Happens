@@ -10,12 +10,17 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), model(&model)
 {
     ui->setupUi(this);
-    this->showMaximized();
+    this->showMaximized(); // Fill the screen with the sprite editor
 
-    connect(ui->customColor, &QPushButton::clicked, this, &MainWindow::getCustomColor);
+    // Connect the signal for custom color selection
+    connect(ui->customColor, &QPushButton::clicked, this, &MainWindow::updateColorWithCustom);
 
-    this->showMaximized(); //Fill the screen with the sprite editor
+    // Connect the signal for quick access colors
+    connect(ui->white, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor("white")); });
+    connect(ui->gray, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(127, 127, 127)); });
+    connect(ui->black, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor("black")); });
 
+    // Set up the canvas
     canvas = ui->uiCanvas;
     canvas->setFixedSize(canvasSize * 10, canvasSize * 10); //need to swap out 10 for scale variable
 
@@ -26,8 +31,6 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 
     // Connect the signal for drawing updates
     connect(canvas, &Canvas::updateCanvas, this, &MainWindow::updateCanvasDisplay);
-
-    //connect(ui->redButton, &QPushButton::clicked, &model, &Model::verifyClickRed); Example from another project. Do we need to connect the view to the canvas as well similar to this to handle when the user clicks the canvas?
 
     // Initialize the display with the current canvas state
     updateCanvasDisplay();
@@ -49,14 +52,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::getCustomColor()
+void MainWindow::updateColorWithCustom()
 {
     // Open the QColorDialog and get the selected color
-    QColor selectedColor = QColorDialog::getColor(Qt::white, this, "Select a Color");
+    canvas->penColor = QColorDialog::getColor(Qt::white, this, "Select a Color");
 
-    if (selectedColor.isValid()) {
-        // If the color is valid, set the background color of the button
-        ui->customColor->setStyleSheet(QString("background-color: %1").arg(selectedColor.name()));
+    if (canvas->penColor.isValid()) {
+        // Set the color of the button to show current custom color being used
+        ui->customColor->setStyleSheet(QString("background-color: %1").arg(canvas->penColor.name()));
     }
 }
 
@@ -78,7 +81,6 @@ void MainWindow::onSaveTriggered()
             QMessageBox::warning(this, tr("Save Failed"), tr("Could not save the file."));
         }
     }
-}
 
 void MainWindow::onLoadTriggered()
 {
@@ -103,4 +105,10 @@ void MainWindow::onLoadTriggered()
             QMessageBox::warning(this, tr("Load Failed"), tr("Could not load the file."));
         }
     }
+}
+
+  
+void MainWindow::updateColorWithPreset(QColor color)
+{
+    canvas->penColor = color;
 }

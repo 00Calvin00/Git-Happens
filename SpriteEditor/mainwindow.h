@@ -21,8 +21,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void getCustomColor();
-    void updateCanvasDisplay();  // Slot to update the canvas display
+    void updateCanvasDisplay();             // Update the canvas display
+    void updateColorWithCustom();           // Update the color to custom color
+    void updateColorWithPreset(QColor);     // Update the color to quick access color
     void onSaveTriggered();
     void onLoadTriggered();
 
