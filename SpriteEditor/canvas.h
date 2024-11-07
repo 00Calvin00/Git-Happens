@@ -30,9 +30,9 @@ private:
 
     QColor color;
     QPixmap *pixmap;
-    bool pressed;
     int canvasSize;
     int scale;
+    bool pressed;
 };
 
 #endif // CANVAS_H

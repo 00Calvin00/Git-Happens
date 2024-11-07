@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QColorDialog>
 #include "model.h"
 #include "canvas.h"
 
@@ -20,6 +21,7 @@ public:
     ~MainWindow();
 
 private slots:
+    void getCustomColor();
     void updateCanvasDisplay();  // Slot to update the canvas display
 
 private:
