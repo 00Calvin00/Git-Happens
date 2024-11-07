@@ -17,6 +17,7 @@ public:
     void setPixmap(const QPixmap &newPixmap); // Method to set the pixmap
     QPixmap getPixmap() const;  // Method to return the pixmap
     QColor penColor;               // Color to be drawn
+    int getCanvasSize();
 
 signals:
     void updateCanvas();  // Signal to notify that the canvas needs to be updated

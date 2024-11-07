@@ -71,3 +71,8 @@ void Canvas::setPixmap(const QPixmap &newPixmap)
     *pixmap = newPixmap;  // Replace the current pixmap
     repaint();             // Update the display
 }
+
+int getCanvasSize()
+{
+    return getCanvasSize();
+}
