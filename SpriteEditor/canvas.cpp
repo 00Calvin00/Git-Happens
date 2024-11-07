@@ -7,12 +7,13 @@ Canvas::Canvas(QWidget *parent, int canvasSize, int scale)
     color = Qt::black;
     pixmap = new QPixmap(canvasSize, canvasSize);  // Initialize a blank pixmap of the desired size
     pixmap->fill(Qt::white);         // Fill with a default background color (e.g., white)
-    resize(canvasSize * scale, canvasSize * scale);
+    resize(canvasSize * scale, canvasSize * scale); //scale the canvas up (zoom in) so the pixels are easy to see
 }
 
 Canvas::~Canvas()
 {
-    if (pixmap) {
+    if (pixmap)
+    {
         delete pixmap;
     }
 }
@@ -44,7 +45,8 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 
 void Canvas::draw(QMouseEvent *event)
 {
-    if (pressed) {
+    if (pressed)
+    {
         QPainter painter(pixmap);
         painter.setPen(QPen(color, scale));
 
