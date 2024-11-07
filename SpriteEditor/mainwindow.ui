@@ -749,14 +749,14 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionhallo_hallo"/>
+    <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
@@ -770,7 +770,7 @@
    <addaction name="menuSettings"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionhallo_hallo">
+  <action name="actionSave">
    <property name="text">
     <string>Save</string>
    </property>

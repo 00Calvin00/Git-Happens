@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "canvas.h"
+#include "jsonreader.h"
+
+#include <QFileDialog>
+#include <QMessageBox>
 
 MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), model(&model)
@@ -27,6 +31,9 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 
     // Initialize the display with the current canvas state
     updateCanvasDisplay();
+
+    // Connect the save Action from the File Menu to a slot
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::onActionSaveTriggered);
 }
 
 void MainWindow::updateCanvasDisplay()
@@ -47,5 +54,27 @@ void MainWindow::getCustomColor()
     if (selectedColor.isValid()) {
         // If the color is valid, set the background color of the button
         ui->customColor->setStyleSheet(QString("background-color: %1").arg(selectedColor.name()));
+    }
+}
+
+void MainWindow::onActionSaveTriggered()
+{
+    // Open a QFileDialog to let the user choose where to save the file
+    QString filePath = QFileDialog::getSaveFileName(this,
+                                                    tr("Save Pixmap"),
+                                                    "",
+                                                    tr("JSON Files (*.json);;All Files (*)"));
+
+    // Check if a file path was selected
+    if (!filePath.isEmpty()) {
+        // Get the QPixmap from your canvas
+        QPixmap pixmap = canvas->getPixmap();  // Assuming canvas is a pointer to your Canvas instance
+
+        // Pass the file path and pixmap to your save function
+        if (JsonReader::savePixmapToJson(pixmap, filePath)) {
+            QMessageBox::information(this, tr("Save Successful"), tr("File saved successfully!"));
+        } else {
+            QMessageBox::warning(this, tr("Save Failed"), tr("Could not save the file."));
+        }
     }
 }
