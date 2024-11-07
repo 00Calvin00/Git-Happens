@@ -10,12 +10,14 @@ CONFIG += c++17
 
 SOURCES += \
     canvas.cpp \
+    jsonreader.cpp \
     main.cpp \
     mainwindow.cpp \
     model.cpp
 
 HEADERS += \
     canvas.h \
+    jsonreader.h \
     mainwindow.h \
     model.h
 
