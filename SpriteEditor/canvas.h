@@ -15,7 +15,7 @@ public:
     ~Canvas();
 
     QPixmap getPixmap() const;  // Method to return the pixmap
-    void setPixmap(const QPixmap &newPixmap);
+    void setPixmap(const QPixmap &newPixmap); // Method to set the pixmap
 
 signals:
     void updateCanvas();  // Signal to notify that the canvas needs to be updated

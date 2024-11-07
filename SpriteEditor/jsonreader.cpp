@@ -7,7 +7,8 @@
 #include <QByteArray>
 #include <QBuffer>
 
-JsonReader::JsonReader() {
+JsonReader::JsonReader()
+{
 
 }
 
@@ -24,14 +25,15 @@ bool JsonReader::savePixmapToJson(const QPixmap &pixmap, const QString &filePath
     // Encode the QByteArray to base64 string
     QString base64String = QString::fromLatin1(byteArray.toBase64());
 
-    // Create JSON object and add the base64 image data
+    // Create JSON obj and add the base64 image data
     QJsonObject json;
     json["image_data"] = base64String;
 
-    // Write JSON object to file
+    // Write JSON obj to file
     QJsonDocument jsonDoc(json);
     QFile jsonFile(filePath);
 
+    // Catch any unwritable file error (file open in another window or file in read-only mode)
     if (!jsonFile.open(QIODevice::WriteOnly))
     {
         qWarning("Could not open file for writing.");
@@ -48,7 +50,8 @@ bool JsonReader::loadPixmapFromJson(QPixmap &pixmap, const QString &filePath)
 {
     // Open the JSON file
     QFile jsonFile(filePath);
-    if (!jsonFile.open(QIODevice::ReadOnly)) {
+    if (!jsonFile.open(QIODevice::ReadOnly))
+    {
         qWarning() << "Could not open file for reading:" << filePath;
         return false;
     }
@@ -59,18 +62,19 @@ bool JsonReader::loadPixmapFromJson(QPixmap &pixmap, const QString &filePath)
 
     // Parse the JSON data
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData);
-    if (jsonDoc.isNull()) {
+    if (jsonDoc.isNull())
+    {
         qWarning() << "Failed to parse JSON";
         return false;
     }
 
     // Extract the base64 image data from JSON
     QJsonObject jsonObject = jsonDoc.object();
-    if (!jsonObject.contains("image_data")) {
+    if (!jsonObject.contains("image_data"))
+    {
         qWarning() << "No image data found in JSON";
         return false;
     }
-
     QString base64String = jsonObject["image_data"].toString();
 
     // Decode the base64 string to QByteArray
@@ -78,7 +82,8 @@ bool JsonReader::loadPixmapFromJson(QPixmap &pixmap, const QString &filePath)
 
     // Load the QByteArray into a QImage
     QImage image;
-    if (!image.loadFromData(byteArray, "PNG")) {
+    if (!image.loadFromData(byteArray, "PNG"))
+    {
         qWarning() << "Failed to load image from data";
         return false;
     }
