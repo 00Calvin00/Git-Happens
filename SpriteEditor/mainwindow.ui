@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1280</width>
-    <height>720</height>
+    <height>740</height>
    </rect>
   </property>
   <property name="sizeIncrement">
@@ -20,22 +20,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGraphicsView" name="canvas">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>0</y>
-      <width>520</width>
-      <height>520</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>460</width>
-      <height>441</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QWidget" name="animationPreview" native="true">
     <property name="geometry">
      <rect>
@@ -134,7 +118,16 @@
      <string/>
     </property>
    </widget>
-   <zorder>canvas</zorder>
+   <widget class="Canvas" name="uiCanvas" native="true">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>0</y>
+      <width>641</width>
+      <height>521</height>
+     </rect>
+    </property>
+   </widget>
    <zorder>animationPreview</zorder>
    <zorder>animationPreviewOptions</zorder>
    <zorder>colorSelector</zorder>
@@ -143,6 +136,7 @@
    <zorder>toolButton_3</zorder>
    <zorder>toolButton_4</zorder>
    <zorder>frameNavigator</zorder>
+   <zorder>uiCanvas</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -150,7 +144,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">
@@ -198,10 +192,17 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Canvas</class>
+   <extends>QWidget</extends>
+   <header location="global">canvas.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>frameNavigator</tabstop>
   <tabstop>toolButton</tabstop>
-  <tabstop>canvas</tabstop>
   <tabstop>toolButton_2</tabstop>
   <tabstop>toolButton_3</tabstop>
   <tabstop>toolButton_4</tabstop>
