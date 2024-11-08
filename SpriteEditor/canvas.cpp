@@ -93,8 +93,8 @@ void Canvas::draw(QMouseEvent *event)
         int y = event->pos().y() / scale;
 
         // Draw a pixel at the calculated position
-        painter.drawRect(x, y, 1, 1);
-
+        //painter.drawRect(x, y, 1, 1);
+        painter.drawPoint(x,y);
         repaint();  // Repaint the canvas to update the display
         emit updateCanvas();  // Emit signal to notify MainWindow to update
     }

@@ -33,6 +33,7 @@ private slots:
     void DeleteFramePopUpClose();
 
 private:
+    void initializeCanvas(int canvasSize);
     Ui::MainWindow *ui;
     Model *model;    // Pointer to Model
 };

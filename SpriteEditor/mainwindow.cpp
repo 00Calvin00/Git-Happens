@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "canvas.h"
 #include "jsonreader.h"
+#include "canvassizepopup.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -12,6 +13,25 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     ui->setupUi(this);
     this->showMaximized(); // Fill the screen with the sprite editor
     ui->deleteFramePopUp->setVisible(false); // Hide deletion confirmation popup
+
+    // Create and show the modal dialog
+    CanvasSizePopup dialog(nullptr);
+    if (dialog.exec() == QDialog::Accepted) {
+        QString selectedSize = dialog.getSelectedSize();
+
+        // Initialize your canvas with the selected size
+        int canvasSize;
+        if (selectedSize == "8x8") canvasSize = 8;
+        else if (selectedSize == "16x16") canvasSize = 16;
+        else if (selectedSize == "32x32") canvasSize = 32;
+        else if (selectedSize == "64x64") canvasSize = 64;
+
+        // Initialize your canvas or application with `canvasSize`
+        initializeCanvas(canvasSize);
+    } else {
+        // If the dialog is closed without selecting, close the main window
+        close();
+    }
 
     // Set up the canvas
     canvas = ui->uiCanvas;
@@ -59,6 +79,14 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     // Connect the load Action from the File Menu to a load action slot
     connect(ui->actionLoad, &QAction::triggered, this, &MainWindow::onLoadTriggered);
 }
+
+void MainWindow::initializeCanvas(int canvasSize)
+{
+    canvas->setFixedSize(canvasSize * 8, canvasSize * 8); // Adjust size based on canvasSize
+    model->SizeChange(canvasSize);
+    model->DuplicateFrame(canvas->getPixmap());
+}
+
 
 void MainWindow::updateCanvasDisplay()
 {

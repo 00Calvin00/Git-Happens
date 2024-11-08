@@ -51,7 +51,7 @@ public:
      * @param scale The scale factor for zooming the canvas (for rendering larger pixels).
      * @param color The initial pen color to use for drawing.
      */
-    explicit Canvas(QWidget *parent = nullptr, int canvasSize = 64, int scale = 10, QColor color = QColor(0, 0, 0));
+    explicit Canvas(QWidget *parent = nullptr, int canvasSize = 64, int scale = 8, QColor color = QColor(0, 0, 0));
 
     /**
      * @brief Destructor to clean up the canvas resources.

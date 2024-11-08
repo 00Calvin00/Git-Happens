@@ -10,16 +10,18 @@ CONFIG += c++17
 
 SOURCES += \
     canvas.cpp \
+    canvassizepopup.cpp \
     jsonreader.cpp \
     main.cpp \
     mainwindow.cpp \
-    model.cpp
+    spritemodel.cpp
 
 HEADERS += \
     canvas.h \
+    canvassizepopup.h \
     jsonreader.h \
     mainwindow.h \
-    model.h
+    spritemodel.h
 
 FORMS += \
     mainwindow.ui
