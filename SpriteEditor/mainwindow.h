@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QColorDialog>
-#include "model.h"
+#include "spritemodel.h"
 #include "canvas.h"
 
 QT_BEGIN_NAMESPACE
@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(Model& model, int canvasSize = 64, QWidget *parent = nullptr) ;
+    Canvas *canvas;  // Pointer to Canvas
     ~MainWindow();
 
 private slots:
@@ -26,10 +27,11 @@ private slots:
     void updateColorWithPreset(QColor);     // Update the color to quick access color
     void onSaveTriggered();
     void onLoadTriggered();
+    void FrameListChanged(int newIndex, QPixmap newMap);
+    void UpdateAnimation(QList<QPixmap> newPixMap);
 
 private:
     Ui::MainWindow *ui;
-    Canvas *canvas;  // Pointer to Canvas
     Model *model;    // Pointer to Model
 };
 

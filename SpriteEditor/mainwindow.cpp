@@ -37,6 +37,12 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     // Initialize the display with the current canvas state
     updateCanvasDisplay();
 
+    // Coonect the frame actions to the correct updates
+    connect(&model, &Model::SendFrameListChanged, this, &MainWindow::FrameListChanged);
+
+    // Connect the frame actions to update the animation(only when we change the list, not our position)
+    connect(&model, &Model::SendUpdateAnimation, this, &MainWindow::UpdateAnimation);
+
     // Connect the save Action from the File Menu to a save action slot
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::onSaveTriggered);
 
@@ -119,5 +125,17 @@ void MainWindow::onLoadTriggered(){
             QMessageBox::warning(this, tr("Load Failed"), tr("Could not load the file."));
         }
     }
+}
+
+void MainWindow::FrameListChanged(int newIndex, QPixmap newMap) {
+    canvas->setPixmap(newMap);
+    newIndex++;
+    newIndex--;
+    // Scroller highlight (at newIndex)
+}
+
+void MainWindow::UpdateAnimation(QList<QPixmap> newPixMap) {
+    // Animation preview update
+    QList<QPixmap> pixMap = newPixMap;
 }
 
