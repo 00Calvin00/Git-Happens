@@ -11,10 +11,13 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 {
     ui->setupUi(this);
     this->showMaximized(); // Fill the screen with the sprite editor
+    ui->deleteFramePopUp->setVisible(false); // Hide deletion confirmation popup
 
     // Set up the canvas
     canvas = ui->uiCanvas;
     canvas->setFixedSize(512, 512); //Setting locked size to a power of two so zoom in conversions are easy
+    model.SizeChange(64);
+    model.DuplicateFrame(canvas->getPixmap()); //Give first frame to model as well
 
     //Connect the signal for draw and erase
     connect(ui->drawButton, &QToolButton::clicked, canvas, &Canvas::drawActivated);
@@ -37,7 +40,14 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     // Initialize the display with the current canvas state
     updateCanvasDisplay();
 
-    // Coonect the frame actions to the correct updates
+    // Connect the UI frame actions to the correct methods
+    connect(ui->addFrameButton, &QPushButton::clicked, &model, &Model::AddFrame);
+    connect(ui->deleteFrameButton, &QPushButton::clicked, this, &MainWindow::DeleteFramePopUp);
+    connect(ui->deleteConfirmation->button(QDialogButtonBox::Yes), &QPushButton::clicked, &model, &Model::DeleteFrame);
+    connect(ui->deleteConfirmation->button(QDialogButtonBox::Yes), &QPushButton::clicked, this, &MainWindow::DeleteFramePopUpClose);
+    connect(ui->deleteConfirmation->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &MainWindow::DeleteFramePopUpClose);
+    // ui->deleteFramePopUp->setVisible(true);
+    // Connect back signals from model to slots here
     connect(&model, &Model::SendFrameListChanged, this, &MainWindow::FrameListChanged);
 
     // Connect the frame actions to update the animation(only when we change the list, not our position)
@@ -139,3 +149,10 @@ void MainWindow::UpdateAnimation(QList<QPixmap> newPixMap) {
     QList<QPixmap> pixMap = newPixMap;
 }
 
+void MainWindow::DeleteFramePopUp() {
+    ui->deleteFramePopUp->setVisible(true);
+}
+
+void MainWindow::DeleteFramePopUpClose() {
+    ui->deleteFramePopUp->setVisible(false);
+}

@@ -29,6 +29,8 @@ private slots:
     void onLoadTriggered();
     void FrameListChanged(int newIndex, QPixmap newMap);
     void UpdateAnimation(QList<QPixmap> newPixMap);
+    void DeleteFramePopUp();
+    void DeleteFramePopUpClose();
 
 private:
     Ui::MainWindow *ui;

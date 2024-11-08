@@ -697,7 +697,7 @@
      <string>Erase</string>
     </property>
    </widget>
-   <widget class="QToolButton" name="toolButton_3">
+   <widget class="QToolButton" name="addFrameButton">
     <property name="geometry">
      <rect>
       <x>920</x>
@@ -707,10 +707,10 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>Add Frame</string>
     </property>
    </widget>
-   <widget class="QToolButton" name="toolButton_4">
+   <widget class="QToolButton" name="deleteFrameButton">
     <property name="geometry">
      <rect>
       <x>920</x>
@@ -720,7 +720,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>Delete frame</string>
     </property>
    </widget>
    <widget class="Canvas" name="uiCanvas" native="true">
@@ -733,15 +733,64 @@
      </rect>
     </property>
    </widget>
+   <widget class="QFrame" name="deleteFramePopUp">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>160</y>
+      <width>371</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Shape::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
+    </property>
+    <widget class="QDialogButtonBox" name="deleteConfirmation">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>220</y>
+       <width>171</width>
+       <height>29</height>
+      </rect>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Yes</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="DeleteFrameMessage">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>110</y>
+       <width>331</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>This will delete your current frame, you are not able to undo this action, are you sure?</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
    <zorder>animationPreview</zorder>
    <zorder>animationPreviewOptions</zorder>
    <zorder>colorSelector</zorder>
    <zorder>drawButton</zorder>
    <zorder>eraseButton</zorder>
-   <zorder>toolButton_3</zorder>
-   <zorder>toolButton_4</zorder>
+   <zorder>addFrameButton</zorder>
+   <zorder>deleteFrameButton</zorder>
    <zorder>frameNavigator</zorder>
    <zorder>uiCanvas</zorder>
+   <zorder>deleteFramePopUp</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -749,7 +798,7 @@
      <x>0</x>
      <y>0</y>
      <width>1262</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">
@@ -809,8 +858,8 @@
   <tabstop>frameNavigator</tabstop>
   <tabstop>drawButton</tabstop>
   <tabstop>eraseButton</tabstop>
-  <tabstop>toolButton_3</tabstop>
-  <tabstop>toolButton_4</tabstop>
+  <tabstop>addFrameButton</tabstop>
+  <tabstop>deleteFrameButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
