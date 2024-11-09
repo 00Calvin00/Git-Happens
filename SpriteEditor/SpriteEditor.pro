@@ -13,13 +13,13 @@ SOURCES += \
     jsonreader.cpp \
     main.cpp \
     mainwindow.cpp \
-    model.cpp
+    spritemodel.cpp
 
 HEADERS += \
     canvas.h \
     jsonreader.h \
     mainwindow.h \
-    model.h
+    spritemodel.h
 
 FORMS += \
     mainwindow.ui
