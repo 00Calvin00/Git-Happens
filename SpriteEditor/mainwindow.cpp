@@ -127,11 +127,11 @@ void MainWindow::onLoadTriggered()
 
             model->SelectFrame(0);
 
-            //FrameListChanged(0, pixmapList.first());
 
             // Optionally update the canvas with the first frame if there are frames
             if (!pixmapList.isEmpty()) {
                 //canvas->setPixmap(pixmapList.first());
+                //canvas->setPixmap(pixmapList.at(0));
                 canvas->repaint();
             }
 
