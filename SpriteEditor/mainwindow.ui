@@ -742,6 +742,9 @@
       <height>251</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
     <property name="frameShape">
      <enum>QFrame::Shape::StyledPanel</enum>
     </property>
@@ -798,7 +801,7 @@
      <x>0</x>
      <y>0</y>
      <width>1262</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">
