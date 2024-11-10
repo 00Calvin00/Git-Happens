@@ -33,6 +33,35 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     connect(ui->white, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor("white")); });
     connect(ui->gray, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(127, 127, 127)); });
     connect(ui->black, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor("black")); });
+    connect(ui->darkBrown, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(60, 10, 0)); });
+    connect(ui->brown, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(86, 39, 4)); });
+    connect(ui->lightBrown, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(139, 70, 0)); });
+
+    connect(ui->burgundy, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(129, 0, 0)); });
+    connect(ui->darkRed, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(185, 0, 0)); });
+    connect(ui->red, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(245, 0, 0)); });
+    connect(ui->burntOrange, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(191, 54, 12)); });
+    connect(ui->orange, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(230, 81, 0)); });
+    connect(ui->brightOrange, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(255, 111, 0)); });
+    connect(ui->gold, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(255, 150, 38)); });
+    connect(ui->yellow, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(255, 200, 9)); });
+    connect(ui->brightYellow, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(255, 255, 0)); });
+    connect(ui->forestGreen, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(0, 63, 0)); });
+    connect(ui->green, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(0, 150, 0)); });
+    connect(ui->neonGreen, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(0, 235, 0)); });
+    connect(ui->darkTeal, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(5, 60, 88)); });
+    connect(ui->teal, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(0, 128, 128)); });
+    connect(ui->cyan, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(0, 245, 245)); });
+    connect(ui->darkBlue, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(1, 3, 147)); });
+    connect(ui->blue, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(0, 0, 245)); });
+    connect(ui->skyBlue, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(0, 170, 255)); });
+    connect(ui->indigo, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(70, 0, 127)); });
+    connect(ui->violet, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(148, 0, 211)); });
+    connect(ui->purple, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(205, 0, 211)); });
+    connect(ui->plum, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(109, 0, 82)); });
+    connect(ui->berry, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(170, 0, 127)); });
+    connect(ui->magenta, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(255, 0, 160)); });
+
 
     // Center canvas in the main window
     canvas->move(370, 0);
