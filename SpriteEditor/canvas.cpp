@@ -128,15 +128,15 @@ void Canvas::erase(QMouseEvent *event)
 }
 
 // Function to get the current pixmap, pixmap is the actual thing we are drawing on
-QPixmap Canvas::getPixmap() const
+QPixmap* Canvas::getPixmap() const
 {
-    return *pixmap;
+    return pixmap;
 }
 
 // Function to set a new pixmap and update the canvas
-void Canvas::setPixmap(const QPixmap &newPixmap)
+void Canvas::setPixmap(QPixmap* newPixmap)
 {
-    *pixmap = newPixmap;
+    pixmap = newPixmap;
     repaint();
 }
 

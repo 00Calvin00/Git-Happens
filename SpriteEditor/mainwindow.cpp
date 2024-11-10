@@ -17,7 +17,10 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     canvas = ui->uiCanvas;
     canvas->setFixedSize(512, 512); //Setting locked size to a power of two so zoom in conversions are easy
     model.SizeChange(64);
-    model.DuplicateFrame(canvas->getPixmap()); //Give first frame to model as well
+
+    model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
+
+    //model.DuplicateFrame(canvas->getPixmap()); //Give first frame to model as well
 
     //Connect the signal for draw and erase
     connect(ui->drawButton, &QToolButton::clicked, canvas, &Canvas::drawActivated);
@@ -87,29 +90,6 @@ void MainWindow::updateColorWithPreset(QColor color)
     canvas->penColor = color;
 }
 
-// void MainWindow::onSaveTriggered()
-// {
-//     // Open QFileDialog for user to choose a filepath
-//     QString filePath = QFileDialog::getSaveFileName(this, tr("Save Pixmap"), "", tr("JSON Files (*.json);;All Files (*)"));
-
-//     // Check if a path was actually selected
-//     if (!filePath.isEmpty())
-//     {
-
-//         // Get current frames from the spritemodel
-//         QPixmap pixmap = canvas->getPixmap();
-
-//         // Save Json file using QPixmap and the user-selected file path
-//         if (JsonReader::savePixmapToJson(pixmap, filePath))
-//         {
-//             QMessageBox::information(this, tr("Save Successful"), tr("File saved successfully!"));
-//         } else
-//         {
-//             QMessageBox::warning(this, tr("Save Failed"), tr("Could not save the file."));
-//         }
-//     }
-// }
-
 void MainWindow::onSaveTriggered()
 {
     // Open QFileDialog for user to choose a filepath
@@ -117,7 +97,9 @@ void MainWindow::onSaveTriggered()
 
     if (!filePath.isEmpty()) {
         // Get the list of frames from the model
-        QList<QPixmap> pixmapList = model->getPixmapList();
+        QList<QPixmap*> pixmapList = model->getPixmapList();
+
+        qDebug() << "Saving frame at index:" << pixmapList.size();
 
         // Save all frames using the JsonReader
         if (JsonReader::savePixmapsToJson(pixmapList, filePath))
@@ -136,7 +118,7 @@ void MainWindow::onLoadTriggered()
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open Project"), "", tr("JSON Files (*.json);;All Files (*)"));
 
     if (!filePath.isEmpty()) {
-        QList<QPixmap> pixmapList;
+        QList<QPixmap*> pixmapList;
 
         // Load the project frames using the JsonReader
         if (JsonReader::loadPixmapsFromJson(pixmapList, filePath)) {
@@ -158,44 +140,16 @@ void MainWindow::onLoadTriggered()
 }
 
 
-
-// void MainWindow::onLoadTriggered(){
-//     // Open QFileDialog for user to choose a filepath to load the pixmap from
-//     QString filePath = QFileDialog::getOpenFileName(this, tr("Open Pixmap"), "", tr("JSON Files (*.json);;All Files (*)"));
-
-//     // Check if a path was selected
-//     if (!filePath.isEmpty())
-//         {
-//         // Load the pixmap using JsonReader
-//         QPixmap pixmap;
-//         JsonReader jsonReader;
-
-//         if (jsonReader.loadPixmapFromJson(pixmap, filePath))
-//         {
-//             // Successfully loaded the pixmap, update the canvas
-//             canvas->setPixmap(pixmap); // Assuming you have a setter for pixmap in your Canvas class
-
-//             // Optionally, you can update the canvas display (it might already be done in setPixmap)
-//             canvas->repaint();
-
-//             QMessageBox::information(this, tr("Load Successful"), tr("File loaded successfully!"));
-//         } else
-//         {
-//             QMessageBox::warning(this, tr("Load Failed"), tr("Could not load the file."));
-//         }
-//     }
-// }
-
-void MainWindow::FrameListChanged(int newIndex, QPixmap newMap) {
+void MainWindow::FrameListChanged(int newIndex, QPixmap* newMap) {
     canvas->setPixmap(newMap);
     newIndex++;
     newIndex--;
     // Scroller highlight (at newIndex)
 }
 
-void MainWindow::UpdateAnimation(QList<QPixmap> newPixMap) {
+void MainWindow::UpdateAnimation(QList<QPixmap*> newPixMap) {
     // Animation preview update
-    QList<QPixmap> pixMap = newPixMap;
+    QList<QPixmap*> pixMap = newPixMap;
 }
 
 void MainWindow::DeleteFramePopUp() {

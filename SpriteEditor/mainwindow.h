@@ -27,8 +27,8 @@ private slots:
     void updateColorWithPreset(QColor);     // Update the color to quick access color
     void onSaveTriggered();
     void onLoadTriggered();
-    void FrameListChanged(int newIndex, QPixmap newMap);
-    void UpdateAnimation(QList<QPixmap> newPixMap);
+    void FrameListChanged(int newIndex, QPixmap* newMap);
+    void UpdateAnimation(QList<QPixmap*> newPixMap);
     void DeleteFramePopUp();
     void DeleteFramePopUpClose();
 

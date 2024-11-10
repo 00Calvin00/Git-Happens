@@ -22,9 +22,9 @@ class JsonReader
 public:
     JsonReader();
 
-    static bool savePixmapsToJson(const QList<QPixmap> &pixmaps, const QString &filePath);
+    static bool savePixmapsToJson(QList<QPixmap*> pixmaps, const QString &filePath);
 
-    static bool loadPixmapsFromJson(QList<QPixmap> &pixmaps, const QString &filePath);
+    static bool loadPixmapsFromJson(QList<QPixmap*> pixmaps, const QString &filePath);
 
     // /**
     //  * @brief Saves the pixmap data to a json file by converting the Pixmap data into base24.
