@@ -21,7 +21,7 @@ public:
 
     static bool savePixmapsToJson(QList<QPixmap*> pixmaps, const QString &filePath);
 
-    static bool loadPixmapsFromJson(QList<QPixmap*> pixmaps, const QString &filePath);
+    static bool loadPixmapsFromJson(QList<QPixmap*>& pixmaps, const QString &filePath);
 
 };
 

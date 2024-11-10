@@ -88,23 +88,42 @@ void Model::DeleteFrame() {
 }
 
 void Model::SelectFrame(int i) {
-    currentIndex = i;
-    QPixmap* newMap = pixmapList.at(i);
-    emit SendFrameListChanged(currentIndex, newMap);
+    if (currentIndex >= 0 && currentIndex < pixmapList.size()) {
+        currentIndex = i;
+        QPixmap* newMap = pixmapList.at(i);
+        emit SendFrameListChanged(currentIndex, newMap);
+    } else {
+        qDebug() << "Index out of bounds";
+    }
+
+    qDebug() << "Current frame selected at index:" << currentIndex;
+    qDebug() << "Full frame list size:" << pixmapList.size();
+
 }
 
 void Model::SizeChange(int newSize) {
     canvasSize = newSize;
 }
 
-void Model::setPixmapList(const QList<QPixmap*> newPixmapList)
+void Model::setPixmapList(const QList<QPixmap*>& newPixmapList)
 {
     pixmapList = newPixmapList;
     currentIndex = 0;  // Reset selected to start
     emit SendUpdateAnimation(pixmapList);
 }
 
-const QList<QPixmap*> Model::getPixmapList()
+const QList<QPixmap*> Model::getPixmapListValues()
 {
     return pixmapList;
+}
+
+QList<QPixmap*>& Model::getPixmapListObjects()
+{
+    return pixmapList;
+}
+
+// Getter for currentIndex debugging
+int Model::getCurrentIndex()
+{
+    return currentIndex;
 }
