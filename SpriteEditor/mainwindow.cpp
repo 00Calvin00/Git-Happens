@@ -123,8 +123,11 @@ void MainWindow::onLoadTriggered()
         // Load the project frames using the JsonReader
         if (JsonReader::loadPixmapsFromJson(pixmapList, filePath)) {
             // Successfully loaded frames, update the model with the new list
-            model->setPixmapList(pixmapList);
+            //model->setPixmapList(pixmapList);
+
             model->SelectFrame(0);
+
+            //FrameListChanged(0, pixmapList.first());
 
             // Optionally update the canvas with the first frame if there are frames
             if (!pixmapList.isEmpty()) {

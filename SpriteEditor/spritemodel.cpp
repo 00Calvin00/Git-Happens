@@ -74,7 +74,7 @@ void Model::DeleteFrame() {
 
     if (pixmapList.size() > 1)
     {
-        //QPixmap* frameToDelete = pixmapList.at(currentIndex);
+        //QPixmap* frameToDelete = pixmapList.at(currentIndex); // Might want to actually delete if using the new keyword
 
         pixmapList.remove(currentIndex);  // Remove pointer from the list
         currentIndex--;

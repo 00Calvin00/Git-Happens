@@ -83,6 +83,10 @@ bool JsonReader::loadPixmapsFromJson(QList<QPixmap*> pixmapList, const QString& 
         return false;
     }
 
+    // Delete all existing pixmaps in the list before loading new ones
+    qDeleteAll(pixmapList); // This deletes all QPixmap pointers in the list
+    pixmapList.clear(); // Clears the list
+
     QJsonArray framesArray = jsonObject["frames"].toArray();
     for (const QJsonValue& value : framesArray) {
         QString base64String = value.toString();
