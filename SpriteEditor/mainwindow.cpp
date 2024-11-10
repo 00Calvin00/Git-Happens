@@ -87,55 +87,104 @@ void MainWindow::updateColorWithPreset(QColor color)
     canvas->penColor = color;
 }
 
+// void MainWindow::onSaveTriggered()
+// {
+//     // Open QFileDialog for user to choose a filepath
+//     QString filePath = QFileDialog::getSaveFileName(this, tr("Save Pixmap"), "", tr("JSON Files (*.json);;All Files (*)"));
+
+//     // Check if a path was actually selected
+//     if (!filePath.isEmpty())
+//     {
+
+//         // Get current frames from the spritemodel
+//         QPixmap pixmap = canvas->getPixmap();
+
+//         // Save Json file using QPixmap and the user-selected file path
+//         if (JsonReader::savePixmapToJson(pixmap, filePath))
+//         {
+//             QMessageBox::information(this, tr("Save Successful"), tr("File saved successfully!"));
+//         } else
+//         {
+//             QMessageBox::warning(this, tr("Save Failed"), tr("Could not save the file."));
+//         }
+//     }
+// }
+
 void MainWindow::onSaveTriggered()
 {
     // Open QFileDialog for user to choose a filepath
-    QString filePath = QFileDialog::getSaveFileName(this, tr("Save Pixmap"), "", tr("JSON Files (*.json);;All Files (*)"));
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save Project"), "", tr("JSON Files (*.json);;All Files (*)"));
 
-    // Check if a path was actually selected
-    if (!filePath.isEmpty())
-    {
+    if (!filePath.isEmpty()) {
+        // Get the list of frames from the model
+        QList<QPixmap> pixmapList = model->getPixmapList();
 
-        // Get current QPixmap from canvas
-        QPixmap pixmap = canvas->getPixmap();
-
-        // Save Json file using QPixmap and the user-selected file path
-        if (JsonReader::savePixmapToJson(pixmap, filePath))
+        // Save all frames using the JsonReader
+        if (JsonReader::savePixmapsToJson(pixmapList, filePath))
         {
-            QMessageBox::information(this, tr("Save Successful"), tr("File saved successfully!"));
+            QMessageBox::information(this, tr("Save Successful"), tr("Project saved successfully!"));
         } else
         {
-            QMessageBox::warning(this, tr("Save Failed"), tr("Could not save the file."));
+            QMessageBox::warning(this, tr("Save Failed"), tr("Could not save the project."));
         }
     }
 }
 
-void MainWindow::onLoadTriggered(){
-    // Open QFileDialog for user to choose a filepath to load the pixmap from
-    QString filePath = QFileDialog::getOpenFileName(this, tr("Open Pixmap"), "", tr("JSON Files (*.json);;All Files (*)"));
+void MainWindow::onLoadTriggered()
+{
+    // Open QFileDialog for user to choose a filepath
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Open Project"), "", tr("JSON Files (*.json);;All Files (*)"));
 
-    // Check if a path was selected
-    if (!filePath.isEmpty())
-        {
-        // Load the pixmap using JsonReader
-        QPixmap pixmap;
-        JsonReader jsonReader;
+    if (!filePath.isEmpty()) {
+        QList<QPixmap> pixmapList;
 
-        if (jsonReader.loadPixmapFromJson(pixmap, filePath))
-        {
-            // Successfully loaded the pixmap, update the canvas
-            canvas->setPixmap(pixmap); // Assuming you have a setter for pixmap in your Canvas class
+        // Load the project frames using the JsonReader
+        if (JsonReader::loadPixmapsFromJson(pixmapList, filePath)) {
+            // Successfully loaded frames, update the model with the new list
+            model->setPixmapList(pixmapList);
+            model->SelectFrame(0);
 
-            // Optionally, you can update the canvas display (it might already be done in setPixmap)
-            canvas->repaint();
+            // Optionally update the canvas with the first frame if there are frames
+            if (!pixmapList.isEmpty()) {
+                //canvas->setPixmap(pixmapList.first());
+                canvas->repaint();
+            }
 
-            QMessageBox::information(this, tr("Load Successful"), tr("File loaded successfully!"));
-        } else
-        {
-            QMessageBox::warning(this, tr("Load Failed"), tr("Could not load the file."));
+            QMessageBox::information(this, tr("Load Successful"), tr("Project loaded successfully!"));
+        } else {
+            QMessageBox::warning(this, tr("Load Failed"), tr("Could not load the project."));
         }
     }
 }
+
+
+
+// void MainWindow::onLoadTriggered(){
+//     // Open QFileDialog for user to choose a filepath to load the pixmap from
+//     QString filePath = QFileDialog::getOpenFileName(this, tr("Open Pixmap"), "", tr("JSON Files (*.json);;All Files (*)"));
+
+//     // Check if a path was selected
+//     if (!filePath.isEmpty())
+//         {
+//         // Load the pixmap using JsonReader
+//         QPixmap pixmap;
+//         JsonReader jsonReader;
+
+//         if (jsonReader.loadPixmapFromJson(pixmap, filePath))
+//         {
+//             // Successfully loaded the pixmap, update the canvas
+//             canvas->setPixmap(pixmap); // Assuming you have a setter for pixmap in your Canvas class
+
+//             // Optionally, you can update the canvas display (it might already be done in setPixmap)
+//             canvas->repaint();
+
+//             QMessageBox::information(this, tr("Load Successful"), tr("File loaded successfully!"));
+//         } else
+//         {
+//             QMessageBox::warning(this, tr("Load Failed"), tr("Could not load the file."));
+//         }
+//     }
+// }
 
 void MainWindow::FrameListChanged(int newIndex, QPixmap newMap) {
     canvas->setPixmap(newMap);

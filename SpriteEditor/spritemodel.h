@@ -20,6 +20,18 @@ public:
     void DeleteFrame();
     void SizeChange(int newSize);
 
+    /**
+     * @brief Retrieves the current frames from the PixmapList
+     * @return The current QPixmap representing the canvas.
+     */
+    const QList<QPixmap>& getPixmapList();
+
+    /**
+     * @brief Sets the current frames in the PixmapList
+     * @param A new list of Pixmaps to set the current frames to.
+     */
+    void setPixmapList(const QList<QPixmap>& newPixmapList);
+
 signals:
     void SendFrameListChanged(int newIndex, QPixmap newMap);
     void SendUpdateAnimation(QList<QPixmap> newPixMap);

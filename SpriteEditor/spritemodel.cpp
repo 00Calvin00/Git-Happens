@@ -51,7 +51,7 @@ void Model::DeleteFrame() {
     else {
         // ERROR POPUP
     }
-    QPixmap newMap = pixmapList.at(currentIndex);
+    QPixmap newMap = pixmapList.at(currentIndex); //does not actually copy pixmap data
     emit SendFrameListChanged(currentIndex, newMap);
     emit SendUpdateAnimation(pixmapList);
 }
@@ -64,4 +64,16 @@ void Model::SelectFrame(int i) {
 
 void Model::SizeChange(int newSize) {
     canvasSize = newSize;
+}
+
+void Model::setPixmapList(const QList<QPixmap>& newPixmapList)
+{
+    pixmapList = newPixmapList;
+    currentIndex = 0;  // Reset selected to start
+    emit SendUpdateAnimation(pixmapList);
+}
+
+const QList<QPixmap>& Model::getPixmapList()
+{
+    return pixmapList;
 }
