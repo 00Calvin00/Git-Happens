@@ -25,7 +25,9 @@ bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, const QString& fi
     for (QPixmap* pixmap : pixmapList) {
         // Convert each QPixmap to a QImage
         QImage image = pixmap -> toImage();
-        qDebug() << "Top-left pixel color:" << QColor(image.pixel(0, 0)).name();
+
+        qDebug() << "Saved Top-left pixel color:" << QColor(image.pixel(0, 0)).name();
+
         QByteArray byteArray;
         QBuffer buffer(&byteArray);
         buffer.open(QIODevice::WriteOnly);
@@ -58,7 +60,7 @@ bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, const QString& fi
     return true;
 }
 
-bool JsonReader::loadPixmapsFromJson(QList<QPixmap*> pixmapList, const QString& filePath)
+bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, const QString& filePath)
 {
     QFile jsonFile(filePath);
     if (!jsonFile.open(QIODevice::ReadOnly)) {
@@ -84,7 +86,7 @@ bool JsonReader::loadPixmapsFromJson(QList<QPixmap*> pixmapList, const QString& 
     }
 
     // Delete all existing pixmaps in the list before loading new ones
-    qDeleteAll(pixmapList); // This deletes all QPixmap pointers in the list
+    qDeleteAll(pixmapList); // This deletes all QPixmap pointers in the list, maybe the list was not passed in properly
     pixmapList.clear(); // Clears the list
 
     QJsonArray framesArray = jsonObject["frames"].toArray();
@@ -101,8 +103,11 @@ bool JsonReader::loadPixmapsFromJson(QList<QPixmap*> pixmapList, const QString& 
             return false;
         }
 
+        qDebug() << "Loaded Top-left pixel color:" << QColor(image.pixel(0, 0)).name();
+
         // Convert the QImage to QPixmap and add to the list
         QPixmap* newMap = new QPixmap(QPixmap::fromImage(image));
+
         pixmapList.append(newMap);
     }
 
