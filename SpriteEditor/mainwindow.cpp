@@ -18,19 +18,16 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     CanvasSizePopup dialog(nullptr);
     if (dialog.exec() == QDialog::Accepted) {
         QString selectedSize = dialog.getSelectedSize();
+        int canvasSize = 64; // Default size
 
-        // Initialize your canvas with the selected size
-        int canvasSize;
         if (selectedSize == "8x8") canvasSize = 8;
         else if (selectedSize == "16x16") canvasSize = 16;
         else if (selectedSize == "32x32") canvasSize = 32;
         else if (selectedSize == "64x64") canvasSize = 64;
 
-        // Initialize your canvas or application with `canvasSize`
-        initializeCanvas(canvasSize);
+        initializeCanvas(canvasSize); // Initialize canvas with chosen resolution
     } else {
-        // If the dialog is closed without selecting, close the main window
-        close();
+        close(); // Close app if no size is selected
     }
 
     // Set up the canvas
@@ -50,9 +47,6 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     connect(ui->white, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor("white")); });
     connect(ui->gray, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor(127, 127, 127)); });
     connect(ui->black, &QPushButton::clicked, this, [this]() { updateColorWithPreset(QColor("black")); });
-
-    // Center canvas in the main window
-    canvas->move(370, 0);
 
     // Connect the signal for drawing updates
     connect(canvas, &Canvas::updateCanvas, this, &MainWindow::updateCanvasDisplay);
@@ -82,9 +76,18 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 
 void MainWindow::initializeCanvas(int canvasSize)
 {
-    canvas->setFixedSize(canvasSize * 8, canvasSize * 8); // Adjust size based on canvasSize
-    model->SizeChange(canvasSize);
-    model->DuplicateFrame(canvas->getPixmap());
+    // Create new Canvas with the chosen resolution
+    canvas = new Canvas(this, canvasSize, 512 / canvasSize); // scale adjusted based on canvasSize
+    canvas->setFixedSize(512, 512); // Keeps canvas display size fixed
+
+    // Center canvas in the main window
+    canvas->move(370, 0);
+
+    //setCentralWidget(canvas); // Add canvas to the main window
+
+    // canvas->setFixedSize(canvasSize * 8, canvasSize * 8); // Adjust size based on canvasSize
+    // model->SizeChange(canvasSize);
+    //model->DuplicateFrame(canvas->getPixmap());
 }
 
 

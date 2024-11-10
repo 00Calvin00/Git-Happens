@@ -6,15 +6,15 @@
 Canvas::Canvas(QWidget *parent, int canvasSize, int scale, QColor color)
     : QWidget{parent}, canvasSize(canvasSize), scale(scale), pressed(false), penColor(color)
 {
-    // Initialize a blank pixmap with the given canvas size
+    // Initialize the pixmap based on canvas resolution
     pixmap = new QPixmap(canvasSize, canvasSize);
-    pixmap->fill(Qt::white);  //Maybe make trasnsparent once we have a backgrounnd??????
+    pixmap->fill(Qt::white);
 
-    // Scale the canvas up to make the pixels visible
-    resize(canvasSize * scale, canvasSize * scale);
+    // Set fixed widget size for display (e.g., 512x512)
+    setFixedSize(512, 512);
 
-    drawing = true;  // Default mode is drawing
-    erasing = false; // Erase mode is off by default
+    drawing = true; //Default mode is drawing
+    erasing = false; //Erase is off by default
 }
 
 // Destructor to clean up the allocated pixmap
