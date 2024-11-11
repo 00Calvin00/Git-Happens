@@ -25,33 +25,59 @@ Canvas::~Canvas()
         delete pixmap;
     }
 }
-
-// Paint event to render the pixmap onto the canvas
-void Canvas::paintEvent(QPaintEvent *)
-{
+void Canvas::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
-    // Draw the scaled pixmap on the widget
-    painter.drawPixmap(0, 0, pixmap->scaled(canvasSize * scale, canvasSize * scale));
-}
 
-// Mouse press event to handle clicks for drawing or erasing
-void Canvas::mousePressEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton)
-    {
-        pressed = true;
 
-        // Call the appropriate function based on the current mode (drawing or erasing)
-        if (drawing)
-        {
-            draw(event);
-        }
-        else if (erasing)
-        {
-            erase(event);
-        }
+
+    // Draw the grid
+    painter.setPen(Qt::lightGray);
+    for (int x = 0; x < width(); x += scale) {
+        painter.drawLine(x, 0, x, height());
+    }
+    for (int y = 0; y < height(); y += scale) {
+        painter.drawLine(0, y, width(), y);
+    }
+
+    // Draw filled cells from stored data
+    for (const auto &cell : filledCells) { // filledCells stores points of drawn cells
+        painter.fillRect(cell.x(), cell.y(), scale, scale, penColor);
     }
 }
+
+void Canvas::mousePressEvent(QMouseEvent *event) {
+    QPoint cellPosition = event->pos() / scale * scale; // Snap to top-left of nearest cell
+
+    filledCells.insert(cellPosition); // Add cell position to a set of filled cells
+    update(); // Trigger a repaint
+}
+
+// // Paint event to render the pixmap onto the canvas
+// void Canvas::paintEvent(QPaintEvent *)
+// {
+//     QPainter painter(this);
+//     // Draw the scaled pixmap on the widget
+//     painter.drawPixmap(0, 0, pixmap->scaled(canvasSize * scale, canvasSize * scale));
+// }
+
+// // Mouse press event to handle clicks for drawing or erasing
+// void Canvas::mousePressEvent(QMouseEvent *event)
+// {
+//     if (event->button() == Qt::LeftButton)
+//     {
+//         pressed = true;
+
+//         // Call the appropriate function based on the current mode (drawing or erasing)
+//         if (drawing)
+//         {
+//             draw(event);
+//         }
+//         else if (erasing)
+//         {
+//             erase(event);
+//         }
+//     }
+//}
 
 // Mouse release event to reset the pressed state when the button is released
 void Canvas::mouseReleaseEvent(QMouseEvent *)

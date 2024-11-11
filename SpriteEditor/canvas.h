@@ -5,6 +5,7 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QSet>
 
 /**
  * @class Canvas
@@ -51,7 +52,7 @@ public:
      * @param scale The scale factor for zooming the canvas (for rendering larger pixels).
      * @param color The initial pen color to use for drawing.
      */
-    explicit Canvas(QWidget *parent = nullptr, int canvasSize = 64, int scale = 8, QColor color = QColor(0, 0, 0));
+    explicit Canvas(QWidget *parent = nullptr, int canvasSize = 512, int scale = 8, QColor color = QColor(0, 0, 0));
 
     /**
      * @brief Destructor to clean up the canvas resources.
@@ -174,6 +175,7 @@ private:
      */
     void erase(QMouseEvent *event);
 
+    QSet<QPoint> filledCells;  // Declare filledCells to store grid cell positions
     QPixmap *pixmap;  ///< The pixmap that stores the canvas content.
     int canvasSize;   ///< The size of the canvas in pixels.
     int scale;        ///< The scale factor to zoom the canvas.

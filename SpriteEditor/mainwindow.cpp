@@ -18,14 +18,14 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     CanvasSizePopup dialog(nullptr);
     if (dialog.exec() == QDialog::Accepted) {
         QString selectedSize = dialog.getSelectedSize();
-        int canvasSize = 64; // Default size
+        int scale = 8; // Default size
 
-        if (selectedSize == "8x8") canvasSize = 8;
-        else if (selectedSize == "16x16") canvasSize = 16;
-        else if (selectedSize == "32x32") canvasSize = 32;
-        else if (selectedSize == "64x64") canvasSize = 64;
+        if (selectedSize == "8x8") scale = 8;
+        else if (selectedSize == "16x16") scale = 16;
+        else if (selectedSize == "32x32") scale = 32;
+        else if (selectedSize == "64x64") scale = 64;
 
-        initializeCanvas(canvasSize); // Initialize canvas with chosen resolution
+        initializeCanvas(scale); // Initialize canvas with chosen resolution
     } else {
         close(); // Close app if no size is selected
     }
@@ -74,10 +74,10 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     connect(ui->actionLoad, &QAction::triggered, this, &MainWindow::onLoadTriggered);
 }
 
-void MainWindow::initializeCanvas(int canvasSize)
+void MainWindow::initializeCanvas(int scale)
 {
     // Create new Canvas with the chosen resolution
-    canvas = new Canvas(this, canvasSize, 512 / canvasSize); // scale adjusted based on canvasSize
+    canvas = new Canvas(this, 512, scale); // scale adjusted based on canvasSize
     canvas->setFixedSize(512, 512); // Keeps canvas display size fixed
 
     // Center canvas in the main window
