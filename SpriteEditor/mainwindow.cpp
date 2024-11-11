@@ -20,6 +20,10 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 
     model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
 
+    previewIterationTimer = new QTimer(this);
+    connect(previewIterationTimer, &QTimer::timeout, this, &MainWindow::IteratePreview);
+
+    previewIterationTimer->start(1000/fps);
     //model.DuplicateFrame(canvas->getPixmap()); //Give first frame to model as well
 
     //Connect the signal for draw and erase
@@ -82,6 +86,21 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     // Connect back signals from model to slots here
     connect(&model, &Model::SendFrameListChanged, this, &MainWindow::FrameListChanged);
 
+    connect(ui->animationFPSSlider, &QSlider::valueChanged, this, [=](int value){
+        ui->animationFPSNumber->setNum(value);
+    });
+
+    connect(ui->animationFPSSlider, &QSlider::valueChanged, this, [=](int value){
+        if(value == 0) {
+            previewIterationTimer->stop();
+        }
+        else {
+            fps = value;
+            previewIterationTimer->start(1000/fps);
+        }
+    });
+
+
     // Connect the frame actions to update the animation(only when we change the list, not our position)
     connect(&model, &Model::SendUpdateAnimation, this, &MainWindow::UpdateAnimation);
 
@@ -100,6 +119,7 @@ void MainWindow::updateCanvasDisplay()
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete previewIterationTimer;
 }
 
 void MainWindow::updateColorWithCustom()
@@ -191,8 +211,6 @@ void MainWindow::onLoadTriggered()
 
 void MainWindow::FrameListChanged(int newIndex, QPixmap* newMap) {
     canvas->setPixmap(newMap);
-    newIndex++;
-    newIndex--;
     // Scroller highlight (at newIndex)
 }
 
@@ -207,4 +225,16 @@ void MainWindow::DeleteFramePopUp() {
 
 void MainWindow::DeleteFramePopUpClose() {
     ui->deleteFramePopUp->setVisible(false);
+}
+
+void MainWindow::IteratePreview() {
+    if(++curPreviewIndex >= model->pixmapList.length()) {
+        curPreviewIndex = 0;
+    }
+
+    // Set the pixmap on the label
+    ui->animationPreview->setPixmap(*(model->pixmapList.at(curPreviewIndex)));
+
+    // Scale the pixmap to fit within the QLabel's size, if desired
+    ui->animationPreview->setScaledContents(true);
 }
