@@ -13,29 +13,30 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     ui->setupUi(this);
     this->showMaximized(); // Fill the screen with the sprite editor
     ui->deleteFramePopUp->setVisible(false); // Hide deletion confirmation popup
+    // Set up the canvas
+    canvas = ui->uiCanvas;
 
     // Create and show the modal dialog
-
     CanvasScalePopup dialog(nullptr);
     if (dialog.exec() == QDialog::Accepted)
     {
         QString selectedSize = dialog.getSelectedSize();
         int scale = 16; // Default size
 
-        if (selectedSize == "8x8") scale = 8;
-        else if (selectedSize == "16x16") scale = 16;
-        else if (selectedSize == "32x32") scale = 32;
-        else if (selectedSize == "64x64") scale = 64;
+        if (selectedSize == "64x64") scale = 8;
+        else if (selectedSize == "32x32") scale = 16;
+        else if (selectedSize == "16x16") scale = 32;
+        else if (selectedSize == "8x8") scale = 64; //Scale is the size of the cells so 64 means a 64 pixel cell so there will be 8 in the 512x512 canvas
 
         // Create new Canvas with the chosen resolution
-        canvas = new Canvas(this, 512, scale); // scale adjusted based on canvasSize
-
+        canvas->setScale(scale);
+        canvas->update();
+        canvas->repaint();
     } else {
         close(); // Close app if no size is selected
     }
 
-    // Set up the canvas
-    canvas = ui->uiCanvas;
+
     // Center canvas in the main window
     canvas->move(370, 0);
     model.SizeChange(64);
