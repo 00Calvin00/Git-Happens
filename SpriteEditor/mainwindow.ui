@@ -818,16 +818,6 @@
      <string>Delete frame</string>
     </property>
    </widget>
-   <widget class="Canvas" name="uiCanvas" native="true">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>0</y>
-      <width>512</width>
-      <height>512</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QFrame" name="deleteFramePopUp">
     <property name="geometry">
      <rect>
@@ -892,6 +882,16 @@
      <string/>
     </property>
    </widget>
+   <widget class="Canvas" name="uiCanvas" native="true">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>0</y>
+      <width>512</width>
+      <height>512</height>
+     </rect>
+    </property>
+   </widget>
    <zorder>animationPreviewOptions</zorder>
    <zorder>colorSelector</zorder>
    <zorder>drawButton</zorder>
@@ -899,9 +899,9 @@
    <zorder>addFrameButton</zorder>
    <zorder>deleteFrameButton</zorder>
    <zorder>frameNavigator</zorder>
-   <zorder>uiCanvas</zorder>
    <zorder>deleteFramePopUp</zorder>
    <zorder>animationPreview</zorder>
+   <zorder>uiCanvas</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
