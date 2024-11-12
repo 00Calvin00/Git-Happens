@@ -18,14 +18,12 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     canvas->setFixedSize(512, 512); //Setting locked size to a power of two so zoom in conversions are easy
     model.SizeChange(64);
     model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
+    FrameListChanged(0, model.pixmapList[0]);
+    // AddInitalFrame(model.pixmapList[0]);
 
     previewIterationTimer = new QTimer(this);
     connect(previewIterationTimer, &QTimer::timeout, this, &MainWindow::IteratePreview);
     previewIterationTimer->start(1000/fps);
-
-    selectedFrameTimer = new QTimer(this);
-    connect(selectedFrameTimer, &QTimer::timeout, this, &MainWindow::UpdateSelectedFrameIcon);
-    selectedFrameTimer->start(17);
 
     //model.DuplicateFrame(canvas->getPixmap()); //Give first frame to model as well
 
@@ -107,6 +105,11 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 
     // Connect the
     connect(ui->frameNavigator, &QListWidget::currentRowChanged, this, &MainWindow::OnFrameSelected);
+
+    selectedFrameTimer = new QTimer(this);
+    connect(selectedFrameTimer, &QTimer::timeout, this, &MainWindow::UpdateSelectedFrameIcon);
+    selectedFrameTimer->start(1000/fps);
+
 }
 
 void MainWindow::updateCanvasDisplay()
@@ -207,9 +210,12 @@ void MainWindow::onLoadTriggered()
     }
 }
 
+void MainWindow::AddInitalFrame(QPixmap* initialFrame) {
+    canvas->setPixmap(initialFrame);
+}
 
-void MainWindow::FrameListChanged(int newIndex, QPixmap* newMap) {
-    canvas->setPixmap(newMap);
+void MainWindow::FrameListChanged(int newIndex, QPixmap* newFrame) {
+    canvas->setPixmap(newFrame);
     ui->frameNavigator->clear();
     model->currentIndex = newIndex;
 
@@ -226,25 +232,33 @@ void MainWindow::FrameListChanged(int newIndex, QPixmap* newMap) {
 
 void MainWindow::OnFrameSelected(int newIndex) {
     // Check if the index is within bounds of the list
-    // if (model->currentIndex >= 0 && model->currentIndex < model->pixmapList.size()) {
     if (newIndex == -1) {
-        if(model->currentIndex!=0) {
+        if (model->currentIndex != 0) {
             model->currentIndex--;
         }
-        // Else dont change
     }
     else {
         model->currentIndex = newIndex;
     }
+
     QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
     // Set the selected frame on the canvas
     canvas->setPixmap(selectedFrame);
-    // }
 }
 
 void MainWindow::UpdateSelectedFrameIcon(){
-    //ui->frameNavigator->currentItem()->setIcon(QIcon(model->pixmapList.at(model->currentIndex)->scaled(100, 100)));
-    // We need to do something similar to this but this crashes it right now.
+    // if (model->pixmapList.size() == 0) {
+    //     ui->frameNavigator->currentItem()->setIcon(QIcon(model->pixmapList[0]->scaled(100, 100)));
+    // }
+    // else
+    // {
+        QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
+
+        // Checks if a frame is selected before updating current selected frame
+        if (ui->frameNavigator->currentItem() != nullptr) {
+            ui->frameNavigator->currentItem()->setIcon(QIcon(selectedFrame->scaled(100, 100)));
+        }
+    // }
 }
 
 void MainWindow::UpdateAnimation(QList<QPixmap*> newPixMap) {
