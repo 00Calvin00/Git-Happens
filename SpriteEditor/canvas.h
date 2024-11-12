@@ -74,14 +74,14 @@ public:
      *
      * @param newPixmap The new QPixmap to set for the canvas.
      */
-    void setPixmap(const QPixmap &newPixmap);
+    void setPixmap(QPixmap* newPixmap);
 
     /**
      * @brief Get the current pixmap of the canvas.
      *
      * @return The current QPixmap representing the canvas.
      */
-    QPixmap getPixmap() const;
+    QPixmap* getPixmap() const;
 
     QColor penColor;  ///< The current pen color for drawing.
 
