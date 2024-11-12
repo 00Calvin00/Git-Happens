@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include <QColorDialog>
 #include <QTimer>
-#include <QListWidgetItem>
 #include "spritemodel.h"
 #include "canvas.h"
 
@@ -44,7 +43,6 @@ private:
     Model *model;    // Pointer to Model
     int curPreviewIndex = 0;
     int fps = 60;
-    QListWidgetItem *scaledFrame;
     QTimer* previewIterationTimer;
     QTimer* selectedFrameTimer;
 };
