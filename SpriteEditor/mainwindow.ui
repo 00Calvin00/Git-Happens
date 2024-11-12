@@ -909,7 +909,11 @@
      <x>0</x>
      <y>0</y>
      <width>1262</width>
+<<<<<<< HEAD
      <height>18</height>
+=======
+     <height>22</height>
+>>>>>>> main
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">
