@@ -10,12 +10,9 @@ class Model : public QObject
 {
     Q_OBJECT
 private:
-<<<<<<< HEAD
     int canvasSize = 64;
-=======
     int currentIndex = 0;  // Track the "current" pixmap
     int canvasSize = 512;
->>>>>>> main
 public:
     Model();
     ~Model();
