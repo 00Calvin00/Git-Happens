@@ -19,7 +19,6 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     model.SizeChange(64);
     model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
     FrameListChanged(0, model.pixmapList[0]);
-    // AddInitalFrame(model.pixmapList[0]);
 
     previewIterationTimer = new QTimer(this);
     connect(previewIterationTimer, &QTimer::timeout, this, &MainWindow::IteratePreview);
@@ -122,6 +121,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete previewIterationTimer;
     delete selectedFrameTimer;
+    delete scaledFrame;
 }
 
 void MainWindow::updateColorWithCustom()
@@ -221,11 +221,8 @@ void MainWindow::FrameListChanged(int newIndex, QPixmap* newFrame) {
 
     for (QPixmap* framePtr : model->pixmapList)
     {
-        QListWidgetItem *scaledFrame = new QListWidgetItem(QIcon(framePtr->scaled(100, 100)), "");
+        scaledFrame = new QListWidgetItem(QIcon(framePtr->scaled(100, 100)), "");
         ui->frameNavigator->addItem(scaledFrame);
-
-        // QListWidgetItem scaledFrame(QIcon(framePtr->scaled(100, 100)), "", ui->frameNavigator);
-        // ui->frameNavigator->addItem(&scaledFrame);
     }
     ui->frameNavigator->setCurrentRow(model->currentIndex);
 }
