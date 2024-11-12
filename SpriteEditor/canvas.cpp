@@ -110,20 +110,23 @@ void Canvas::eraseActivated()
     erasing = true;
 }
 
-// Get the current pixmap
-QPixmap Canvas::getPixmap() const
-{
-    return *pixmap;
-}
-
-// Set a new pixmap and update the canvas
-void Canvas::setPixmap(const QPixmap &newPixmap)
-{
-    *pixmap = newPixmap;
-    repaint();
-}
 
 //Add scale getter/setter
+
+
+// Function to get the current pixmap, pixmap is the actual thing we are drawing on
+QPixmap* Canvas::getPixmap() const
+{
+    return pixmap;
+}
+
+
+// Function to set a new pixmap and update the canvas
+void Canvas::setPixmap(QPixmap* newPixmap)
+{
+    pixmap = newPixmap;
+    repaint();
+}
 
 // Get the canvas size
 int Canvas::getCanvasSize() const
