@@ -21,6 +21,8 @@ CanvasSizePopup::CanvasSizePopup(QDialog *parent)
 {
     setWindowTitle("Select Canvas Size");
 
+    setFixedSize(100,100);
+
     // Initialize the combo box and populate it with canvas size options
     sizeComboBox = new QComboBox(this);
     sizeComboBox->addItems({"8x8", "16x16", "32x32", "64x64"});

@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QSet>
+#include <QHash>
 
 /**
  * @class Canvas
@@ -154,28 +155,38 @@ protected:
 
 private:
     /**
-     * @brief Draw on the canvas at the specified position.
+     * @brief Convert a screen position to the nearest cell on the grid.
      *
-     * This method is called when drawing is activated, and it draws a "pixel" at
-     * the position based on the mouse event. The position is calculated using
-     * the scale factor.
+     * This method maps a given position to the corresponding cell in the grid
+     * based on the current scaling factor.
      *
-     * @param event The mouse event that contains the mouse position.
+     * @param position The screen position.
+     * @return The top-left corner of the nearest cell.
      */
-    void draw(QMouseEvent *event);
+    QPoint mapToCell(const QPoint &position) const;
 
     /**
-     * @brief Erase from the canvas at the specified position.
+     * @brief Draw on the canvas at the specified cell.
      *
-     * This method is called when erasing is activated, and it erases a "pixel" at
-     * the position based on the mouse event. The position is calculated using
-     * the scale factor.
+     * This method is called when drawing is activated, and it draws a "pixel" at
+     * the specified cell using the current pen color.
      *
-     * @param event The mouse event that contains the mouse position.
+     * @param cell The grid cell position.
+     * @param color The color to draw.
      */
-    void erase(QMouseEvent *event);
+    void drawCell(const QPoint &cell, const QColor &color);
 
-    QSet<QPoint> filledCells;  // Declare filledCells to store grid cell positions
+    /**
+     * @brief Erase from the canvas at the specified cell.
+     *
+     * This method is called when erasing is activated, and it clears the "pixel"
+     * at the specified cell position.
+     *
+     * @param cell The grid cell position.
+     */
+    void eraseCell(const QPoint &cell);
+
+    QHash<QPoint, QColor> cellColors;  ///< Stores the color of each cell.
     QPixmap *pixmap;  ///< The pixmap that stores the canvas content.
     int canvasSize;   ///< The size of the canvas in pixels.
     int scale;        ///< The scale factor to zoom the canvas.
