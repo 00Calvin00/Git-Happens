@@ -21,8 +21,8 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 
     previewIterationTimer = new QTimer(this);
     connect(previewIterationTimer, &QTimer::timeout, this, &MainWindow::IteratePreview);
-
     previewIterationTimer->start(1000/fps);
+
     //model.DuplicateFrame(canvas->getPixmap()); //Give first frame to model as well
 
     //Connect the signal for draw and erase
@@ -72,6 +72,10 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 
     // Connect back signals from model to slots here
     connect(&model, &Model::SendFrameListChanged, this, &MainWindow::FrameListChanged);
+    selectedFrameTimer = new QTimer(this);
+    connect(selectedFrameTimer, &QTimer::timeout, this, &MainWindow::UpdateSelectedFrameIcon);
+
+    previewIterationTimer->start(1000/fps);
 
     connect(ui->animationFPSSlider, &QSlider::valueChanged, this, [=](int value){
         ui->animationFPSNumber->setNum(value);
@@ -98,7 +102,7 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     connect(ui->actionLoad, &QAction::triggered, this, &MainWindow::onLoadTriggered);
 
     // Connect the
-    connect(ui->frameNavigator, &QListWidget::currentRowChanged, this, &MainWindow::onFrameSelected);
+    connect(ui->frameNavigator, &QListWidget::currentRowChanged, this, &MainWindow::OnFrameSelected);
 }
 
 void MainWindow::updateCanvasDisplay()
@@ -110,6 +114,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete previewIterationTimer;
+    delete selectedFrameTimer;
 }
 
 void MainWindow::updateColorWithCustom()
@@ -202,22 +207,31 @@ void MainWindow::onLoadTriggered()
 void MainWindow::FrameListChanged(int newIndex, QPixmap* newMap) {
     canvas->setPixmap(newMap);
     ui->frameNavigator->clear();
+    model->currentIndex = newIndex;
 
-    for (QPixmap* framePtr : model->getPixmapListValues())
+    for (QPixmap* framePtr : model->pixmapList)
     {
         QListWidgetItem *scaledFrame = new QListWidgetItem(QIcon(framePtr->scaled(100, 100)), "");
         ui->frameNavigator->addItem(scaledFrame);
+
+        // QListWidgetItem scaledFrame(QIcon(framePtr->scaled(100, 100)), "", ui->frameNavigator);
+        // ui->frameNavigator->addItem(&scaledFrame);
     }
-    ui->frameNavigator->setCurrentRow(newIndex);
+    ui->frameNavigator->setCurrentRow(model->currentIndex);
 }
 
-void MainWindow::onFrameSelected(int index) {
+void MainWindow::OnFrameSelected(int newIndex) {
     // Check if the index is within bounds of the list
-    if (index >= 0 && index < model->getPixmapListValues().size()) {
-        QPixmap* selectedFrame = model->getPixmapListValues().at(index);
+    // if (model->currentIndex >= 0 && model->currentIndex < model->pixmapList.size()) {
+    model->currentIndex = newIndex;
+        QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
         // Set the selected frame on the canvas
         canvas->setPixmap(selectedFrame);
-    }
+    // }
+}
+
+void MainWindow::UpdateSelectedFrameIcon(){
+
 }
 
 void MainWindow::UpdateAnimation(QList<QPixmap*> newPixMap) {

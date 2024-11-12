@@ -29,7 +29,8 @@ private slots:
     void onSaveTriggered();
     void onLoadTriggered();
     void FrameListChanged(int newIndex, QPixmap* newMap);
-    void onFrameSelected(int i);
+    void OnFrameSelected(int);
+    void UpdateSelectedFrameIcon();
     void UpdateAnimation(QList<QPixmap*> newPixMap);
     void DeleteFramePopUp();
     void DeleteFramePopUpClose();
@@ -41,6 +42,7 @@ private:
     int curPreviewIndex = 0;
     int fps = 60;
     QTimer* previewIterationTimer;
+    QTimer* selectedFrameTimer;
 };
 
 #endif // MAINWINDOW_H
