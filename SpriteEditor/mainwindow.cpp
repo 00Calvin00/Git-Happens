@@ -23,6 +23,10 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     connect(previewIterationTimer, &QTimer::timeout, this, &MainWindow::IteratePreview);
     previewIterationTimer->start(1000/fps);
 
+    selectedFrameTimer = new QTimer(this);
+    connect(selectedFrameTimer, &QTimer::timeout, this, &MainWindow::UpdateSelectedFrameIcon);
+    selectedFrameTimer->start(17);
+
     //model.DuplicateFrame(canvas->getPixmap()); //Give first frame to model as well
 
     //Connect the signal for draw and erase
@@ -223,15 +227,24 @@ void MainWindow::FrameListChanged(int newIndex, QPixmap* newMap) {
 void MainWindow::OnFrameSelected(int newIndex) {
     // Check if the index is within bounds of the list
     // if (model->currentIndex >= 0 && model->currentIndex < model->pixmapList.size()) {
-    model->currentIndex = newIndex;
-        QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
-        // Set the selected frame on the canvas
-        canvas->setPixmap(selectedFrame);
+    if (newIndex == -1) {
+        if(model->currentIndex!=0) {
+            model->currentIndex--;
+        }
+        // Else dont change
+    }
+    else {
+        model->currentIndex = newIndex;
+    }
+    QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
+    // Set the selected frame on the canvas
+    canvas->setPixmap(selectedFrame);
     // }
 }
 
 void MainWindow::UpdateSelectedFrameIcon(){
-
+    //ui->frameNavigator->currentItem()->setIcon(QIcon(model->pixmapList.at(model->currentIndex)->scaled(100, 100)));
+    // We need to do something similar to this but this crashes it right now.
 }
 
 void MainWindow::UpdateAnimation(QList<QPixmap*> newPixMap) {
