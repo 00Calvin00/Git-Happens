@@ -3,12 +3,17 @@
 #include <QDebug>
 
 // Constructor to initialize the canvas with given size, scale, and color
-Canvas::Canvas(QWidget *parent, int canvasSize, int scale, QColor color)
-    : QWidget{parent}, canvasSize(canvasSize), scale(scale), pressed(false), penColor(color)
+// Canvas::Canvas(QWidget *parent, int canvasSize, int scale, QColor color)
+//     : QWidget{parent}, canvasSize(canvasSize), scale(scale), pressed(false), penColor(color)
+// {
+
+// }
+
+Canvas::Canvas(QWidget *parent, int scale) : QWidget(parent), scale(scale)
 {
-    pixmap = new QPixmap(canvasSize, canvasSize);
-    pixmap->fill(Qt::white);
+    pixmap = new QPixmap(512, 512);
     setFixedSize(512, 512);
+    pixmap->fill(Qt::white);
     drawing = true;
     erasing = false;
 }
@@ -22,7 +27,18 @@ Canvas::~Canvas()
     }
 }
 
+int Canvas::getScale() const {
+    return scale;
+}
+
+void Canvas::setScale(int newScale) {
+    scale = newScale;
+    update();
+}
+
 void Canvas::paintEvent(QPaintEvent *event) {
+    qDebug() << "paintEvent triggered with scale:" << scale;  // Debug output
+
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, false);
     qDebug() << scale;

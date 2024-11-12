@@ -57,7 +57,7 @@ public:
      * @param scale The scale factor for zooming the canvas (for rendering larger pixels).
      * @param color The initial pen color to use for drawing.
      */
-    explicit Canvas(QWidget *parent = nullptr, int canvasSize = 512, int scale = 8, QColor color = QColor(0, 0, 0));
+    explicit Canvas(QWidget *parent, int scale = 8); //Had to set a default value for scale because the .ui file constructor for canvas won't update to match this one.
 
     /**
      * @brief Destructor to clean up the canvas resources.
@@ -91,6 +91,18 @@ public:
      * @return The size of the canvas in pixels.
      */
     int getCanvasSize() const;
+
+    /**
+     * @brief getScale
+     * @return
+     */
+    int getScale() const;
+
+    /**
+     * @brief getScale
+     * @return
+     */
+    void setScale(int newScale);
 
 signals:
     /**

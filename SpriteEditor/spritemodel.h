@@ -16,6 +16,7 @@ public:
     Model();
     ~Model();
     QList<QPixmap*> pixmapList;
+    int currentIndex = 0;  // Track the "current" pixmap
     void updateCanvasData(); // Example: method to interact with Canvas if needed
     void SelectFrame(int i);
     void DuplicateFrame(QPixmap importedMap);
@@ -51,7 +52,6 @@ public:
 signals:
     void SendFrameListChanged(int newIndex, QPixmap* newMap);
     void SendUpdateAnimation(QList<QPixmap*> newPixMap);
-
 };
 
 #endif // MODEL_H
