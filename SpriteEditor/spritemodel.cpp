@@ -43,7 +43,6 @@ void Model::AddFrame() {
     }
     emit SendFrameListChanged(currentIndex, newMap);
     emit SendUpdateAnimation(pixmapList);
-
 }
 
 
@@ -60,7 +59,6 @@ void Model::AddFrame() {
 //     emit SendFrameListChanged(currentIndex, importedMap);
 //     emit SendUpdateAnimation(pixmapList);
 // }
-
 
 
 void Model::DeleteFrame() {
