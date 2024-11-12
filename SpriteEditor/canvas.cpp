@@ -110,27 +110,6 @@ void Canvas::eraseActivated()
     erasing = true;
 }
 
-
-// Function to handle the erasing action on the canvas
-void Canvas::erase(QMouseEvent *event)
-{
-    if (pressed && erasing)  // Ensure the mouse is pressed and in erasing mode
-    {
-        QPainter painter(pixmap);
-        painter.setPen(QPen(Qt::white, scale));  // Set the pen color to white for erasing, maybe make it transparent???
-
-        // Calculate the grid position for the pixel to erase
-        int x = event->pos().x() / scale;
-        int y = event->pos().y() / scale;
-
-        // Erase the pixel by drawing a white square over it, or make transparent??
-        painter.drawRect(x, y, 1, 1);
-
-        repaint();  // Repaint the canvas to update the display
-        emit updateCanvas();  // Emit signal to notify MainWindow to update
-    }
-}
-
 // Function to get the current pixmap, pixmap is the actual thing we are drawing on
 QPixmap* Canvas::getPixmap() const
 {
