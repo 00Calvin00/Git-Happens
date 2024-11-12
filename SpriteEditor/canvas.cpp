@@ -107,6 +107,7 @@ void Canvas::eraseActivated()
     erasing = true;
 }
 
+
 // Function to handle the erasing action on the canvas
 void Canvas::erase(QMouseEvent *event)
 {
