@@ -25,10 +25,10 @@ Canvas::~Canvas()
 void Canvas::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, false);
-
+    qDebug() << scale;
     // Draw grid
     painter.setPen(Qt::lightGray);
-    for (int x = 0; x < width(); x += scale) {
+    for (int x = 0; x < width(); x += scale) { //Each cell is the scale size so the number of cells is going to seem inverted fropm the scale, i.e. scale = 8 means 64 cells
         painter.drawLine(x, 0, x, height());
     }
     for (int y = 0; y < height(); y += scale) {

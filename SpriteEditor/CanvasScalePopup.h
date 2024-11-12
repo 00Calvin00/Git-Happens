@@ -1,5 +1,5 @@
-#ifndef CANVASSIZEPOPUP_H
-#define CANVASSIZEPOPUP_H
+#ifndef CANVASSCALEPOPUP_H
+#define CANVASSCALEPOPUP_H
 
 #include <QDialog>
 #include <QString>
@@ -17,7 +17,7 @@
  * - Instantiate CanvasSizeDialog and call exec() to display it modally.
  * - Use getSelectedSize() to retrieve the user's choice after the dialog is accepted.
  */
-class CanvasSizePopup : public QDialog {
+class CanvasScalePopup : public QDialog {
     Q_OBJECT
 
 public:
@@ -28,7 +28,7 @@ public:
      * Initializes the dialog's layout, including a combo box for canvas size selection
      * and an OK button to confirm the selection.
      */
-    explicit CanvasSizePopup(QDialog *parent = nullptr);
+    explicit CanvasScalePopup(QDialog *parent = nullptr);
 
     /**
      * @brief Retrieves the selected canvas size as a string.
@@ -44,4 +44,4 @@ private:
     QPushButton *okButton;    ///< Button to confirm the selected size.
 };
 
-#endif // CANVASSIZEPOPUP_H
+#endif // CANVASSCALEPOPUP_H

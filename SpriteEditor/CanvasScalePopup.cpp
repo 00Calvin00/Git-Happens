@@ -1,4 +1,4 @@
-#include "canvassizepopup.h"
+#include "CanvasScalePopup.h"
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QComboBox>
@@ -16,10 +16,10 @@
  *
  * @param parent The parent widget for this dialog, if any (optional).
  */
-CanvasSizePopup::CanvasSizePopup(QDialog *parent)
-    : QDialog(parent), selectedSize("8x8")  // Default selection
+CanvasScalePopup::CanvasScalePopup(QDialog *parent)
+    : QDialog(parent), selectedSize()  // Default selection
 {
-    setWindowTitle("Select Canvas Size");
+    setWindowTitle("Select Pixel Ratio");
 
     setFixedSize(100,100);
 
@@ -53,6 +53,6 @@ CanvasSizePopup::CanvasSizePopup(QDialog *parent)
  *
  * @return QString representing the selected canvas size.
  */
-QString CanvasSizePopup::getSelectedSize() const {
+QString CanvasScalePopup::getSelectedSize() const {
     return selectedSize;
 }

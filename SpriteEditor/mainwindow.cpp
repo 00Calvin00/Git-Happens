@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "canvas.h"
 #include "jsonreader.h"
-#include "canvassizepopup.h"
+#include "CanvasScalePopup.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -15,24 +15,29 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     ui->deleteFramePopUp->setVisible(false); // Hide deletion confirmation popup
 
     // Create and show the modal dialog
-    CanvasSizePopup dialog(nullptr);
-    if (dialog.exec() == QDialog::Accepted) {
+
+    CanvasScalePopup dialog(nullptr);
+    if (dialog.exec() == QDialog::Accepted)
+    {
         QString selectedSize = dialog.getSelectedSize();
-        int scale = 8; // Default size
+        int scale = 16; // Default size
 
         if (selectedSize == "8x8") scale = 8;
         else if (selectedSize == "16x16") scale = 16;
         else if (selectedSize == "32x32") scale = 32;
         else if (selectedSize == "64x64") scale = 64;
 
-        initializeCanvas(scale); // Initialize canvas with chosen resolution
+        // Create new Canvas with the chosen resolution
+        canvas = new Canvas(this, 512, scale); // scale adjusted based on canvasSize
+
     } else {
         close(); // Close app if no size is selected
     }
 
     // Set up the canvas
     canvas = ui->uiCanvas;
-    canvas->setFixedSize(512, 512); //Setting locked size to a power of two so zoom in conversions are easy
+    // Center canvas in the main window
+    canvas->move(370, 0);
     model.SizeChange(64);
     model.DuplicateFrame(canvas->getPixmap()); //Give first frame to model as well
 
@@ -72,22 +77,6 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 
     // Connect the load Action from the File Menu to a load action slot
     connect(ui->actionLoad, &QAction::triggered, this, &MainWindow::onLoadTriggered);
-}
-
-void MainWindow::initializeCanvas(int scale)
-{
-    // Create new Canvas with the chosen resolution
-    canvas = new Canvas(this, 512, scale); // scale adjusted based on canvasSize
-    canvas->setFixedSize(512, 512); // Keeps canvas display size fixed
-
-    // Center canvas in the main window
-    canvas->move(370, 0);
-
-    //setCentralWidget(canvas); // Add canvas to the main window
-
-    // canvas->setFixedSize(canvasSize * 8, canvasSize * 8); // Adjust size based on canvasSize
-    // model->SizeChange(canvasSize);
-    //model->DuplicateFrame(canvas->getPixmap());
 }
 
 

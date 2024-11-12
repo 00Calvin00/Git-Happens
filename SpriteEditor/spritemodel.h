@@ -10,7 +10,7 @@ class Model : public QObject
 private:
     QList<QPixmap> pixmapList;
     int currentIndex = 0;  // Track the "current" pixmap
-    int canvasSize = 64;
+    int canvasSize = 512;
 public:
     Model();
     void updateCanvasData(); // Example: method to interact with Canvas if needed
