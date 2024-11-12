@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "canvas.h"
 #include "jsonreader.h"
+#include "CanvasScalePopup.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -13,9 +14,30 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     this->showMaximized(); // Fill the screen with the sprite editor
     ui->deleteFramePopUp->setVisible(false); // Hide deletion confirmation popup
 
+    // Create and show the modal dialog
+
+    CanvasScalePopup dialog(nullptr);
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        QString selectedSize = dialog.getSelectedSize();
+        int scale = 16; // Default size
+
+        if (selectedSize == "8x8") scale = 8;
+        else if (selectedSize == "16x16") scale = 16;
+        else if (selectedSize == "32x32") scale = 32;
+        else if (selectedSize == "64x64") scale = 64;
+
+        // Create new Canvas with the chosen resolution
+        canvas = new Canvas(this, 512, scale); // scale adjusted based on canvasSize
+
+    } else {
+        close(); // Close app if no size is selected
+    }
+
     // Set up the canvas
     canvas = ui->uiCanvas;
-    canvas->setFixedSize(512, 512); //Setting locked size to a power of two so zoom in conversions are easy
+    // Center canvas in the main window
+    canvas->move(370, 0);
     model.SizeChange(64);
     model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
     FrameListChanged(0, model.pixmapList[0]);
@@ -53,9 +75,6 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
         QColor color = button.value();
         connect(button.key(), &QPushButton::clicked, this, [this, color]() {updateColorWithPreset(color);});
     }
-
-    // Center canvas in the main window
-    canvas->move(370, 0);
 
     // Connect the signal for drawing updates
     connect(canvas, &Canvas::updateCanvas, this, &MainWindow::updateCanvasDisplay);
@@ -110,6 +129,7 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     selectedFrameTimer->start(1000/fps);
 
 }
+
 
 void MainWindow::updateCanvasDisplay()
 {

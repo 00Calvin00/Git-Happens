@@ -39,6 +39,7 @@ private slots:
     void IteratePreview();
 
 private:
+    void initializeCanvas(int canvasSize);
     Ui::MainWindow *ui;
     Model *model;    // Pointer to Model
     int curPreviewIndex = 0;
