@@ -23,16 +23,6 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="animationPreview" native="true">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>0</y>
-      <width>120</width>
-      <height>110</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QWidget" name="animationPreviewOptions" native="true">
     <property name="geometry">
      <rect>
@@ -42,6 +32,60 @@
       <height>100</height>
      </rect>
     </property>
+    <widget class="QSlider" name="animationFPSSlider">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>10</y>
+       <width>121</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>120</number>
+     </property>
+     <property name="singleStep">
+      <number>1</number>
+     </property>
+     <property name="sliderPosition">
+      <number>60</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TickPosition::TicksBelow</enum>
+     </property>
+     <property name="tickInterval">
+      <number>10</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="animationFPSText">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>30</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Current FPS</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="animationFPSNumber">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>30</y>
+       <width>31</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>60</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="colorSelector" native="true">
     <property name="geometry">
@@ -811,7 +855,19 @@
      </property>
     </widget>
    </widget>
-   <zorder>animationPreview</zorder>
+   <widget class="QLabel" name="animationPreview">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>10</y>
+      <width>111</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>animationPreviewOptions</zorder>
    <zorder>colorSelector</zorder>
    <zorder>drawButton</zorder>
@@ -821,6 +877,7 @@
    <zorder>frameNavigator</zorder>
    <zorder>uiCanvas</zorder>
    <zorder>deleteFramePopUp</zorder>
+   <zorder>animationPreview</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

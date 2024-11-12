@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QColorDialog>
+#include <QTimer>
 #include "spritemodel.h"
 #include "canvas.h"
 
@@ -32,10 +33,14 @@ private slots:
     void UpdateAnimation(QList<QPixmap*> newPixMap);
     void DeleteFramePopUp();
     void DeleteFramePopUpClose();
+    void IteratePreview();
 
 private:
     Ui::MainWindow *ui;
     Model *model;    // Pointer to Model
+    int curPreviewIndex = 0;
+    int fps = 60;
+    QTimer* previewIterationTimer;
 };
 
 #endif // MAINWINDOW_H

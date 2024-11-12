@@ -10,12 +10,12 @@ class Model : public QObject
 {
     Q_OBJECT
 private:
-    QList<QPixmap*> pixmapList;
     int currentIndex = 0;  // Track the "current" pixmap
     int canvasSize = 64;
 public:
     Model();
     ~Model();
+    QList<QPixmap*> pixmapList;
     void updateCanvasData(); // Example: method to interact with Canvas if needed
     void SelectFrame(int i);
     void DuplicateFrame(QPixmap importedMap);
