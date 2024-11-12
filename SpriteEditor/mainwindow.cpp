@@ -77,6 +77,9 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 
     // Connect the load Action from the File Menu to a load action slot
     connect(ui->actionLoad, &QAction::triggered, this, &MainWindow::onLoadTriggered);
+
+    // Connect the
+    connect(ui->frameNavigator, &QListWidget::currentRowChanged, this, &MainWindow::onFrameSelected);
 }
 
 void MainWindow::updateCanvasDisplay()
@@ -182,14 +185,19 @@ void MainWindow::FrameListChanged(int newIndex, QPixmap* newMap) {
 
     for (QPixmap* framePtr : model->getPixmapListValues())
     {
-        if (framePtr)
-        {
         QListWidgetItem *scaledFrame = new QListWidgetItem(QIcon(framePtr->scaled(100, 100)), "");
         ui->frameNavigator->addItem(scaledFrame);
-        }
     }
-
     ui->frameNavigator->setCurrentRow(newIndex);
+}
+
+void MainWindow::onFrameSelected(int index) {
+    // Check if the index is within bounds of the list
+    if (index >= 0 && index < model->getPixmapListValues().size()) {
+        QPixmap* selectedFrame = model->getPixmapListValues().at(index);
+        // Set the selected frame on the canvas
+        canvas->setPixmap(selectedFrame);
+    }
 }
 
 void MainWindow::UpdateAnimation(QList<QPixmap*> newPixMap) {

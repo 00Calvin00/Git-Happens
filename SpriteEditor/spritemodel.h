@@ -51,7 +51,6 @@ public:
 signals:
     void SendFrameListChanged(int newIndex, QPixmap* newMap);
     void SendUpdateAnimation(QList<QPixmap*> newPixMap);
-
 };
 
 #endif // MODEL_H
