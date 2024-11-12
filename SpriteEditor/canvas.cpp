@@ -45,13 +45,18 @@ void Canvas::paintEvent(QPaintEvent *event) {
     }
 }
 
-void Canvas::mousePressEvent(QMouseEvent *event) {
-    QPoint cellPosition = event->pos() / scale * scale; // Snap to top-left of nearest cell
-
-    filledCells.insert(cellPosition); // Add cell position to a set of filled cells
-    update(); // Trigger a repaint
+void Canvas::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton)
+    {
+        pressed = true;
+        QPoint cellPosition = event->pos() / scale * scale; // Snap to grid
+        filledCells.insert(cellPosition);
+        update(); // Trigger a repaint
+    }
 }
 
+///OLD PAINT EVENT
 // // Paint event to render the pixmap onto the canvas
 // void Canvas::paintEvent(QPaintEvent *)
 // {
