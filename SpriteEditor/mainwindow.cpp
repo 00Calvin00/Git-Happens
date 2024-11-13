@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "canvas.h"
 #include "jsonreader.h"
+#include "CanvasScalePopup.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -12,11 +13,34 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     ui->setupUi(this);
     this->showMaximized(); // Fill the screen with the sprite editor
     ui->deleteFramePopUp->setVisible(false); // Hide deletion confirmation popup
-
     // Set up the canvas
     canvas = ui->uiCanvas;
-    canvas->setFixedSize(512, 512); //Setting locked size to a power of two so zoom in conversions are easy
-    model.SizeChange(64);
+    background = ui->background;
+
+    // Create and show the modal dialog
+    CanvasScalePopup dialog(nullptr);
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        QString selectedSize = dialog.getSelectedSize();
+        int scale;
+
+        if (selectedSize == "64x64") scale = 8;
+        else if (selectedSize == "32x32") scale = 16;
+        else if (selectedSize == "16x16") scale = 32;
+        else if (selectedSize == "8x8") scale = 64; //Scale is the size of the cells so 64 means a 64 pixel cell so there will be 8 in the 512x512 canvas
+
+        // Create new Canvas with the chosen resolution
+        canvas->setScale(scale);
+        background->setScale(scale);
+        background->update();
+        background->repaint();
+    } else {
+        close(); // Close app if no size is selected
+    }
+
+
+    // Center canvas in the main window
+    canvas->move(370, 0);
     model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
     FrameListChanged(0, model.pixmapList[0]);
     // AddInitalFrame(model.pixmapList[0]);
@@ -30,6 +54,10 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     //Connect the signal for draw and erase
     connect(ui->drawButton, &QToolButton::clicked, canvas, &Canvas::drawActivated);
     connect(ui->eraseButton, &QToolButton::clicked, canvas, &Canvas::eraseActivated);
+
+    // Connect the signal for grid setting
+    connect(ui->gridSwitch, &QAction::triggered, background, &Background::toggleGrid);
+
 
     // Connect the signal for custom color selection
     connect(ui->customColor, &QPushButton::clicked, this, &MainWindow::updateColorWithCustom);
@@ -54,9 +82,6 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
         QColor color = button.value();
         connect(button.key(), &QPushButton::clicked, this, [this, color]() {updateColorWithPreset(color);});
     }
-
-    // Center canvas in the main window
-    canvas->move(370, 0);
 
     // Connect the signal for drawing updates
     connect(canvas, &Canvas::updateCanvas, this, &MainWindow::updateCanvasDisplay);
@@ -111,6 +136,7 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     selectedFrameTimer->start(1000/fps);
 
 }
+
 
 void MainWindow::updateCanvasDisplay()
 {
@@ -252,12 +278,12 @@ void MainWindow::UpdateSelectedFrameIcon(){
     // }
     // else
     // {
-        QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
+    QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
 
-        // Checks if a frame is selected before updating current selected frame
-        if (ui->frameNavigator->currentItem() != nullptr) {
-            ui->frameNavigator->currentItem()->setIcon(QIcon(selectedFrame->scaled(100, 100)));
-        }
+    // Checks if a frame is selected before updating current selected frame
+    if (ui->frameNavigator->currentItem() != nullptr) {
+        ui->frameNavigator->currentItem()->setIcon(QIcon(selectedFrame->scaled(100, 100)));
+    }
     // }
 }
 

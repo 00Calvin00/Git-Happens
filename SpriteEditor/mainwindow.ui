@@ -48,9 +48,6 @@
       <number>1</number>
      </property>
      <property name="pageStep">
-      <number>1</number>
-     </property>
-     <property name="value">
       <number>5</number>
      </property>
      <property name="sliderPosition">
@@ -89,7 +86,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>20</string>
+      <string>60</string>
      </property>
     </widget>
    </widget>
@@ -119,7 +116,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(245, 0, 0); 
+    background-color: rgb(245, 0, 0);
     border-radius: 10px;
 }
 </string>
@@ -139,7 +136,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(70, 0, 127); 
+    background-color: rgb(70, 0, 127);
     border-radius: 10px;
 }</string>
      </property>
@@ -158,7 +155,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(0, 63, 0); 
+    background-color: rgb(0, 63, 0);
     border-radius: 10px;
 }</string>
      </property>
@@ -177,7 +174,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(205, 0, 211); 
+    background-color: rgb(205, 0, 211);
     border-radius: 10px;
 }</string>
      </property>
@@ -196,7 +193,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(170, 0, 127); 
+    background-color: rgb(170, 0, 127);
     border-radius: 10px;
 }</string>
      </property>
@@ -215,7 +212,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(255, 0, 160); 
+    background-color: rgb(255, 0, 160);
     border-radius: 10px;
 }</string>
      </property>
@@ -234,7 +231,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(139, 70, 0); 
+    background-color: rgb(139, 70, 0);
     border-radius: 10px;
 }</string>
      </property>
@@ -253,7 +250,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(86, 39, 4); 
+    background-color: rgb(86, 39, 4);
     border-radius: 10px;
 }</string>
      </property>
@@ -272,7 +269,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(129, 0, 0); 
+    background-color: rgb(129, 0, 0);
     border-radius: 10px;
 }</string>
      </property>
@@ -291,7 +288,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(191, 54, 12); 
+    background-color: rgb(191, 54, 12);
     border-radius: 10px;
 }</string>
      </property>
@@ -310,7 +307,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(0, 150, 0); 
+    background-color: rgb(0, 150, 0);
     border-radius: 10px;
 }</string>
      </property>
@@ -329,7 +326,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(0, 235, 0); 
+    background-color: rgb(0, 235, 0);
     border-radius: 10px;
 }</string>
      </property>
@@ -348,7 +345,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(0,128,128); 
+    background-color: rgb(0,128,128);
     border-radius: 10px;
 }</string>
      </property>
@@ -367,7 +364,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(1, 3, 147); 
+    background-color: rgb(1, 3, 147);
     border-radius: 10px;
 }</string>
      </property>
@@ -386,7 +383,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(0, 0, 245); 
+    background-color: rgb(0, 0, 245);
     border-radius: 10px;
 }</string>
      </property>
@@ -405,7 +402,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(60, 10, 0); 
+    background-color: rgb(60, 10, 0);
     border-radius: 10px;
 }</string>
      </property>
@@ -424,7 +421,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(255, 255, 255); 
+    background-color: rgb(255, 255, 255);
     border-radius: 10px;
 }</string>
      </property>
@@ -443,7 +440,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(127, 127, 127); 
+    background-color: rgb(127, 127, 127);
     border-radius: 10px;
 }</string>
      </property>
@@ -462,7 +459,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(0, 0, 0); 
+    background-color: rgb(0, 0, 0);
     border-radius: 10px;
 }</string>
      </property>
@@ -481,7 +478,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(230, 81, 0); 
+    background-color: rgb(230, 81, 0);
     border-radius: 10px;
 }</string>
      </property>
@@ -500,7 +497,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(185, 0, 0); 
+    background-color: rgb(185, 0, 0);
     border-radius: 10px;
 }</string>
      </property>
@@ -519,7 +516,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(255, 111, 0); 
+    background-color: rgb(255, 111, 0);
     border-radius: 10px;
 }</string>
      </property>
@@ -538,7 +535,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(255, 255, 0); 
+    background-color: rgb(255, 255, 0);
     border-radius: 10px;
 }</string>
      </property>
@@ -557,7 +554,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(0, 245, 245); 
+    background-color: rgb(0, 245, 245);
     border-radius: 10px;
 }</string>
      </property>
@@ -576,7 +573,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(255, 200, 9); 
+    background-color: rgb(255, 200, 9);
     border-radius: 10px;
 }</string>
      </property>
@@ -620,7 +617,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(5, 60, 88); 
+    background-color: rgb(5, 60, 88);
     border-radius: 10px;
 }</string>
      </property>
@@ -639,7 +636,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(109, 0, 82); 
+    background-color: rgb(109, 0, 82);
     border-radius: 10px;
 }</string>
      </property>
@@ -658,7 +655,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(0, 170, 255); 
+    background-color: rgb(0, 170, 255);
     border-radius: 10px;
 }</string>
      </property>
@@ -677,7 +674,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(255, 150, 38); 
+    background-color: rgb(255, 150, 38);
     border-radius: 10px;
 }</string>
      </property>
@@ -696,7 +693,7 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-    background-color: rgb(148, 0, 211); 
+    background-color: rgb(148, 0, 211);
     border-radius: 10px;
 }</string>
      </property>
@@ -824,23 +821,13 @@
      <string>Delete frame</string>
     </property>
    </widget>
-   <widget class="Canvas" name="uiCanvas" native="true">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>0</y>
-      <width>512</width>
-      <height>512</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QFrame" name="deleteFramePopUp">
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>160</y>
+      <y>210</y>
       <width>371</width>
-      <height>251</height>
+      <height>161</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -855,9 +842,9 @@
     <widget class="QDialogButtonBox" name="deleteConfirmation">
      <property name="geometry">
       <rect>
-       <x>100</x>
-       <y>220</y>
-       <width>171</width>
+       <x>130</x>
+       <y>120</y>
+       <width>111</width>
        <height>29</height>
       </rect>
      </property>
@@ -869,13 +856,18 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>110</y>
+       <y>30</y>
        <width>331</width>
        <height>81</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+      </font>
+     </property>
      <property name="text">
-      <string>This will delete your current frame, you are not able to undo this action, are you sure?</string>
+      <string>Deleting is irreversible. Confirm?</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -898,6 +890,26 @@
      <string/>
     </property>
    </widget>
+   <widget class="Canvas" name="uiCanvas" native="true">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>10</y>
+      <width>512</width>
+      <height>512</height>
+     </rect>
+    </property>
+    <widget class="Background" name="background" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>512</width>
+       <height>512</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
    <zorder>animationPreviewOptions</zorder>
    <zorder>colorSelector</zorder>
    <zorder>drawButton</zorder>
@@ -905,9 +917,9 @@
    <zorder>addFrameButton</zorder>
    <zorder>deleteFrameButton</zorder>
    <zorder>frameNavigator</zorder>
+   <zorder>animationPreview</zorder>
    <zorder>uiCanvas</zorder>
    <zorder>deleteFramePopUp</zorder>
-   <zorder>animationPreview</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -930,7 +942,7 @@
      <string>Settings</string>
     </property>
     <addaction name="actionOnion_Skinning"/>
-    <addaction name="actionGrid_Display"/>
+    <addaction name="gridSwitch"/>
    </widget>
    <addaction name="menuhallo"/>
    <addaction name="menuSettings"/>
@@ -954,7 +966,7 @@
     <string>Onion Skinning</string>
    </property>
   </action>
-  <action name="actionGrid_Display">
+  <action name="gridSwitch">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -968,6 +980,12 @@
    <class>Canvas</class>
    <extends>QWidget</extends>
    <header location="global">canvas.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Background</class>
+   <extends>QWidget</extends>
+   <header location="global">background.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

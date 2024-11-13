@@ -5,6 +5,8 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QSet>
+#include <QHash>
 
 /**
  * @class Canvas
@@ -39,6 +41,10 @@ class Canvas : public QWidget
     Q_OBJECT
 
 public:
+
+    int scale;        ///< The scale factor to zoom the canvas.
+
+
     /**
      * @brief Constructor to initialize the canvas.
      *
@@ -51,7 +57,7 @@ public:
      * @param scale The scale factor for zooming the canvas (for rendering larger pixels).
      * @param color The initial pen color to use for drawing.
      */
-    explicit Canvas(QWidget *parent = nullptr, int canvasSize = 64, int scale = 10, QColor color = QColor(0, 0, 0));
+    explicit Canvas(QWidget *parent, int scale = 8); //Had to set a default value for scale because the .ui file constructor for canvas won't update to match this one.
 
     /**
      * @brief Destructor to clean up the canvas resources.
@@ -85,6 +91,18 @@ public:
      * @return The size of the canvas in pixels.
      */
     int getCanvasSize() const;
+
+    /**
+     * @brief getScale
+     * @return
+     */
+    int getScale() const;
+
+    /**
+     * @brief getScale
+     * @return
+     */
+    void setScale(int newScale);
 
 signals:
     /**
@@ -153,30 +171,40 @@ protected:
 
 private:
     /**
-     * @brief Draw on the canvas at the specified position.
+     * @brief Convert a screen position to the nearest cell on the grid.
      *
-     * This method is called when drawing is activated, and it draws a "pixel" at
-     * the position based on the mouse event. The position is calculated using
-     * the scale factor.
+     * This method maps a given position to the corresponding cell in the grid
+     * based on the current scaling factor.
      *
-     * @param event The mouse event that contains the mouse position.
+     * @param position The screen position.
+     * @return The top-left corner of the nearest cell.
      */
-    void draw(QMouseEvent *event);
+    QPoint mapToCell(const QPoint &position) const;
 
     /**
-     * @brief Erase from the canvas at the specified position.
+     * @brief Draw on the canvas at the specified cell.
      *
-     * This method is called when erasing is activated, and it erases a "pixel" at
-     * the position based on the mouse event. The position is calculated using
-     * the scale factor.
+     * This method is called when drawing is activated, and it draws a "pixel" at
+     * the specified cell using the current pen color.
      *
-     * @param event The mouse event that contains the mouse position.
+     * @param cell The grid cell position.
+     * @param color The color to draw.
      */
-    void erase(QMouseEvent *event);
+    void drawCell(const QPoint &cell, const QColor &color);
 
+    /**
+     * @brief Erase from the canvas at the specified cell.
+     *
+     * This method is called when erasing is activated, and it clears the "pixel"
+     * at the specified cell position.
+     *
+     * @param cell The grid cell position.
+     */
+    void eraseCell(const QPoint &cell);
+
+    QHash<QPoint, QColor> cellColors;  ///< Stores the color of each cell.
     QPixmap *pixmap;  ///< The pixmap that stores the canvas content.
     int canvasSize;   ///< The size of the canvas in pixels.
-    int scale;        ///< The scale factor to zoom the canvas.
     bool pressed;     ///< Boolean to check if the mouse is pressed.
     bool drawing;     ///< Boolean to check if drawing mode is active.
     bool erasing;     ///< Boolean to check if erasing mode is active.
