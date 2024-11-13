@@ -10,7 +10,8 @@ class Model : public QObject
 {
     Q_OBJECT
 private:
-    int canvasSize = 64;
+    //int currentIndex = 0;  // Track the "current" pixmap
+    int canvasSize = 512;
 public:
     Model();
     ~Model();
@@ -21,7 +22,6 @@ public:
     void DuplicateFrame(QPixmap importedMap);
     void AddFrame();
     void DeleteFrame();
-    void SizeChange(int newSize);
     void AddInitialFrame(Canvas* canvas);
 
     /**
