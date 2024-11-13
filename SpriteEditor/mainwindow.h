@@ -28,19 +28,22 @@ private slots:
     void updateColorWithPreset(QColor);     // Update the color to quick access color
     void onSaveTriggered();
     void onLoadTriggered();
-    void FrameListChanged(int newIndex, QPixmap* newMap);
+    void AddInitalFrame(QPixmap* initialFrame);
+    void FrameListChanged(int newIndex, QPixmap* newFrame);
+    void OnFrameSelected(int);
+    void UpdateSelectedFrameIcon();
     void UpdateAnimation(QList<QPixmap*> newPixMap);
     void DeleteFramePopUp();
     void DeleteFramePopUpClose();
     void IteratePreview();
 
 private:
-    void initializeCanvas(int canvasSize);
     Ui::MainWindow *ui;
     Model *model;    // Pointer to Model
     int curPreviewIndex = 0;
-    int fps = 60;
+    int fps = 5;
     QTimer* previewIterationTimer;
+    QTimer* selectedFrameTimer;
 };
 
 #endif // MAINWINDOW_H

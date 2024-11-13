@@ -42,13 +42,19 @@
       </rect>
      </property>
      <property name="maximum">
-      <number>120</number>
+      <number>60</number>
      </property>
      <property name="singleStep">
       <number>1</number>
      </property>
+     <property name="pageStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>5</number>
+     </property>
      <property name="sliderPosition">
-      <number>60</number>
+      <number>5</number>
      </property>
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
@@ -76,14 +82,14 @@
     <widget class="QLabel" name="animationFPSNumber">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>30</y>
-       <width>31</width>
+       <width>16</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
-      <string>60</string>
+      <string>20</string>
      </property>
     </widget>
    </widget>
@@ -502,7 +508,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="brightOrange">
+    <widget class="QPushButton" name="neonOrange">
      <property name="geometry">
       <rect>
        <x>90</x>
@@ -521,7 +527,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="brightYellow">
+    <widget class="QPushButton" name="neonYellow">
      <property name="geometry">
       <rect>
        <x>90</x>
@@ -705,14 +711,65 @@
       <x>220</x>
       <y>520</y>
       <width>820</width>
-      <height>141</height>
+      <height>145</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="sizeIncrement">
      <size>
       <width>1</width>
       <height>1</height>
      </size>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContentsOnFirstShow</enum>
+    </property>
+    <property name="autoScroll">
+     <bool>false</bool>
+    </property>
+    <property name="showDropIndicator" stdset="0">
+     <bool>false</bool>
+    </property>
+    <property name="dragDropOverwriteMode">
+     <bool>false</bool>
+    </property>
+    <property name="dragDropMode">
+     <enum>QAbstractItemView::DragDropMode::DragDrop</enum>
+    </property>
+    <property name="defaultDropAction">
+     <enum>Qt::DropAction::IgnoreAction</enum>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>100</width>
+      <height>100</height>
+     </size>
+    </property>
+    <property name="flow">
+     <enum>QListView::Flow::LeftToRight</enum>
+    </property>
+    <property name="isWrapping" stdset="0">
+     <bool>false</bool>
+    </property>
+    <property name="resizeMode">
+     <enum>QListView::ResizeMode::Adjust</enum>
+    </property>
+    <property name="viewMode">
+     <enum>QListView::ViewMode::IconMode</enum>
+    </property>
+    <property name="uniformItemSizes">
+     <bool>true</bool>
+    </property>
+    <property name="batchSize">
+     <number>100</number>
     </property>
    </widget>
    <widget class="QToolButton" name="drawButton">
@@ -858,7 +915,7 @@
      <x>0</x>
      <y>0</y>
      <width>1262</width>
-     <height>22</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">

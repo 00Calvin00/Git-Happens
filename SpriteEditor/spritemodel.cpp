@@ -43,7 +43,6 @@ void Model::AddFrame() {
     }
     emit SendFrameListChanged(currentIndex, newMap);
     emit SendUpdateAnimation(pixmapList);
-
 }
 
 
@@ -62,27 +61,25 @@ void Model::AddFrame() {
 // }
 
 
-
 void Model::DeleteFrame() {
-    // if (pixmapList.size() > 1) {
-    //     pixmapList.remove(currentIndex);
-    //     currentIndex--;
-    // }
-    // else {
-    //     // ERROR POPUP
-    // }
-
+    // If there’s more than one item, remove the current frame
     if (pixmapList.size() > 1)
     {
-        //QPixmap* frameToDelete = pixmapList.at(currentIndex); // Might want to actually delete if using the new keyword?
-        pixmapList.remove(currentIndex);  // Remove pointer from the list
-        currentIndex--;
-    } else
-    {
-        // ERROR POPUP
+        pixmapList.remove(currentIndex); // Remove and retrieve the frame
+
+        // Set currentIndex to last index if out of bounds
+        if (currentIndex >= pixmapList.size()) {
+            currentIndex = pixmapList.size() - 1;
+        }
+    }
+    // If there’s only one item, remove it and add a new blank frame
+    else {
+        pixmapList.remove(currentIndex);
+        AddFrame();
+        currentIndex = 0;
     }
 
-    QPixmap* newMap = pixmapList.at(currentIndex); //does not actually copy pixmap data
+    QPixmap* newMap = pixmapList.at(currentIndex);
     emit SendFrameListChanged(currentIndex, newMap);
     emit SendUpdateAnimation(pixmapList);
 }
