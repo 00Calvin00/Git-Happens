@@ -2,20 +2,19 @@
 #include <QPainter>
 #include <QDebug>
 
-// Constructor to initialize the canvas with given size, scale, and color
-// Canvas::Canvas(QWidget *parent, int canvasSize, int scale, QColor color)
-//     : QWidget{parent}, canvasSize(canvasSize), scale(scale), pressed(false), penColor(color)
-// {
-
-// }
-
-Canvas::Canvas(QWidget *parent, int scale) : QWidget(parent), scale(scale)
+// Constructor to initialize the canvas with the given size, scale, and color
+Canvas::Canvas(QWidget *parent, int canvasSize, int scale, QColor color)
+    : QWidget{parent}, canvasSize(canvasSize), scale(scale), pressed(false), penColor(color)
 {
-    pixmap = new QPixmap(512, 512);
-    setFixedSize(512, 512);
-    pixmap->fill(Qt::white);
-    drawing = true;
-    erasing = false;
+    // Initialize a blank pixmap with the given canvas size
+    pixmap = new QPixmap(canvasSize, canvasSize);
+    pixmap->fill(Qt::white);  //Maybe make trasnsparent once we have a backgrounnd??????
+
+    // Scale the canvas up to make the pixels visible
+    resize(canvasSize * scale, canvasSize * scale);
+
+    drawing = true;  // Default mode is drawing
+    erasing = false; // Erase mode is off by default
 }
 
 // Destructor to clean up the allocated pixmap
@@ -97,33 +96,36 @@ void Canvas::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
     {
         pressed = true;
-        QPoint cellPosition = mapToCell(event->pos());
 
         // Draw or erase based on the current mode
-        if (drawing) {
-            drawCell(cellPosition, penColor);
-        } else if (erasing) {
-            eraseCell(cellPosition);
+        // Call the appropriate function based on the current mode (drawing or erasing)
+        if (drawing)
+            draw(event);
+        }
+        else if (erasing)
+        {
+            erase(event);
         }
     }
 }
 
+// Mouse release event to reset the pressed state when the button is released
 void Canvas::mouseReleaseEvent(QMouseEvent *)
 {
     pressed = false;
 }
 
+// Mouse move event to handle drawing/erasing while the mouse moves
 void Canvas::mouseMoveEvent(QMouseEvent *event)
 {
-    if (pressed) {
-        QPoint cellPosition = mapToCell(event->pos());
-
-        // Draw or erase continuously while moving
-        if (drawing) {
-            drawCell(cellPosition, penColor);
-        } else if (erasing) {
-            eraseCell(cellPosition);
-        }
+    // Continue drawing or erasing based on the current mode
+    if (drawing)
+    {
+        draw(event);
+    }
+    else if (erasing)
+    {
+        erase(event);
     }
 }
 
@@ -132,6 +134,26 @@ void Canvas::drawActivated()
 {
     drawing = true;
     erasing = false;
+}
+
+// Function to handle the drawing action on the canvas
+void Canvas::draw(QMouseEvent *event)
+{
+    if (pressed && drawing)  // Ensure the mouse is pressed and in drawing mode
+    {
+        QPainter painter(pixmap);
+        painter.setPen(QPen(penColor, scale));  // Set the pen color and size
+
+        // Calculate the grid position for the pixel based on mouse position
+        int x = event->pos().x() / scale;
+        int y = event->pos().y() / scale;
+
+        // Draw a pixel at the calculated position
+        painter.drawRect(x, y, 1, 1);
+
+        repaint();  // Repaint the canvas to update the display
+        emit updateCanvas();  // Emit signal to notify MainWindow to update
+    }
 }
 
 // Slot to activate the erasing mode
@@ -151,7 +173,6 @@ QPixmap* Canvas::getPixmap() const
     return pixmap;
 }
 
-
 // Function to set a new pixmap and update the canvas
 void Canvas::setPixmap(QPixmap* newPixmap)
 {
@@ -160,7 +181,7 @@ void Canvas::setPixmap(QPixmap* newPixmap)
     repaint();
 }
 
-// Get the canvas size
+// Getter for canvas size
 int Canvas::getCanvasSize() const
 {
     return canvasSize;

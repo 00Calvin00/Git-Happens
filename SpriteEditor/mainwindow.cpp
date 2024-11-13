@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include "canvas.h"
 #include "jsonreader.h"
-#include "CanvasScalePopup.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -13,6 +12,7 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     ui->setupUi(this);
     this->showMaximized(); // Fill the screen with the sprite editor
     ui->deleteFramePopUp->setVisible(false); // Hide deletion confirmation popup
+
     // Set up the canvas
     canvas = ui->uiCanvas;
     background = ui->background;
@@ -83,6 +83,9 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
         connect(button.key(), &QPushButton::clicked, this, [this, color]() {updateColorWithPreset(color);});
     }
 
+    // Center canvas in the main window
+    canvas->move(370, 0);
+
     // Connect the signal for drawing updates
     connect(canvas, &Canvas::updateCanvas, this, &MainWindow::updateCanvasDisplay);
 
@@ -136,7 +139,6 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     selectedFrameTimer->start(1000/fps);
 
 }
-
 
 void MainWindow::updateCanvasDisplay()
 {
