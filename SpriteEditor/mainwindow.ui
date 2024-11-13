@@ -909,9 +909,9 @@
    <zorder>addFrameButton</zorder>
    <zorder>deleteFrameButton</zorder>
    <zorder>frameNavigator</zorder>
-   <zorder>deleteFramePopUp</zorder>
    <zorder>animationPreview</zorder>
    <zorder>uiCanvas</zorder>
+   <zorder>deleteFramePopUp</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -919,7 +919,7 @@
      <x>0</x>
      <y>0</y>
      <width>1262</width>
-     <height>22</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">
@@ -971,7 +971,7 @@
   <customwidget>
    <class>Canvas</class>
    <extends>QWidget</extends>
-   <header>canvas.h</header>
+   <header location="global">canvas.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
