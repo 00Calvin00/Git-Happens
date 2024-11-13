@@ -91,15 +91,16 @@ void Canvas::eraseCell(const QPoint &cell)
     emit updateCanvas(); // Notify main window to refresh UI
 }
 
+// Mouse press event to handle clicks for drawing or erasing
 void Canvas::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
         pressed = true;
 
-        // Draw or erase based on the current mode
         // Call the appropriate function based on the current mode (drawing or erasing)
         if (drawing)
+        {
             draw(event);
         }
         else if (erasing)
