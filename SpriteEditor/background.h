@@ -1,14 +1,28 @@
 #ifndef BACKGROUND_H
 #define BACKGROUND_H
 
-#include <QObject>
 #include <QWidget>
+#include <QPixmap>
+#include <QPainter>
 
-class Background
+class Background : public QWidget
 {
-    //Q_OBJECT
+    Q_OBJECT
+
 public:
-    Background();
+    // Constructor to initialize the background
+    Background(QWidget *parent = nullptr, int scale = 16);
+
+    // Function to set the scale (size of the grid cells)
+    void setScale(int newScale);
+
+protected:
+    // Paint event to draw the grid on the background
+    void paintEvent(QPaintEvent *event) override;
+
+private:
+    int scale;             // Grid cell size
+    QPixmap *pixmap;       // Background pixmap to draw on (grid)
 };
 
 #endif // BACKGROUND_H

@@ -15,13 +15,14 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     ui->deleteFramePopUp->setVisible(false); // Hide deletion confirmation popup
     // Set up the canvas
     canvas = ui->uiCanvas;
+    background = ui->background;
 
     // Create and show the modal dialog
     CanvasScalePopup dialog(nullptr);
     if (dialog.exec() == QDialog::Accepted)
     {
         QString selectedSize = dialog.getSelectedSize();
-        int scale = 16; // Default size
+        int scale;
 
         if (selectedSize == "64x64") scale = 8;
         else if (selectedSize == "32x32") scale = 16;
@@ -30,8 +31,9 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 
         // Create new Canvas with the chosen resolution
         canvas->setScale(scale);
-        canvas->update();
-        canvas->repaint();
+        background->setScale(scale);
+        background->update();
+        background->repaint();
     } else {
         close(); // Close app if no size is selected
     }
@@ -39,7 +41,6 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 
     // Center canvas in the main window
     canvas->move(370, 0);
-    model.SizeChange(64);
     model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
     FrameListChanged(0, model.pixmapList[0]);
     // AddInitalFrame(model.pixmapList[0]);

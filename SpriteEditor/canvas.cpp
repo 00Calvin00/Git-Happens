@@ -27,29 +27,21 @@ Canvas::~Canvas()
     }
 }
 
-int Canvas::getScale() const {
+int Canvas::getScale() const
+{
     return scale;
 }
 
-void Canvas::setScale(int newScale) {
+void Canvas::setScale(int newScale)
+{
     scale = newScale;
     update();
 }
 
-void Canvas::paintEvent(QPaintEvent *event) {
-    qDebug() << "paintEvent triggered with scale:" << scale;  // Debug output
-
+void Canvas::paintEvent(QPaintEvent *event)
+{
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, false);
-    qDebug() << scale;
-    // Draw grid
-    painter.setPen(Qt::lightGray);
-    for (int x = 0; x < width(); x += scale) { //Each cell is the scale size so the number of cells is going to seem inverted fropm the scale, i.e. scale = 8 means 64 cells
-        painter.drawLine(x, 0, x, height());
-    }
-    for (int y = 0; y < height(); y += scale) {
-        painter.drawLine(0, y, width(), y);
-    }
 
     // Draw filled cells with stored colors
     for (auto it = cellColors.begin(); it != cellColors.end(); ++it) {
@@ -58,21 +50,24 @@ void Canvas::paintEvent(QPaintEvent *event) {
 }
 
 // Convert a screen position to the nearest cell position on the grid
-QPoint Canvas::mapToCell(const QPoint &position) const {
+QPoint Canvas::mapToCell(const QPoint &position) const
+{
     int x = (position.x() / scale) * scale;
     int y = (position.y() / scale) * scale;
     return QPoint(x, y);
 }
 
 // Draw a cell at the specified grid position with the current pen color
-void Canvas::drawCell(const QPoint &cell, const QColor &color) {
+void Canvas::drawCell(const QPoint &cell, const QColor &color)
+{
     cellColors[cell] = color;
     update();
     emit updateCanvas(); // Notify main window to refresh UI
 }
 
 // Erase the cell at the specified grid position
-void Canvas::eraseCell(const QPoint &cell) {
+void Canvas::eraseCell(const QPoint &cell)
+{
     cellColors.remove(cell);
     update();
     emit updateCanvas(); // Notify main window to refresh UI
@@ -80,7 +75,8 @@ void Canvas::eraseCell(const QPoint &cell) {
 
 void Canvas::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
+    if (event->button() == Qt::LeftButton)
+    {
         pressed = true;
         QPoint cellPosition = mapToCell(event->pos());
 

@@ -17,11 +17,11 @@
  * @param parent The parent widget for this dialog, if any (optional).
  */
 CanvasScalePopup::CanvasScalePopup(QDialog *parent)
-    : QDialog(parent), selectedSize()  // Default selection
+    : QDialog(parent), selectedSize("8x8")  // Default selection
 {
-    setWindowTitle("Select Pixel Ratio");
+    setWindowTitle("Please Select Pixel Ratio :)");
 
-    setFixedSize(100,100);
+    resize(300, 100);
 
     // Initialize the combo box and populate it with canvas size options
     sizeComboBox = new QComboBox(this);

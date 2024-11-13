@@ -736,7 +736,7 @@
      <bool>false</bool>
     </property>
     <property name="dragDropMode">
-     <enum>QAbstractItemView::DragDropMode::NoDragDrop</enum>
+     <enum>QAbstractItemView::DragDropMode::DragDrop</enum>
     </property>
     <property name="defaultDropAction">
      <enum>Qt::DropAction::IgnoreAction</enum>
@@ -886,11 +886,21 @@
     <property name="geometry">
      <rect>
       <x>370</x>
-      <y>0</y>
+      <y>10</y>
       <width>512</width>
       <height>512</height>
      </rect>
     </property>
+    <widget class="Background" name="background" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>512</width>
+       <height>512</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <zorder>animationPreviewOptions</zorder>
    <zorder>colorSelector</zorder>
@@ -909,7 +919,7 @@
      <x>0</x>
      <y>0</y>
      <width>1262</width>
-     <height>18</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">
@@ -961,7 +971,13 @@
   <customwidget>
    <class>Canvas</class>
    <extends>QWidget</extends>
-   <header location="global">canvas.h</header>
+   <header>canvas.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Background</class>
+   <extends>QWidget</extends>
+   <header location="global">background.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -6,6 +6,7 @@
 #include <QTimer>
 #include "spritemodel.h"
 #include "canvas.h"
+#include "background.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,6 +21,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(Model& model, int canvasSize = 64, QWidget *parent = nullptr) ;
     Canvas *canvas;  // Pointer to Canvas
+    Background *background;
     ~MainWindow();
 
 private slots:
