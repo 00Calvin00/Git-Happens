@@ -4,9 +4,6 @@
 #include "jsonreader.h"
 #include "CanvasScalePopup.h"
 
-#include <QFileDialog>
-#include <QMessageBox>
-
 MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), model(&model)
 {
@@ -128,6 +125,9 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     // Connect the load Action from the File Menu to a load action slot
     connect(ui->actionLoad, &QAction::triggered, this, &MainWindow::onLoadTriggered);
 
+    // Connect the load Action from the File Menu to a load action slot
+    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::onNewTriggered);
+
     // Connect the
     connect(ui->frameNavigator, &QListWidget::currentRowChanged, this, &MainWindow::OnFrameSelected);
 
@@ -235,6 +235,12 @@ void MainWindow::onLoadTriggered()
 
     }
 }
+
+void MainWindow::onNewTriggered() {
+    qApp->quit(); // Quit the current running application
+    QProcess::startDetached(qApp->arguments()[0], qApp->arguments().mid(1)); // Open and run a new application
+}
+
 
 void MainWindow::AddInitalFrame(QPixmap* initialFrame) {
     canvas->setPixmap(initialFrame);
