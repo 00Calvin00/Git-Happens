@@ -41,7 +41,7 @@ private:
     Ui::MainWindow *ui;
     Model *model;    // Pointer to Model
     int curPreviewIndex = 0;
-    int fps = 60;
+    int fps = 5;
     QTimer* previewIterationTimer;
     QTimer* selectedFrameTimer;
 };

@@ -42,13 +42,19 @@
       </rect>
      </property>
      <property name="maximum">
-      <number>120</number>
+      <number>60</number>
      </property>
      <property name="singleStep">
       <number>1</number>
      </property>
+     <property name="pageStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>5</number>
+     </property>
      <property name="sliderPosition">
-      <number>60</number>
+      <number>5</number>
      </property>
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
@@ -76,14 +82,14 @@
     <widget class="QLabel" name="animationFPSNumber">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>100</x>
        <y>30</y>
-       <width>31</width>
+       <width>16</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
-      <string>60</string>
+      <string>20</string>
      </property>
     </widget>
    </widget>
@@ -736,7 +742,7 @@
      <bool>false</bool>
     </property>
     <property name="dragDropMode">
-     <enum>QAbstractItemView::DragDropMode::NoDragDrop</enum>
+     <enum>QAbstractItemView::DragDropMode::DragDrop</enum>
     </property>
     <property name="defaultDropAction">
      <enum>Qt::DropAction::IgnoreAction</enum>
