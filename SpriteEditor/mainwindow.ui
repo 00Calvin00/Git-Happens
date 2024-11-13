@@ -934,7 +934,7 @@
      <string>Settings</string>
     </property>
     <addaction name="actionOnion_Skinning"/>
-    <addaction name="actionGrid_Display"/>
+    <addaction name="gridSwitch"/>
    </widget>
    <addaction name="menuhallo"/>
    <addaction name="menuSettings"/>
@@ -958,7 +958,7 @@
     <string>Onion Skinning</string>
    </property>
   </action>
-  <action name="actionGrid_Display">
+  <action name="gridSwitch">
    <property name="checkable">
     <bool>true</bool>
    </property>

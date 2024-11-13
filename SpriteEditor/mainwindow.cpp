@@ -55,6 +55,10 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     connect(ui->drawButton, &QToolButton::clicked, canvas, &Canvas::drawActivated);
     connect(ui->eraseButton, &QToolButton::clicked, canvas, &Canvas::eraseActivated);
 
+    // Connect the signal for grid setting
+    connect(ui->gridSwitch, &QAction::triggered, background, &Background::toggleGrid);
+
+
     // Connect the signal for custom color selection
     connect(ui->customColor, &QPushButton::clicked, this, &MainWindow::updateColorWithCustom);
 

@@ -137,6 +137,7 @@ QPixmap* Canvas::getPixmap() const
 void Canvas::setPixmap(QPixmap* newPixmap)
 {
     pixmap = newPixmap;
+    update();
     repaint();
 }
 
