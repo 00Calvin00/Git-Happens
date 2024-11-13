@@ -15,32 +15,8 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
 
     // Set up the canvas
     canvas = ui->uiCanvas;
-    background = ui->background;
-
-    // Create and show the modal dialog
-    CanvasScalePopup dialog(nullptr);
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        QString selectedSize = dialog.getSelectedSize();
-        int scale;
-
-        if (selectedSize == "64x64") scale = 8;
-        else if (selectedSize == "32x32") scale = 16;
-        else if (selectedSize == "16x16") scale = 32;
-        else if (selectedSize == "8x8") scale = 64; //Scale is the size of the cells so 64 means a 64 pixel cell so there will be 8 in the 512x512 canvas
-
-        // Create new Canvas with the chosen resolution
-        canvas->setScale(scale);
-        background->setScale(scale);
-        background->update();
-        background->repaint();
-    } else {
-        close(); // Close app if no size is selected
-    }
-
-
-    // Center canvas in the main window
-    canvas->move(370, 0);
+    canvas->setFixedSize(512, 512); //Setting locked size to a power of two so zoom in conversions are easy
+    model.SizeChange(64);
     model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
     FrameListChanged(0, model.pixmapList[0]);
     // AddInitalFrame(model.pixmapList[0]);
@@ -54,10 +30,6 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     //Connect the signal for draw and erase
     connect(ui->drawButton, &QToolButton::clicked, canvas, &Canvas::drawActivated);
     connect(ui->eraseButton, &QToolButton::clicked, canvas, &Canvas::eraseActivated);
-
-    // Connect the signal for grid setting
-    connect(ui->gridSwitch, &QAction::triggered, background, &Background::toggleGrid);
-
 
     // Connect the signal for custom color selection
     connect(ui->customColor, &QPushButton::clicked, this, &MainWindow::updateColorWithCustom);

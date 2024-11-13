@@ -98,6 +98,10 @@ void Model::SelectFrame(int i) {
 
 }
 
+void Model::SizeChange(int newSize) {
+    canvasSize = newSize;
+}
+
 void Model::setPixmapList(const QList<QPixmap*>& newPixmapList)
 {
     pixmapList = newPixmapList;

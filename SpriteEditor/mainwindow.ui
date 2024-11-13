@@ -48,6 +48,9 @@
       <number>1</number>
      </property>
      <property name="pageStep">
+      <number>1</number>
+     </property>
+     <property name="value">
       <number>5</number>
      </property>
      <property name="sliderPosition">
@@ -835,9 +838,9 @@
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>210</y>
+      <y>160</y>
       <width>371</width>
-      <height>161</height>
+      <height>251</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -852,9 +855,9 @@
     <widget class="QDialogButtonBox" name="deleteConfirmation">
      <property name="geometry">
       <rect>
-       <x>130</x>
-       <y>120</y>
-       <width>111</width>
+       <x>100</x>
+       <y>220</y>
+       <width>171</width>
        <height>29</height>
       </rect>
      </property>
@@ -866,18 +869,13 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>30</y>
+       <y>110</y>
        <width>331</width>
        <height>81</height>
       </rect>
      </property>
-     <property name="font">
-      <font>
-       <pointsize>16</pointsize>
-      </font>
-     </property>
      <property name="text">
-      <string>Deleting is irreversible. Confirm?</string>
+      <string>This will delete your current frame, you are not able to undo this action, are you sure?</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -900,26 +898,6 @@
      <string/>
     </property>
    </widget>
-   <widget class="Canvas" name="uiCanvas" native="true">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>10</y>
-      <width>512</width>
-      <height>512</height>
-     </rect>
-    </property>
-    <widget class="Background" name="background" native="true">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>512</width>
-       <height>512</height>
-      </rect>
-     </property>
-    </widget>
-   </widget>
    <zorder>animationPreviewOptions</zorder>
    <zorder>colorSelector</zorder>
    <zorder>drawButton</zorder>
@@ -927,9 +905,9 @@
    <zorder>addFrameButton</zorder>
    <zorder>deleteFrameButton</zorder>
    <zorder>frameNavigator</zorder>
-   <zorder>animationPreview</zorder>
    <zorder>uiCanvas</zorder>
    <zorder>deleteFramePopUp</zorder>
+   <zorder>animationPreview</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -952,7 +930,7 @@
      <string>Settings</string>
     </property>
     <addaction name="actionOnion_Skinning"/>
-    <addaction name="gridSwitch"/>
+    <addaction name="actionGrid_Display"/>
    </widget>
    <addaction name="menuhallo"/>
    <addaction name="menuSettings"/>
@@ -976,7 +954,7 @@
     <string>Onion Skinning</string>
    </property>
   </action>
-  <action name="gridSwitch">
+  <action name="actionGrid_Display">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -990,12 +968,6 @@
    <class>Canvas</class>
    <extends>QWidget</extends>
    <header location="global">canvas.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>Background</class>
-   <extends>QWidget</extends>
-   <header location="global">background.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
