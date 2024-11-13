@@ -33,4 +33,5 @@ void Background::setScale(int newScale)
 void Background::toggleGrid()
 {
     gridIsOn = !gridIsOn;
+    update();
 }
