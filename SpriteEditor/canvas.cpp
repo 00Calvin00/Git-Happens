@@ -43,6 +43,11 @@ void Canvas::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, false);
 
+    // Ensure that the pixmap is correctly drawn before filling cells
+    if (pixmap) {
+        painter.drawPixmap(0, 0, *pixmap);
+    }
+
     // Draw filled cells with stored colors
     for (auto it = cellColors.begin(); it != cellColors.end(); ++it) {
         painter.fillRect(it.key().x(), it.key().y(), scale, scale, it.value());
@@ -60,7 +65,14 @@ QPoint Canvas::mapToCell(const QPoint &position) const
 // Draw a cell at the specified grid position with the current pen color
 void Canvas::drawCell(const QPoint &cell, const QColor &color)
 {
+    // Update the pixmap with the new color at the cell position
+    QPainter painter(pixmap);
+    painter.fillRect(cell.x(), cell.y(), scale, scale, color);
+    painter.end();  // End painter to save changes to the pixmap
+
+    // Store the color in cellColors for later reference
     cellColors[cell] = color;
+
     update();
     emit updateCanvas(); // Notify main window to refresh UI
 }
@@ -68,7 +80,14 @@ void Canvas::drawCell(const QPoint &cell, const QColor &color)
 // Erase the cell at the specified grid position
 void Canvas::eraseCell(const QPoint &cell)
 {
+    // Remove the color from cellColors
     cellColors.remove(cell);
+
+    // Update the pixmap by filling the erased cell with white (or default color)
+    QPainter painter(pixmap);
+    painter.fillRect(cell.x(), cell.y(), scale, scale, Qt::white); // Assuming white is the background color
+    painter.end();
+
     update();
     emit updateCanvas(); // Notify main window to refresh UI
 }
