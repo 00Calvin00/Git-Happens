@@ -13,8 +13,8 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     ui->deleteFramePopUp->setVisible(false); // Hide deletion confirmation popup
 
     // Set up the canvas
-    canvas = ui->uiCanvas;
     background = ui->background;
+    canvas = ui->uiCanvas;
 
     // Create and show the modal dialog
     CanvasScalePopup dialog(nullptr);
@@ -29,15 +29,16 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
         else if (selectedSize == "8x8") scale = 64; //Scale is the size of the cells so 64 means a 64 pixel cell so there will be 8 in the 512x512 canvas
 
         // Create new Canvas with the chosen resolution
-        canvas->setScale(scale);
         background->setScale(scale);
         background->update();
         background->repaint();
+        canvas->setScale(scale);
     } else {
         close(); // Close app if no size is selected
     }
 
     // Center canvas in the main window
+    background->move(370, 0);
     canvas->move(370, 0);
     model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
     FrameListChanged(0, model.pixmapList[0]);
@@ -49,15 +50,15 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     connect(previewIterationTimer, &QTimer::timeout, this, &MainWindow::IteratePreview);
     previewIterationTimer->start(1000/fps);
 
-    //model.DuplicateFrame(canvas->getPixmap()); //Give first frame to model as well
-
     //Connect the signal for draw and erase
     connect(ui->drawButton, &QToolButton::clicked, canvas, &Canvas::drawActivated);
     connect(ui->eraseButton, &QToolButton::clicked, canvas, &Canvas::eraseActivated);
 
-    // Connect the signal for grid setting
-    connect(ui->gridSwitch, &QAction::triggered, background, &Background::toggleGrid);
-
+    // Connect the signal for background settings
+    // Connect gridToggle
+    connect(ui->gridToggle, &QAction::toggled, background, &Background::setGridOn);
+    connect(ui->onionSkinningToggle, &QAction::toggled, background, &Background::setOnionSkinningOn);
+    connect(ui->checkeredBackgroundToggle, &QAction::toggled, background, &Background::setCheckeredBackgroundOn);
 
     // Connect the signal for custom color selection
     connect(ui->customColor, &QPushButton::clicked, this, &MainWindow::updateColorWithCustom);
@@ -119,8 +120,6 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     });
 
 
-    // Connect the frame actions to update the animation(only when we change the list, not our position)
-    connect(&model, &Model::SendUpdateAnimation, this, &MainWindow::UpdateAnimation);
 
     // Connect the save Action from the File Menu to a save action slot
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::onSaveTriggered);
@@ -257,6 +256,15 @@ void MainWindow::AddInitalFrame(QPixmap* initialFrame) {
 }
 
 void MainWindow::FrameListChanged(int newIndex, QPixmap* newFrame) {
+    if (model->currentIndex != 0)
+    {
+        QPixmap* previousFrame = model->pixmapList.at(model->currentIndex-1);
+        background->setPixmap(previousFrame);
+    }
+    else {
+        background->setPixmap(newFrame);
+    }
+
     canvas->setPixmap(newFrame);
     ui->frameNavigator->clear();
     model->currentIndex = newIndex;
@@ -266,6 +274,9 @@ void MainWindow::FrameListChanged(int newIndex, QPixmap* newFrame) {
         QListWidgetItem *scaledFrame = new QListWidgetItem(QIcon(framePtr->scaled(100, 100)), "");
         ui->frameNavigator->addItem(scaledFrame);
     }
+
+
+
     ui->frameNavigator->setCurrentRow(model->currentIndex);
 }
 
@@ -281,7 +292,16 @@ void MainWindow::OnFrameSelected(int newIndex) {
     }
 
     QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
-    canvas->setPixmap(selectedFrame);  // Update the canvas to the new frame
+    if (model->currentIndex != 0)
+    {
+        QPixmap* previousFrame = model->pixmapList.at(model->currentIndex-1);
+        background->setPixmap(previousFrame);
+    }
+    else {
+        background->setPixmap(selectedFrame);
+    }
+    // Set the selected frame on the canvas
+    canvas->setPixmap(selectedFrame);
 }
 
 void MainWindow::UpdateSelectedFrameIcon(){
@@ -291,11 +311,6 @@ void MainWindow::UpdateSelectedFrameIcon(){
     if (ui->frameNavigator->currentItem() != nullptr) {
         ui->frameNavigator->currentItem()->setIcon(QIcon(selectedFrame->scaled(100, 100)));
     }
-}
-
-void MainWindow::UpdateAnimation(QList<QPixmap*> newPixMap) {
-    // Animation preview update
-    QList<QPixmap*> pixMap = newPixMap;
 }
 
 void MainWindow::DeleteFramePopUp() {
