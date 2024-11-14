@@ -1,3 +1,5 @@
+/* Reviewed by: Grace */
+
 #include "background.h"
 #include <QPainter>
 

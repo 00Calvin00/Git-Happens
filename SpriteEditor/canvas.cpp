@@ -1,3 +1,5 @@
+/* Reviewed by: Grace */
+
 #include "canvas.h"
 #include <QPainter>
 #include <QDebug>

@@ -1,3 +1,5 @@
+/* Reviewed by: Grace */
+
 #ifndef BACKGROUND_H
 #define BACKGROUND_H
 

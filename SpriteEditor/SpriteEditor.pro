@@ -9,21 +9,21 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    CanvasScalePopup.cpp \
     background.cpp \
     canvas.cpp \
+    canvasscalepopup.cpp \
+    framemanager.cpp \
     jsonreader.cpp \
     main.cpp \
-    mainwindow.cpp \
-    spritemodel.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    CanvasScalePopup.h \
     background.h \
     canvas.h \
+    canvasscalepopup.h \
+    framemanager.h \
     jsonreader.h \
-    mainwindow.h \
-    spritemodel.h
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui

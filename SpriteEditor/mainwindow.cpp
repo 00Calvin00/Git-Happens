@@ -1,11 +1,13 @@
+/* Reviewed by: Kenna */
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "canvas.h"
 #include "jsonreader.h"
-#include "CanvasScalePopup.h"
+#include "canvasscalepopup.h"
 #include <QMessageBox>
 
-MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
+MainWindow::MainWindow(FrameManager& model, int canvasSize, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), model(&model)
 {
     ui->setupUi(this);
@@ -91,15 +93,15 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     updateCanvasDisplay();
 
     // Connect the UI frame actions to the correct methods
-    connect(ui->addFrameButton, &QPushButton::clicked, &model, &Model::AddFrame);
+    connect(ui->addFrameButton, &QPushButton::clicked, &model, &FrameManager::AddFrame);
     connect(ui->deleteFrameButton, &QPushButton::clicked, this, &MainWindow::DeleteFramePopUp);
-    connect(ui->deleteConfirmation->button(QDialogButtonBox::Yes), &QPushButton::clicked, &model, &Model::DeleteFrame);
+    connect(ui->deleteConfirmation->button(QDialogButtonBox::Yes), &QPushButton::clicked, &model, &FrameManager::DeleteFrame);
     connect(ui->deleteConfirmation->button(QDialogButtonBox::Yes), &QPushButton::clicked, this, &MainWindow::DeleteFramePopUpClose);
     connect(ui->deleteConfirmation->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &MainWindow::DeleteFramePopUpClose);
     // ui->deleteFramePopUp->setVisible(true);
 
     // Connect back signals from model to slots here
-    connect(&model, &Model::SendFrameListChanged, this, &MainWindow::FrameListChanged);
+    connect(&model, &FrameManager::SendFrameListChanged, this, &MainWindow::FrameListChanged);
     selectedFrameTimer = new QTimer(this);
     connect(selectedFrameTimer, &QTimer::timeout, this, &MainWindow::UpdateSelectedFrameIcon);
 
@@ -232,11 +234,6 @@ void MainWindow::onNewTriggered() {
         qApp->quit(); // Quit the current running application
         QProcess::startDetached(qApp->arguments()[0], qApp->arguments().mid(1)); // Open and run a new application
     }
-}
-
-
-void MainWindow::AddInitalFrame(QPixmap* initialFrame) {
-    canvas->setPixmap(initialFrame);
 }
 
 void MainWindow::FrameListChanged(int newIndex, QPixmap* newFrame) {

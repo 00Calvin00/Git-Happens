@@ -1,3 +1,5 @@
+/* Reviewed by: Kenna */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -7,7 +9,7 @@
 #include <QFileDialog>
 #include <QProcess>
 #include <QMessageBox>
-#include "spritemodel.h"
+#include "framemanager.h"
 #include "canvas.h"
 #include "background.h"
 
@@ -22,7 +24,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(Model& model, int canvasSize = 64, QWidget *parent = nullptr) ;
+    explicit MainWindow(FrameManager& model, int canvasSize = 64, QWidget *parent = nullptr) ;
     Canvas *canvas;  // Pointer to Canvas
     Background *background;
     ~MainWindow();
@@ -61,7 +63,6 @@ private slots:
      *
      * @param initialFrame A pointer to the QPixmap representing the initial frame to add.
      */
-    void AddInitalFrame(QPixmap* initialFrame);
 
     void FrameListChanged(int newIndex, QPixmap* newFrame);
     void OnFrameSelected(int);
@@ -73,7 +74,7 @@ private slots:
 private:
     void initializeCanvas(int canvasSize);
     Ui::MainWindow *ui;
-    Model *model;    // Pointer to Model
+    FrameManager *model;    // Pointer to Model
     int curPreviewIndex = 0;
     int fps = 5;
     QTimer* previewIterationTimer;

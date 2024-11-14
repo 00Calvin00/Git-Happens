@@ -1,21 +1,17 @@
+/* Reviewed by: Calvin */
+
 #include <QDebug>
+#include "framemanager.h"
 
-#include "spritemodel.h"
+FrameManager::FrameManager() {}
 
-
-
-Model::Model()
-{
-
-}
-
-Model::~Model()
+FrameManager::~FrameManager()
 {
     qDeleteAll(pixmapList); // Delete each QPixmap pointer stored in the list
     pixmapList.clear();  // Clear the list
 }
 
-void Model::AddInitialFrame(Canvas* canvas)
+void FrameManager::AddInitialFrame(Canvas* canvas)
 {
     // Store pointer to QPixmap in the list
     //pixmapList.append(canvas->getPixmap());  // Assuming getPixmap() returns QPixmap*
@@ -24,7 +20,7 @@ void Model::AddInitialFrame(Canvas* canvas)
     currentIndex = 0;  // Set the initial selected index
 }
 
-void Model::AddFrame() {
+void FrameManager::AddFrame() {
     if (pixmapList.size() != 0) {
         currentIndex++;
     }
@@ -45,7 +41,7 @@ void Model::AddFrame() {
     emit SendUpdateAnimation(pixmapList);
 }
 
-void Model::DeleteFrame() {
+void FrameManager::DeleteFrame() {
     // If there’s more than one item, remove the current frame
     if (pixmapList.size() > 1)
     {
@@ -68,7 +64,7 @@ void Model::DeleteFrame() {
     emit SendUpdateAnimation(pixmapList);
 }
 
-void Model::SelectFrame(int i) {
+void FrameManager::SelectFrame(int i) {
     if (currentIndex >= 0 && currentIndex < pixmapList.size()) {
         currentIndex = i;
         QPixmap* newMap = pixmapList.at(i);
@@ -82,25 +78,25 @@ void Model::SelectFrame(int i) {
 
 }
 
-void Model::setPixmapList(const QList<QPixmap*>& newPixmapList)
+void FrameManager::setPixmapList(const QList<QPixmap*>& newPixmapList)
 {
     pixmapList = newPixmapList;
     currentIndex = 0;  // Reset selected to start
     emit SendUpdateAnimation(pixmapList);
 }
 
-const QList<QPixmap*> Model::getPixmapListValues()
+const QList<QPixmap*> FrameManager::getPixmapListValues()
 {
     return pixmapList;
 }
 
-QList<QPixmap*>& Model::getPixmapListObjects()
+QList<QPixmap*>& FrameManager::getPixmapListObjects()
 {
     return pixmapList;
 }
 
 // Getter for currentIndex debugging
-int Model::getCurrentIndex()
+int FrameManager::getCurrentIndex()
 {
     return currentIndex;
 }

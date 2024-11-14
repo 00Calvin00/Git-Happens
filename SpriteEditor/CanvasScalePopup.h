@@ -1,3 +1,5 @@
+/* Reviewed by: Alex */
+
 #ifndef CANVASSCALEPOPUP_H
 #define CANVASSCALEPOPUP_H
 
