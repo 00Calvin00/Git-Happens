@@ -14,8 +14,6 @@ FrameManager::~FrameManager()
 void FrameManager::addInitialFrame(Canvas* canvas)
 {
     // Store pointer to QPixmap in the list
-    //pixmapList.append(canvas->getPixmap());  // Assuming getPixmap() returns QPixmap*
-
     pixmapList.append(canvas->getPixmap());
     currentIndex = 0;  // Set the initial selected index
 }
@@ -69,16 +67,13 @@ void FrameManager::deleteFrame()
     emit sendUpdateAnimation(pixmapList);
 }
 
-void FrameManager::selectFrame(int i)
+void FrameManager::selectFrame(int index)
 {
     if (currentIndex >= 0 && currentIndex < pixmapList.size())
     {
-        currentIndex = i;
-        QPixmap* newMap = pixmapList.at(i);
+        currentIndex = index;
+        QPixmap* newMap = pixmapList.at(index);
         emit sendFrameListChanged(currentIndex, newMap);
-    } else
-    {
-        qDebug() << "Index out of bounds";
     }
 }
 
@@ -87,20 +82,4 @@ void FrameManager::setPixmapList(const QList<QPixmap*>& newPixmapList)
     pixmapList = newPixmapList;
     currentIndex = 0;  // Reset selected to start
     emit sendUpdateAnimation(pixmapList);
-}
-
-const QList<QPixmap*> FrameManager::getPixmapListValues()
-{
-    return pixmapList;
-}
-
-QList<QPixmap*>& FrameManager::getPixmapListObjects()
-{
-    return pixmapList;
-}
-
-// Getter for currentIndex debugging
-int FrameManager::getCurrentIndex()
-{
-    return currentIndex;
 }

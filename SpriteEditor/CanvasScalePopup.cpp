@@ -13,13 +13,13 @@
  * - A QComboBox for selecting canvas sizes (options: "8x8", "16x16", etc.).
  * - A QPushButton ("OK") to confirm the selection.
  *
- * The selectedSize attribute is initially set to "8x8" as the default. Upon clicking
+ * The selectedPixelSize attribute is initially set to "8x8" as the default. Upon clicking
  * "OK", the dialog emits an accept() signal, closing the dialog.
  *
  * @param parent The parent widget for this dialog, if any (optional).
  */
 CanvasScalePopup::CanvasScalePopup(QDialog *parent)
-    : QDialog(parent), selectedSize("8x8")  // Default selection
+    : QDialog(parent), selectedPixelSize("8x8")  // Default selection
 {
     setWindowTitle("Please Select Pixel Ratio :)");
 
@@ -28,7 +28,7 @@ CanvasScalePopup::CanvasScalePopup(QDialog *parent)
     // Initialize the combo box and populate it with canvas size options
     sizeComboBox = new QComboBox(this);
     sizeComboBox->addItems({"8x8", "16x16", "32x32", "64x64"});
-    sizeComboBox->setCurrentText(selectedSize); // Default size selection
+    sizeComboBox->setCurrentText(selectedPixelSize); // Default size selection
 
     // Create the OK button and connect it to the dialog's accept slot
     okButton = new QPushButton("OK", this);
@@ -42,7 +42,7 @@ CanvasScalePopup::CanvasScalePopup(QDialog *parent)
 
     // Update selectedSize whenever the user changes the combo box selection
     connect(sizeComboBox, &QComboBox::currentTextChanged, this, [this](const QString &text) {
-        selectedSize = text;
+        selectedPixelSize = text;
     });
 }
 
@@ -56,5 +56,5 @@ CanvasScalePopup::CanvasScalePopup(QDialog *parent)
  * @return QString representing the selected canvas size.
  */
 QString CanvasScalePopup::getSelectedSize() const {
-    return selectedSize;
+    return selectedPixelSize;
 }

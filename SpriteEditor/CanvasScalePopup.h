@@ -41,9 +41,9 @@ public:
     QString getSelectedSize() const;
 
 private:
-    QString selectedSize;  ///< Stores the currently selected canvas size.
-    QComboBox *sizeComboBox;  ///< Combo box widget for selecting canvas size.
-    QPushButton *okButton;    ///< Button to confirm the selected size.
+    QString selectedPixelSize;
+    QComboBox *sizeComboBox;
+    QPushButton *okButton;
 };
 
 #endif // CANVASSCALEPOPUP_H

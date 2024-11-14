@@ -24,6 +24,7 @@
  * - Emits `updateCanvas()` signal on modification for UI updates
  * - Allows integration with main UI components via QWidget
  */
+
 class Canvas : public QWidget
 {
     Q_OBJECT
@@ -173,13 +174,12 @@ private:
      */
     void eraseCell(const QPoint &cell);
 
-    QHash<QPoint, QColor> cellColors;  ///< Stores the color of each cell.
-    QPixmap *pixmap;  ///< The pixmap that stores the canvas content.
-    int scale;        ///< The scale factor to zoom the canvas.
-    int canvasSize;   ///< The size of the canvas in pixels.
-    bool pressed;     ///< Boolean to check if the mouse is pressed.
-    bool drawing;     ///< Boolean to check if drawing mode is active.
-    bool erasing;     ///< Boolean to check if erasing mode is active.
+    QHash<QPoint, QColor> cellColors;
+    QPixmap *pixmap;
+    bool pressed;
+    bool drawing;
+    bool erasing;
+    int scale;
 };
 
 #endif // CANVAS_H

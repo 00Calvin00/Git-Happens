@@ -46,7 +46,7 @@ public:
      * triggers the FrameListChanged slot in the mainwindow.
      * @param int i frame to select
      */
-    void selectFrame(int i);
+    void selectFrame(int index);
 
     /**
      * @brief Adds a new blank frame to the pixmap list.
@@ -55,7 +55,6 @@ public:
 
     /**
      * @brief Deletes the current frame from the pixmap list.
-     *
      */
     void deleteFrame();
 
@@ -70,28 +69,10 @@ public:
     void addInitialFrame(Canvas* canvas);
 
     /**
-     * @brief Retrieves the values of the current frames from the PixmapList
-     * @return The current QPixmap representing the canvas.
-     */
-    const QList<QPixmap*> getPixmapListValues();
-
-    /**
-     * @brief Retrieves the actual current frames from the PixmapList
-     * @return The current QPixmap representing the canvas.
-     */
-    QList<QPixmap*>& getPixmapListObjects();
-
-    /**
      * @brief Sets the current frames in the PixmapList
      * @param A new list of Pixmaps to set the current frames to.
      */
     void setPixmapList(const QList<QPixmap*>& newPixmapList);
-
-    /**
-     * @brief Retrieves the current index value representing the currently selected frame.
-     * @return int current index.
-     */
-    int getCurrentIndex();
 
     /**
      * @brief Updates canvas data with the current frame information.

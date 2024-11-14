@@ -4,7 +4,6 @@
 #include <QPainter>
 #include <QDebug>
 
-// Constructor initializes canvas with white background and drawing mode enabled
 Canvas::Canvas(QWidget *parent, int scale) : QWidget(parent), scale(scale)
 {
     pixmap = new QPixmap(512, 512);
@@ -14,52 +13,51 @@ Canvas::Canvas(QWidget *parent, int scale) : QWidget(parent), scale(scale)
     erasing = false;
 }
 
-// Destructor to clean up allocated pixmap
 Canvas::~Canvas()
 {
     delete pixmap;
 }
 
-// Gets the current scale factor
 int Canvas::getScale() const
 {
     return scale;
 }
 
-// Sets a new scale and triggers an update to the UI
 void Canvas::setScale(int newScale)
 {
     scale = newScale;
     update();
 }
 
-// Paints the current pixmap and any active cell colors on the canvas
-void Canvas::paintEvent(QPaintEvent *event)
+void Canvas::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
 
+    // Disable antialiasing for precise pixel rendering
     painter.setRenderHint(QPainter::Antialiasing, false);
 
+    // If a pixmap exists, draw it as the background image
     if (pixmap)
     {
         painter.drawPixmap(0, 0, *pixmap);
     }
 
+    // Draw each colored cell stored in `cellColors`
     for (auto it = cellColors.begin(); it != cellColors.end(); ++it)
     {
+        // Fill the rectangle at each cell position with its assigned color
         painter.fillRect(it.key().x(), it.key().y(), scale, scale, it.value());
     }
 }
 
-// Maps a screen position to the nearest cell on the grid
 QPoint Canvas::mapToCell(const QPoint &position) const
 {
+    // Calculate the cell's top-left corner based on the current scale
     int x = (position.x() / scale) * scale;
     int y = (position.y() / scale) * scale;
     return QPoint(x, y);
 }
 
-// Draws the specified cell with the current pen color
 void Canvas::drawCell(const QPoint &cell, const QColor &color)
 {
     QPainter painter(pixmap);
@@ -69,60 +67,67 @@ void Canvas::drawCell(const QPoint &cell, const QColor &color)
     emit updateCanvas();
 }
 
-// Erases the specified cell by resetting it to white
 void Canvas::eraseCell(const QPoint &cell)
 {
     QPainter painter(pixmap);
-    painter.setCompositionMode(QPainter::CompositionMode_Clear);
-    painter.fillRect(cell.x(), cell.y(), scale, scale, Qt::transparent); // Assuming white is the background color
 
+    // Fills in the cell with transparent to erase
+    painter.setCompositionMode(QPainter::CompositionMode_Clear);
+    painter.fillRect(cell.x(), cell.y(), scale, scale, Qt::transparent);
     painter.end();
+
+    // Updates the canvas data and UI
     update();
     emit updateCanvas();
 }
 
-// Begins drawing or erasing on mouse press
 void Canvas::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
         pressed = true;
+
+        // Map the mouse position to the nearest cell in the grid
         QPoint cellPosition = mapToCell(event->pos());
 
         if (drawing)
         {
+            // Draw on the mapped cell if in drawing mode
             drawCell(cellPosition, penColor);
-        } else if (erasing)
+        }
+        else if (erasing)
         {
+            // Erase the mapped cell if in erasing mode
             eraseCell(cellPosition);
         }
     }
 }
 
-// Stops drawing or erasing on mouse release
 void Canvas::mouseReleaseEvent(QMouseEvent *)
 {
     pressed = false;
 }
 
-// Continues drawing or erasing as mouse moves while pressed
 void Canvas::mouseMoveEvent(QMouseEvent *event)
 {
     if (pressed)
     {
+        // Map the current mouse position to the nearest cell
         QPoint cellPosition = mapToCell(event->pos());
 
         if (drawing)
         {
+            // Draw on the mapped cell if in drawing mode
             drawCell(cellPosition, penColor);
-        } else if (erasing)
+        }
+        else if (erasing)
         {
+            // Erase the mapped cell if in erasing mode
             eraseCell(cellPosition);
         }
     }
 }
 
-// Activates drawing mode
 void Canvas::drawActivated()
 {
     drawing = true;
@@ -136,22 +141,14 @@ void Canvas::eraseActivated()
     erasing = true;
 }
 
-// Returns the current pixmap
 QPixmap* Canvas::getPixmap() const
 {
     return pixmap;
 }
 
-// Sets a new pixmap and refreshes canvas
 void Canvas::setPixmap(QPixmap* newPixmap)
 {
     pixmap = newPixmap;
     update();
     repaint();
-}
-
-// Returns the canvas size in pixels
-int Canvas::getCanvasSize() const
-{
-    return canvasSize;
 }

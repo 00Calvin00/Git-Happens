@@ -83,11 +83,11 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
-    int scale;                  ///< Size of each grid cell.
-    bool gridOn = false;        ///< Flag to toggle grid visibility.
-    bool onionSkinningOn = false; ///< Flag to toggle onion skinning visibility.
-    bool checkeredBackgroundOn = false; ///< Flag to toggle checkered background visibility.
-    const QPixmap *onionSkinningPixmap; ///< Pixmap used for onion skinning overlay.
+    int scale;
+    bool gridOn = false;
+    bool onionSkinningOn = false;
+    bool checkeredBackgroundOn = false;
+    const QPixmap *onionSkinningPixmap;
 };
 
 #endif // BACKGROUND_H

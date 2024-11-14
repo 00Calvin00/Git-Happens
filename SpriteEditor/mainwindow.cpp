@@ -7,7 +7,7 @@
 #include "canvasscalepopup.h"
 #include <QMessageBox>
 
-MainWindow::MainWindow(FrameManager& model, int canvasSize, QWidget *parent)
+MainWindow::MainWindow(FrameManager& model, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), model(&model)
 {
     // Set up the UI
@@ -114,8 +114,7 @@ MainWindow::MainWindow(FrameManager& model, int canvasSize, QWidget *parent)
         if(value == 0)
         {
             previewIterationTimer->stop();
-        }
-        else {
+        } else {
             fps = value;
             previewIterationTimer->start(1000/fps);
         }
@@ -158,15 +157,11 @@ void MainWindow::onSaveTriggered()
 
     if (!filePath.isEmpty())
     {
-        // Get the list of frames from the model
-        QList<QPixmap*> pixmapList = model->getPixmapListValues();
-
         // Save all frames using the JsonReader
-        if (JsonReader::savePixmapsToJson(pixmapList, canvas, filePath))
+        if (JsonReader::savePixmapsToJson(model->pixmapList, canvas, filePath))
         {
             QMessageBox::information(this, tr("Save Successful"), tr("Project saved successfully!"));
-        } else
-        {
+        } else {
             QMessageBox::warning(this, tr("Save Failed"), tr("Project save failed."));
         }
     }
@@ -179,28 +174,23 @@ void MainWindow::onLoadTriggered()
 
     if (!filePath.isEmpty())
     {
-        // Get the model's pixmap list
-        QList<QPixmap*> pixmapList = model->getPixmapListObjects();
-
         // Load the project frames using the JsonReader
-        if (JsonReader::loadPixmapsFromJson(pixmapList, canvas, background, filePath))
+        if (JsonReader::loadPixmapsFromJson(model->pixmapList, canvas, background, filePath))
         {
             // Update the model with the loaded pixmapList
-            model->setPixmapList(pixmapList);
+            model->setPixmapList(model->pixmapList);
 
             // Update the canvas with the first frame if there are frames
-            if (model->getPixmapListValues().size() > 0)
+            if (model->pixmapList.size() > 0)
             {
                 model->selectFrame(0); // Select the first frame in the project
                 canvas->repaint();
 
             }
-
             QMessageBox::information(this, tr("Load Successful"), tr("Project loaded successfully!"));
         } else {
             QMessageBox::warning(this, tr("Load Failed"), tr("Project load failed."));
         }
-
     }
 }
 
@@ -211,7 +201,8 @@ void MainWindow::onNewTriggered()
     reply = QMessageBox::question(this, tr("Warning"), tr("Opening a new project will discard any unsaved progress. Continue?"),
                                   QMessageBox::Yes | QMessageBox::No);
 
-    if (reply == QMessageBox::Yes) {
+    if (reply == QMessageBox::Yes)
+    {
         qApp->quit(); // Quit the current running application
         QProcess::startDetached(qApp->arguments()[0], qApp->arguments().mid(1)); // Open and run a new application
     }
@@ -221,48 +212,70 @@ void MainWindow::frameListChanged(int newIndex, QPixmap* newFrame)
 {
     if (model->currentIndex != 0)
     {
-        QPixmap* previousFrame = model->pixmapList.at(model->currentIndex-1);
+        // Set the background to the previous frame if there is one
+        QPixmap* previousFrame = model->pixmapList.at(model->currentIndex - 1);
         background->setPixmap(previousFrame);
     }
-    else {
+    else
+    {
+        // Set the background to the new frame if no previous frame exists
         background->setPixmap(newFrame);
     }
+
+    // Set the current frame on the canvas
     canvas->setPixmap(newFrame);
+
+    // Clear the frame navigator and update with new scaled frames
     ui->frameNavigator->clear();
     model->currentIndex = newIndex;
 
     for (QPixmap* framePtr : model->pixmapList)
     {
+        // Add each frame as a scaled item in the frame navigator
         QListWidgetItem *scaledFrame = new QListWidgetItem(QIcon(framePtr->scaled(100, 100)), "");
         ui->frameNavigator->addItem(scaledFrame);
     }
+
+    // Set the current frame as selected in the navigator
     ui->frameNavigator->setCurrentRow(model->currentIndex);
 }
 
 void MainWindow::onFrameSelected(int newIndex)
 {
     // Check if the index is within bounds of the list
-    if (newIndex == -1) {
-        if (model->currentIndex != 0) {
+    if (newIndex == -1)
+    {
+        // Decrement the current index if possible
+        if (model->currentIndex != 0)
+        {
             model->currentIndex--;
         }
     }
-    else {
+    else
+    {
+        // Set the current index to the newly selected index
         model->currentIndex = newIndex;
     }
 
+    // Get the selected frame from the model
     QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
+
     if (model->currentIndex != 0)
     {
-        QPixmap* previousFrame = model->pixmapList.at(model->currentIndex-1);
+        // Set the background to the previous frame if available
+        QPixmap* previousFrame = model->pixmapList.at(model->currentIndex - 1);
         background->setPixmap(previousFrame);
     }
-    else {
+    else
+    {
+        // Set the background to the selected frame if no previous frame exists
         background->setPixmap(selectedFrame);
     }
+
     // Set the selected frame on the canvas
     canvas->setPixmap(selectedFrame);
 }
+
 
 void MainWindow::updateSelectedFrameIcon()
 {
@@ -286,14 +299,14 @@ void MainWindow::deleteFramePopUpClose()
 
 void MainWindow::iteratePreview()
 {
-    if(++curPreviewIndex >= model->pixmapList.length())
+    // Increment frame index to show the next frame
+    if (++previousFrameIndex >= model->pixmapList.length())
     {
-        curPreviewIndex = 0;
+        // Reset to the first frame if we've reached the end of the list
+        previousFrameIndex = 0;
     }
 
-    // Set the pixmap on the label
-    ui->animationPreview->setPixmap(*(model->pixmapList.at(curPreviewIndex)));
-
-    // Scale the pixmap to fit within the QLabel's size, if desired
+    // Set the pixmap on the label and scale it to size
+    ui->animationPreview->setPixmap(*(model->pixmapList.at(previousFrameIndex)));
     ui->animationPreview->setScaledContents(true);
 }
