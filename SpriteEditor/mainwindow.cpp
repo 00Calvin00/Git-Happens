@@ -3,8 +3,6 @@
 #include "canvas.h"
 #include "jsonreader.h"
 #include "CanvasScalePopup.h"
-
-#include <QFileDialog>
 #include <QMessageBox>
 
 MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
@@ -43,6 +41,8 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     canvas->move(370, 0);
     model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
     FrameListChanged(0, model.pixmapList[0]);
+
+    // AddInitalFrame(model.pixmapList[0]);
 
     previewIterationTimer = new QTimer(this);
     connect(previewIterationTimer, &QTimer::timeout, this, &MainWindow::IteratePreview);
@@ -127,6 +127,9 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     // Connect the load Action from the File Menu to a load action slot
     connect(ui->actionLoad, &QAction::triggered, this, &MainWindow::onLoadTriggered);
 
+    // Connect the load Action from the File Menu to a load action slot
+    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::onNewTriggered);
+
     // Connect the
     connect(ui->frameNavigator, &QListWidget::currentRowChanged, this, &MainWindow::OnFrameSelected);
 
@@ -181,7 +184,7 @@ void MainWindow::onSaveTriggered()
             QMessageBox::information(this, tr("Save Successful"), tr("Project saved successfully!"));
         } else
         {
-            QMessageBox::warning(this, tr("Save Failed"), tr("Could not save the project."));
+            QMessageBox::warning(this, tr("Save Failed"), tr("Project save failed."));
         }
     }
 }
@@ -229,9 +232,22 @@ void MainWindow::onLoadTriggered()
 
             QMessageBox::information(this, tr("Load Successful"), tr("Project loaded successfully!"));
         } else {
-            QMessageBox::warning(this, tr("Load Failed"), tr("Could not load the project."));
+            QMessageBox::warning(this, tr("Load Failed"), tr("Project load failed."));
         }
 
+    }
+}
+
+void MainWindow::onNewTriggered() {
+    // Show a message box with Yes and No buttons and get the user's response
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, tr("Warning"), tr("Opening a new project will discard any unsaved progress. Continue?"),
+                                  QMessageBox::Yes | QMessageBox::No);
+
+    // Check if the user clicked Yes
+    if (reply == QMessageBox::Yes) {
+        qApp->quit(); // Quit the current running application
+        QProcess::startDetached(qApp->arguments()[0], qApp->arguments().mid(1)); // Open and run a new application
     }
 }
 
@@ -248,9 +264,6 @@ void MainWindow::FrameListChanged(int newIndex, QPixmap* newFrame) {
     {
         QListWidgetItem *scaledFrame = new QListWidgetItem(QIcon(framePtr->scaled(100, 100)), "");
         ui->frameNavigator->addItem(scaledFrame);
-
-        // QListWidgetItem scaledFrame(QIcon(framePtr->scaled(100, 100)), "", ui->frameNavigator);
-        // ui->frameNavigator->addItem(&scaledFrame);
     }
 
     if (model->currentIndex != 0)
@@ -291,18 +304,12 @@ void MainWindow::OnFrameSelected(int newIndex) {
 }
 
 void MainWindow::UpdateSelectedFrameIcon(){
-    // if (model->pixmapList.size() == 0) {
-    //     ui->frameNavigator->currentItem()->setIcon(QIcon(model->pixmapList[0]->scaled(100, 100)));
-    // }
-    // else
-    // {
-        QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
+    QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
 
-        // Checks if a frame is selected before updating current selected frame
-        if (ui->frameNavigator->currentItem() != nullptr) {
-            ui->frameNavigator->currentItem()->setIcon(QIcon(selectedFrame->scaled(100, 100)));
-        }
-    // }
+    // Checks if a frame is selected before updating current selected frame
+    if (ui->frameNavigator->currentItem() != nullptr) {
+        ui->frameNavigator->currentItem()->setIcon(QIcon(selectedFrame->scaled(100, 100)));
+    }
 }
 
 void MainWindow::DeleteFramePopUp() {

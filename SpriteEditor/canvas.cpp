@@ -2,13 +2,6 @@
 #include <QPainter>
 #include <QDebug>
 
-// Constructor to initialize the canvas with given size, scale, and color
-// Canvas::Canvas(QWidget *parent, int canvasSize, int scale, QColor color)
-//     : QWidget{parent}, canvasSize(canvasSize), scale(scale), pressed(false), penColor(color)
-// {
-
-// }
-
 Canvas::Canvas(QWidget *parent, int scale) : QWidget(parent), scale(scale)
 {
     pixmap = new QPixmap(512, 512);
@@ -71,7 +64,7 @@ void Canvas::drawCell(const QPoint &cell, const QColor &color)
     painter.end();  // End painter to save changes to the pixmap
 
     // Store the color in cellColors for later reference
-    cellColors[cell] = color;
+    //cellColors[cell] = color;
 
     update();
     emit updateCanvas(); // Notify main window to refresh UI
@@ -81,7 +74,7 @@ void Canvas::drawCell(const QPoint &cell, const QColor &color)
 void Canvas::eraseCell(const QPoint &cell)
 {
     // Remove the color from cellColors
-    cellColors.remove(cell);
+    //cellColors.remove(cell);
 
     // Update the pixmap by filling the erased cell with white (or default color)
     QPainter painter(pixmap);
@@ -140,9 +133,6 @@ void Canvas::eraseActivated()
     drawing = false;
     erasing = true;
 }
-
-
-//Add scale getter/setter
 
 
 // Function to get the current pixmap, pixmap is the actual thing we are drawing on
