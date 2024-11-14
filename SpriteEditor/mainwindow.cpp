@@ -200,7 +200,7 @@ void MainWindow::onLoadTriggered()
         QList<QPixmap*> pixmapList = model->getPixmapListObjects();
 
         // Load the project frames using the JsonReader
-        if (JsonReader::loadPixmapsFromJson(pixmapList, canvas, filePath))
+        if (JsonReader::loadPixmapsFromJson(pixmapList, canvas, background, filePath))
         {
             // Update the model with the loaded pixmapList
             model->setPixmapList(pixmapList);

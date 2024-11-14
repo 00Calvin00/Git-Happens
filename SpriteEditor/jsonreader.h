@@ -4,6 +4,7 @@
 #include <QPixmap>
 #include <QString>
 #include "canvas.h"
+#include "background.h"
 
 /**
  * @class JsonReader
@@ -49,7 +50,7 @@ public:
      * @param filePath File path to load the JSON data from.
      * @return True if the data was loaded successfully, false otherwise.
      */
-    static bool loadPixmapsFromJson(QList<QPixmap*>& pixmaps, Canvas* canvas, const QString &filePath);
+    static bool loadPixmapsFromJson(QList<QPixmap*>& pixmaps, Canvas* canvas, Background* background, const QString &filePath);
 
 };
 

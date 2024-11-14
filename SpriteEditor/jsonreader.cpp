@@ -65,7 +65,7 @@ bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, Canvas* canvas, c
     return true;
 }
 
-bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, Canvas* canvas, const QString& filePath)
+bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, Canvas* canvas, Background* background, const QString& filePath)
 {
     QFile jsonFile(filePath);
     if (!jsonFile.open(QIODevice::ReadOnly))
@@ -98,6 +98,7 @@ bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, Canvas* canvas
     {
         int scale = jsonObject["scale"].toInt();
         canvas->setScale(scale);
+        background->setScale(scale);
     }
 
     // Delete all existing pixmaps in the list before loading new ones

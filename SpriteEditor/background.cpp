@@ -42,7 +42,7 @@ void Background::paintEvent(QPaintEvent *)
     }
     if(onionSkinningOn)
     {
-        painter.setOpacity(0.75);
+        painter.setOpacity(0.40);
         painter.drawPixmap(0, 0, *onionSkinningPixmap);
     }
 }
