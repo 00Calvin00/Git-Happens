@@ -25,7 +25,6 @@ public:
      * @param int i frame to select
      */
     void SelectFrame(int i);
-    void DuplicateFrame(QPixmap importedMap);
     void AddFrame();
     void DeleteFrame();
 

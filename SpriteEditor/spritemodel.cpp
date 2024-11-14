@@ -45,22 +45,6 @@ void Model::AddFrame() {
     emit SendUpdateAnimation(pixmapList);
 }
 
-
-// void Model::DuplicateFrame(QPixmap importedMap) {
-//     if (pixmapList.size() != 0) {
-//         currentIndex++;
-//     }
-//     if (pixmapList.size() != currentIndex && pixmapList.size() != 0) {
-//         pixmapList.insert(currentIndex, importedMap); // Insert inserts before i, turning i into the new object
-//     }
-//     else {
-//         pixmapList.append(importedMap); // Else we are at the end, so simply append the newMap, since we already increased the index
-//     }
-//     emit SendFrameListChanged(currentIndex, importedMap);
-//     emit SendUpdateAnimation(pixmapList);
-// }
-
-
 void Model::DeleteFrame() {
     // If there’s more than one item, remove the current frame
     if (pixmapList.size() > 1)
