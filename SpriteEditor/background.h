@@ -13,20 +13,27 @@ public:
     // Constructor to initialize the background
     Background(QWidget *parent = nullptr, int scale = 16);
 
+    void setPixmap(const QPixmap *previousCurrentPixmap);
+
     // Function to set the scale (size of the grid cells)
     void setScale(int newScale);
 
-    //Function to turn on and off grid
-    void toggleGrid();
+    // Setter methods
+    void setGridOn(bool on);
+    void setOnionSkinningOn(bool on);
+    void setCheckeredBackgroundOn(bool on);
 
 protected:
     // Paint event to draw the grid on the background
     void paintEvent(QPaintEvent *event) override;
 
+
 private:
     int scale;             // Grid cell size
-    QPixmap *pixmap;       // Background pixmap to draw on (grid)
-    bool gridIsOn = false; //Default to the grid being off
+    bool gridOn = false;
+    bool onionSkinningOn = false;
+    bool checkeredBackgroundOn = false;
+    const QPixmap *onionSkinningPixmap;       // Background pixmap to draw on (grid)
 };
 
 #endif // BACKGROUND_H

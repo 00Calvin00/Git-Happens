@@ -3,8 +3,6 @@
 #include "canvas.h"
 #include "jsonreader.h"
 #include "CanvasScalePopup.h"
-
-#include <QFileDialog>
 #include <QMessageBox>
 
 MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
@@ -13,9 +11,10 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     ui->setupUi(this);
     this->showMaximized(); // Fill the screen with the sprite editor
     ui->deleteFramePopUp->setVisible(false); // Hide deletion confirmation popup
+
     // Set up the canvas
-    canvas = ui->uiCanvas;
     background = ui->background;
+    canvas = ui->uiCanvas;
 
     // Create and show the modal dialog
     CanvasScalePopup dialog(nullptr);
@@ -30,19 +29,20 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
         else if (selectedSize == "8x8") scale = 64; //Scale is the size of the cells so 64 means a 64 pixel cell so there will be 8 in the 512x512 canvas
 
         // Create new Canvas with the chosen resolution
-        canvas->setScale(scale);
         background->setScale(scale);
         background->update();
         background->repaint();
+        canvas->setScale(scale);
     } else {
         close(); // Close app if no size is selected
     }
 
-
     // Center canvas in the main window
+    background->move(370, 0);
     canvas->move(370, 0);
     model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
     FrameListChanged(0, model.pixmapList[0]);
+    ui->frameNavigator->setDragDropMode(QAbstractItemView::NoDragDrop);
 
     // AddInitalFrame(model.pixmapList[0]);
 
@@ -50,15 +50,15 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     connect(previewIterationTimer, &QTimer::timeout, this, &MainWindow::IteratePreview);
     previewIterationTimer->start(1000/fps);
 
-    //model.DuplicateFrame(canvas->getPixmap()); //Give first frame to model as well
-
     //Connect the signal for draw and erase
     connect(ui->drawButton, &QToolButton::clicked, canvas, &Canvas::drawActivated);
     connect(ui->eraseButton, &QToolButton::clicked, canvas, &Canvas::eraseActivated);
 
-    // Connect the signal for grid setting
-    connect(ui->gridSwitch, &QAction::triggered, background, &Background::toggleGrid);
-
+    // Connect the signal for background settings
+    // Connect gridToggle
+    connect(ui->gridToggle, &QAction::toggled, background, &Background::setGridOn);
+    connect(ui->onionSkinningToggle, &QAction::toggled, background, &Background::setOnionSkinningOn);
+    connect(ui->checkeredBackgroundToggle, &QAction::toggled, background, &Background::setCheckeredBackgroundOn);
 
     // Connect the signal for custom color selection
     connect(ui->customColor, &QPushButton::clicked, this, &MainWindow::updateColorWithCustom);
@@ -120,14 +120,15 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     });
 
 
-    // Connect the frame actions to update the animation(only when we change the list, not our position)
-    connect(&model, &Model::SendUpdateAnimation, this, &MainWindow::UpdateAnimation);
 
     // Connect the save Action from the File Menu to a save action slot
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::onSaveTriggered);
 
     // Connect the load Action from the File Menu to a load action slot
     connect(ui->actionLoad, &QAction::triggered, this, &MainWindow::onLoadTriggered);
+
+    // Connect the load Action from the File Menu to a load action slot
+    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::onNewTriggered);
 
     // Connect the
     connect(ui->frameNavigator, &QListWidget::currentRowChanged, this, &MainWindow::OnFrameSelected);
@@ -178,12 +179,12 @@ void MainWindow::onSaveTriggered()
         QList<QPixmap*> pixmapList = model->getPixmapListValues();
 
         // Save all frames using the JsonReader
-        if (JsonReader::savePixmapsToJson(pixmapList, filePath))
+        if (JsonReader::savePixmapsToJson(pixmapList, canvas, filePath))
         {
             QMessageBox::information(this, tr("Save Successful"), tr("Project saved successfully!"));
         } else
         {
-            QMessageBox::warning(this, tr("Save Failed"), tr("Could not save the project."));
+            QMessageBox::warning(this, tr("Save Failed"), tr("Project save failed."));
         }
     }
 }
@@ -193,55 +194,61 @@ void MainWindow::onLoadTriggered()
     // Open QFileDialog for user to choose a filepath
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open Project"), "", tr("JSON Files (*.json);;All Files (*)"));
 
-    if (!filePath.isEmpty()) {
-        //QList<QPixmap*> pixmapList;
+    if (!filePath.isEmpty())
+    {
         // Get the model's pixmap list
-
         QList<QPixmap*> pixmapList = model->getPixmapListObjects();
 
         // Load the project frames using the JsonReader
-        if (JsonReader::loadPixmapsFromJson(pixmapList, filePath)) {
-            // Successfully loaded frames, update the model with the new
-            //Load is not properly replacing the model instances pixmaps with the loaded pixmaps. There are
-            // two pixmaps in memory at this time, the loaded one and the model instance's pixmap
-
+        if (JsonReader::loadPixmapsFromJson(pixmapList, canvas, filePath))
+        {
+            // Update the model with the loaded pixmapList
             model->setPixmapList(pixmapList);
 
-            // Update the model with the loaded pixmapList
-            QList<QPixmap*> modelPixmapList = model->getPixmapListValues();
-
-            //Debugging for the current model frame contents
-            // for (QPixmap* frame : modelPixmapList) {
-            //     QPixmap tempPixmapCopy = *frame; // Copy the pixmap
-            //     QImage imageCopy = tempPixmapCopy.toImage();
-
-            //     // Check the top-left pixel color of the copied image
-            //     QColor topLeftColor = QColor(imageCopy.pixel(0, 0));
-            //     qDebug() << "Top-left pixel color in Model Frames:" << topLeftColor.name();
-            // }
-
             // Update the canvas with the first frame if there are frames
-            if (model->getPixmapListValues().size() > 0) {
-                model->SelectFrame(0); // Select frame updates the index to the current one, emits a sendframeListChanged signal
-                // to the model, and triggers the FrameListChanged slot in the mainwindow, that sets the canvas pixmap to the new map at
-                // index 0 of the loaded project.
+            if (model->getPixmapListValues().size() > 0)
+            {
+                model->SelectFrame(0); // Select the first frame in the project
                 canvas->repaint();
 
             }
 
             QMessageBox::information(this, tr("Load Successful"), tr("Project loaded successfully!"));
         } else {
-            QMessageBox::warning(this, tr("Load Failed"), tr("Could not load the project."));
+            QMessageBox::warning(this, tr("Load Failed"), tr("Project load failed."));
         }
 
     }
 }
+
+void MainWindow::onNewTriggered() {
+    // Show a message box with Yes and No buttons and get the user's response
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, tr("Warning"), tr("Opening a new project will discard any unsaved progress. Continue?"),
+                                  QMessageBox::Yes | QMessageBox::No);
+
+    // Check if the user clicked Yes
+    if (reply == QMessageBox::Yes) {
+        qApp->quit(); // Quit the current running application
+        QProcess::startDetached(qApp->arguments()[0], qApp->arguments().mid(1)); // Open and run a new application
+    }
+}
+
 
 void MainWindow::AddInitalFrame(QPixmap* initialFrame) {
     canvas->setPixmap(initialFrame);
 }
 
 void MainWindow::FrameListChanged(int newIndex, QPixmap* newFrame) {
+    if (model->currentIndex != 0)
+    {
+        QPixmap* previousFrame = model->pixmapList.at(model->currentIndex-1);
+        background->setPixmap(previousFrame);
+    }
+    else {
+        background->setPixmap(newFrame);
+    }
+
     canvas->setPixmap(newFrame);
     ui->frameNavigator->clear();
     model->currentIndex = newIndex;
@@ -250,10 +257,10 @@ void MainWindow::FrameListChanged(int newIndex, QPixmap* newFrame) {
     {
         QListWidgetItem *scaledFrame = new QListWidgetItem(QIcon(framePtr->scaled(100, 100)), "");
         ui->frameNavigator->addItem(scaledFrame);
-
-        // QListWidgetItem scaledFrame(QIcon(framePtr->scaled(100, 100)), "", ui->frameNavigator);
-        // ui->frameNavigator->addItem(&scaledFrame);
     }
+
+
+
     ui->frameNavigator->setCurrentRow(model->currentIndex);
 }
 
@@ -269,27 +276,25 @@ void MainWindow::OnFrameSelected(int newIndex) {
     }
 
     QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
-    canvas->setPixmap(selectedFrame);  // Update the canvas to the new frame
+    if (model->currentIndex != 0)
+    {
+        QPixmap* previousFrame = model->pixmapList.at(model->currentIndex-1);
+        background->setPixmap(previousFrame);
+    }
+    else {
+        background->setPixmap(selectedFrame);
+    }
+    // Set the selected frame on the canvas
+    canvas->setPixmap(selectedFrame);
 }
 
 void MainWindow::UpdateSelectedFrameIcon(){
-    // if (model->pixmapList.size() == 0) {
-    //     ui->frameNavigator->currentItem()->setIcon(QIcon(model->pixmapList[0]->scaled(100, 100)));
-    // }
-    // else
-    // {
     QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
 
     // Checks if a frame is selected before updating current selected frame
     if (ui->frameNavigator->currentItem() != nullptr) {
         ui->frameNavigator->currentItem()->setIcon(QIcon(selectedFrame->scaled(100, 100)));
     }
-    // }
-}
-
-void MainWindow::UpdateAnimation(QList<QPixmap*> newPixMap) {
-    // Animation preview update
-    QList<QPixmap*> pixMap = newPixMap;
 }
 
 void MainWindow::DeleteFramePopUp() {

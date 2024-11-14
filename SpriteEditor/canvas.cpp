@@ -7,7 +7,7 @@ Canvas::Canvas(QWidget *parent, int scale) : QWidget(parent), scale(scale)
 {
     pixmap = new QPixmap(512, 512);
     setFixedSize(512, 512);
-    pixmap->fill(Qt::white);
+    pixmap->fill(Qt::transparent);
     drawing = true;
     erasing = false;
 }
@@ -35,6 +35,7 @@ void Canvas::setScale(int newScale)
 void Canvas::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
+
     painter.setRenderHint(QPainter::Antialiasing, false);
 
     if (pixmap)

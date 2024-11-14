@@ -727,7 +727,7 @@
      <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="sizeAdjustPolicy">
-     <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContentsOnFirstShow</enum>
+     <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents</enum>
     </property>
     <property name="autoScroll">
      <bool>false</bool>
@@ -739,7 +739,7 @@
      <bool>false</bool>
     </property>
     <property name="dragDropMode">
-     <enum>QAbstractItemView::DragDropMode::DragDrop</enum>
+     <enum>QAbstractItemView::DragDropMode::NoDragDrop</enum>
     </property>
     <property name="defaultDropAction">
      <enum>Qt::DropAction::IgnoreAction</enum>
@@ -899,17 +899,34 @@
       <height>512</height>
      </rect>
     </property>
-    <widget class="Background" name="background" native="true">
+   </widget>
+   <widget class="Background" name="background" native="true">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>340</y>
+      <width>512</width>
+      <height>512</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <widget class="QLabel" name="onionSkinningBackground">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>512</width>
-       <height>512</height>
+       <width>511</width>
+       <height>511</height>
       </rect>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>
+   <zorder>background</zorder>
    <zorder>animationPreviewOptions</zorder>
    <zorder>colorSelector</zorder>
    <zorder>drawButton</zorder>
@@ -936,13 +953,15 @@
     </property>
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
+    <addaction name="actionNew"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
      <string>Settings</string>
     </property>
-    <addaction name="actionOnion_Skinning"/>
-    <addaction name="gridSwitch"/>
+    <addaction name="onionSkinningToggle"/>
+    <addaction name="gridToggle"/>
+    <addaction name="checkeredBackgroundToggle"/>
    </widget>
    <addaction name="menuhallo"/>
    <addaction name="menuSettings"/>
@@ -958,7 +977,7 @@
     <string>Load</string>
    </property>
   </action>
-  <action name="actionOnion_Skinning">
+  <action name="onionSkinningToggle">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -966,7 +985,7 @@
     <string>Onion Skinning</string>
    </property>
   </action>
-  <action name="gridSwitch">
+  <action name="gridToggle">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -974,12 +993,25 @@
     <string>Grid Display</string>
    </property>
   </action>
+  <action name="checkeredBackgroundToggle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Checkered Background</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
    <class>Canvas</class>
    <extends>QWidget</extends>
-   <header location="global">canvas.h</header>
+   <header>canvas.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
