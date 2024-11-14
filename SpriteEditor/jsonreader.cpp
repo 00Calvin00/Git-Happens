@@ -13,7 +13,7 @@ JsonReader::JsonReader()
 
 }
 
-bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, const QString& filePath)
+bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, Canvas* canvas, const QString& filePath)
 {
 
     // Create a JSON object for saving multiple frames
@@ -60,7 +60,7 @@ bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, const QString& fi
     return true;
 }
 
-bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, const QString& filePath)
+bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, Canvas* canvas, const QString& filePath)
 {
     QFile jsonFile(filePath);
     if (!jsonFile.open(QIODevice::ReadOnly)) {
