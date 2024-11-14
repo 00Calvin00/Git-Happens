@@ -41,6 +41,7 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     canvas->move(370, 0);
     model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
     FrameListChanged(0, model.pixmapList[0]);
+
     // AddInitalFrame(model.pixmapList[0]);
 
     previewIterationTimer = new QTimer(this);
@@ -279,8 +280,7 @@ void MainWindow::OnFrameSelected(int newIndex) {
     }
 
     QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
-    // Set the selected frame on the canvas
-    canvas->setPixmap(selectedFrame);
+    canvas->setPixmap(selectedFrame);  // Update the canvas to the new frame
 }
 
 void MainWindow::UpdateSelectedFrameIcon(){
