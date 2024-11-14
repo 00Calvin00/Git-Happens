@@ -2,13 +2,6 @@
 #include <QPainter>
 #include <QDebug>
 
-// Constructor to initialize the canvas with given size, scale, and color
-// Canvas::Canvas(QWidget *parent, int canvasSize, int scale, QColor color)
-//     : QWidget{parent}, canvasSize(canvasSize), scale(scale), pressed(false), penColor(color)
-// {
-
-// }
-
 Canvas::Canvas(QWidget *parent, int scale) : QWidget(parent), scale(scale)
 {
     pixmap = new QPixmap(512, 512);
@@ -142,9 +135,6 @@ void Canvas::eraseActivated()
 }
 
 
-//Add scale getter/setter
-
-
 // Function to get the current pixmap, pixmap is the actual thing we are drawing on
 QPixmap* Canvas::getPixmap() const
 {
@@ -155,9 +145,7 @@ QPixmap* Canvas::getPixmap() const
 // Function to set a new pixmap and update the canvas
 void Canvas::setPixmap(QPixmap* newPixmap)
 {
-    //pixmap = newPixmap;
     pixmap = newPixmap;
-    //cellColors.clear(); //Won't this override old data we want to sticl around though??
     update();
     repaint();
 }
