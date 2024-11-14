@@ -1,17 +1,19 @@
+/* Reviewed by: Kenna */
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "canvas.h"
 #include "jsonreader.h"
-#include "CanvasScalePopup.h"
+#include "canvasscalepopup.h"
 #include <QMessageBox>
 
-MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
+MainWindow::MainWindow(FrameManager& model, int canvasSize, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), model(&model)
 {
     // Set up the UI
     ui->setupUi(this);
-    this->showMaximized(); // Fill the screen with the sprite editor
-    ui->deleteFramePopUp->setVisible(false); // Hide deletion confirmation popup
+    this->showMaximized();
+    ui->deleteFramePopUp->setVisible(false);
 
     // Set up the background and canvas
     background = ui->background;
@@ -19,7 +21,7 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     background->move(370, 0);
     canvas->move(370, 0);
 
-    //Connect the signals for draw and erase
+    // Connect the signals for draw and erase
     connect(ui->drawButton, &QToolButton::clicked, canvas, &Canvas::drawActivated);
     connect(ui->eraseButton, &QToolButton::clicked, canvas, &Canvas::eraseActivated);
 
@@ -29,7 +31,7 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     // Connect the signal for custom color selection
     connect(ui->customColor, &QPushButton::clicked, this, &MainWindow::updateColorWithCustom);
 
-    // Create the hashmap for quick access colors
+    // Create the hashmap for color buttons and their respective color values
     QHash<QPushButton*, QColor> colorMap = {
         {ui->white, QColor("white")}, {ui->gray, QColor(127, 127, 127)}, {ui->black, QColor("black")},
         {ui->darkBrown, QColor(60, 10, 0)}, {ui->brown, QColor(86, 39, 4)}, {ui->lightBrown, QColor(139, 70, 0)},
@@ -43,71 +45,69 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
         {ui->plum, QColor(109, 0, 82)}, {ui->berry, QColor(170, 0, 127)}, {ui->magenta, QColor(255, 0, 160)}
     };
 
-    // Connect color buttons to respective color values iteratively
+    // Connect the signals of color buttons to respective color values iteratively
     for (auto button = colorMap.begin(); button != colorMap.end(); ++button)
     {
         QColor color = button.value();
         connect(button.key(), &QPushButton::clicked, this, [this, color]() {updateColorWithPreset(color);});
     }
 
-    // Allow the user to select a pixel size on launch
+    // Allow the user to select the pixel size on launch
     CanvasScalePopup dialog(nullptr);
     if (dialog.exec() == QDialog::Accepted)
     {
         QString selectedSize = dialog.getSelectedSize();
 
-        // Scale is the size of the cells (e.g. 64 pixels = 1 cell giving an 8x8 "pixel" canvas)
-        int scale = 0;
+        // Scale is the number of pixels per cell (e.g. 64 pixels = 1 cell giving an 8x8 "pixel" canvas)
 
-        if (selectedSize == "64x64") scale = 8;
-        else if (selectedSize == "32x32") scale = 16;
-        else if (selectedSize == "16x16") scale = 32;
-        else if (selectedSize == "8x8") scale = 64;
+        if (selectedSize == "64x64") canvas->setScale(8);
+        else if (selectedSize == "32x32") canvas->setScale(16);
+        else if (selectedSize == "16x16") canvas->setScale(32);
+        else if (selectedSize == "8x8") canvas->setScale(64);
 
-        // Update background and canvas with the chosen resolution
-        background->setScale(scale);
+        // Update background and canvas with the selected size
+        background->setScale(canvas->getScale());
         background->update();
-        canvas->setScale(scale);
         updateCanvasDisplay();
     } else {
-        close(); // Scale defaults to 64 if no size is selected
+        close(); // Default to 8x8 if no size is selected
     }
 
-    // Connect the save, load, and new Action signals from the File Menu to the correct slots
+    // Connect the signals for save, load, and new Actions from the File Menu
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::onSaveTriggered);
     connect(ui->actionLoad, &QAction::triggered, this, &MainWindow::onLoadTriggered);
-    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::onNewTriggered);
+    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::OnNewTriggered);
 
-    // Connect the grid, onionSkinning, and checkeredBackground Toggle signals from the Settings Menu for background use
+    // Connect the signals for grid, onionSkinning, and checkeredBackground Toggles from the Settings Menu
     connect(ui->gridToggle, &QAction::toggled, background, &Background::setGridOn);
     connect(ui->onionSkinningToggle, &QAction::toggled, background, &Background::setOnionSkinningOn);
     connect(ui->checkeredBackgroundToggle, &QAction::toggled, background, &Background::setCheckeredBackgroundOn);
-
-    // Set up Frame Navigator Timer
-    selectedFrameTimer = new QTimer(this);
-    selectedFrameTimer->start(1000/fps);
-    connect(selectedFrameTimer, &QTimer::timeout, this, &MainWindow::UpdateSelectedFrameIcon);
 
     // Set up Frame Navigator
     ui->frameNavigator->setDragDropMode(QAbstractItemView::NoDragDrop);
     model.AddInitialFrame(canvas);
     FrameListChanged(0, model.pixmapList[0]);
 
-    // Connect the Frame Navigator signals to the correct slots
-    connect(&model, &Model::SendFrameListChanged, this, &MainWindow::FrameListChanged);
+    // Set up Frame Navigator timer
+    selectedFrameTimer = new QTimer(this);
+    selectedFrameTimer->start(1000/fps);
+    connect(selectedFrameTimer, &QTimer::timeout, this, &MainWindow::UpdateSelectedFrameIcon);
+
+    // Connect the signals for Frame Navigator
+    connect(&model, &FrameManager::SendFrameListChanged, this, &MainWindow::FrameListChanged);
     connect(ui->frameNavigator, &QListWidget::currentRowChanged, this, &MainWindow::OnFrameSelected);
-    connect(ui->addFrameButton, &QPushButton::clicked, &model, &Model::AddFrame);
+    connect(ui->addFrameButton, &QPushButton::clicked, &model, &FrameManager::AddFrame);
     connect(ui->deleteFrameButton, &QPushButton::clicked, this, &MainWindow::DeleteFramePopUp);
-    connect(ui->deleteConfirmation->button(QDialogButtonBox::Yes), &QPushButton::clicked, &model, &Model::DeleteFrame);
+    connect(ui->deleteConfirmation->button(QDialogButtonBox::Yes), &QPushButton::clicked, &model, &FrameManager::DeleteFrame);
     connect(ui->deleteConfirmation->button(QDialogButtonBox::Yes), &QPushButton::clicked, this, &MainWindow::DeleteFramePopUpClose);
     connect(ui->deleteConfirmation->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &MainWindow::DeleteFramePopUpClose);
 
-    // Set up Animation Preview Timer
+    // Set up Animation Preview timer
     previewIterationTimer = new QTimer(this);
     previewIterationTimer->start(1000/fps);
     connect(previewIterationTimer, &QTimer::timeout, this, &MainWindow::IteratePreview);
 
-    // Connect the Animation Preview Slider signals to the correct slots for value modification
+    // Connect the signals for Animation Preview slider
     connect(ui->animationFPSSlider, &QSlider::valueChanged, this, [=](int value){ui->animationFPSNumber->setNum(value);});
     connect(ui->animationFPSSlider, &QSlider::valueChanged, this, [=](int value){
         if(value == 0) {
@@ -120,16 +120,16 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     });
 }
 
-void MainWindow::updateCanvasDisplay()
-{
-    canvas->repaint();
-}
-
 MainWindow::~MainWindow()
 {
     delete ui;
     delete previewIterationTimer;
     delete selectedFrameTimer;
+}
+
+void MainWindow::updateCanvasDisplay()
+{
+    canvas->repaint();
 }
 
 void MainWindow::updateColorWithCustom()
@@ -180,7 +180,7 @@ void MainWindow::onLoadTriggered()
         QList<QPixmap*> pixmapList = model->getPixmapListObjects();
 
         // Load the project frames using the JsonReader
-        if (JsonReader::loadPixmapsFromJson(pixmapList, canvas, filePath))
+        if (JsonReader::loadPixmapsFromJson(pixmapList, canvas, background, filePath))
         {
             // Update the model with the loaded pixmapList
             model->setPixmapList(pixmapList);
@@ -201,7 +201,7 @@ void MainWindow::onLoadTriggered()
     }
 }
 
-void MainWindow::onNewTriggered() {
+void MainWindow::OnNewTriggered() {
     // Show a message box with Yes and No buttons and get the user's response
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, tr("Warning"), tr("Opening a new project will discard any unsaved progress. Continue?"),
@@ -211,10 +211,6 @@ void MainWindow::onNewTriggered() {
         qApp->quit(); // Quit the current running application
         QProcess::startDetached(qApp->arguments()[0], qApp->arguments().mid(1)); // Open and run a new application
     }
-}
-
-void MainWindow::AddInitalFrame(QPixmap* initialFrame) {
-    canvas->setPixmap(initialFrame);
 }
 
 void MainWindow::FrameListChanged(int newIndex, QPixmap* newFrame) {

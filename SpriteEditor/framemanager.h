@@ -1,20 +1,21 @@
+/* Reviewed by: Calvin */
+
 #ifndef MODEL_H
 #define MODEL_H
 
 #include <QPixmap>
 #include <QObject>
-
 #include "canvas.h"
 
-class Model : public QObject
+class FrameManager : public QObject
 {
     Q_OBJECT
 private:
-    //int currentIndex = 0;  // Track the "current" pixmap
     int canvasSize = 512;
+
 public:
-    Model();
-    ~Model();
+    FrameManager();
+    ~FrameManager();
     QList<QPixmap*> pixmapList;
     int currentIndex = 0;  // Track the "current" pixmap
     void updateCanvasData(); // Example: method to interact with Canvas if needed

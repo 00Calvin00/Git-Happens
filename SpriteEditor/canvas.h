@@ -1,3 +1,5 @@
+/* Reviewed by: Grace */
+
 #ifndef CANVAS_H
 #define CANVAS_H
 
@@ -26,9 +28,7 @@ class Canvas : public QWidget
 {
     Q_OBJECT
 
-public:
-    int scale;        ///< The scale factor to zoom the canvas.
-
+public:    
     /**
      * @brief Constructor for initializing the Canvas.
      *
@@ -173,13 +173,13 @@ private:
      */
     void eraseCell(const QPoint &cell);
 
-    int scale;                  ///< Scale factor for rendering.
-    int canvasSize;             ///< Canvas size in pixels.
-    bool pressed;               ///< Tracks if the mouse is pressed.
-    bool drawing;               ///< Tracks if drawing mode is active.
-    bool erasing;               ///< Tracks if erasing mode is active.
-    QPixmap *pixmap;            ///< Pixmap storing the canvas data.
-    QHash<QPoint, QColor> cellColors; ///< Hash table storing cell colors.
+    QHash<QPoint, QColor> cellColors;  ///< Stores the color of each cell.
+    QPixmap *pixmap;  ///< The pixmap that stores the canvas content.
+    int scale;        ///< The scale factor to zoom the canvas.
+    int canvasSize;   ///< The size of the canvas in pixels.
+    bool pressed;     ///< Boolean to check if the mouse is pressed.
+    bool drawing;     ///< Boolean to check if drawing mode is active.
+    bool erasing;     ///< Boolean to check if erasing mode is active.
 };
 
 #endif // CANVAS_H

@@ -1,3 +1,5 @@
+/* Reviewed by: Alex */
+
 #include "canvasscalepopup.h"
 #include <QVBoxLayout>
 #include <QPushButton>

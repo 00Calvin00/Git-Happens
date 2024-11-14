@@ -86,7 +86,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>60</string>
+      <string>5</string>
      </property>
     </widget>
    </widget>
@@ -739,7 +739,7 @@
      <bool>false</bool>
     </property>
     <property name="dragDropMode">
-     <enum>QAbstractItemView::DragDropMode::NoDragDrop</enum>
+     <enum>QAbstractItemView::DragDropMode::DragDrop</enum>
     </property>
     <property name="defaultDropAction">
      <enum>Qt::DropAction::IgnoreAction</enum>
@@ -944,7 +944,7 @@
      <x>0</x>
      <y>0</y>
      <width>1262</width>
-     <height>18</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">

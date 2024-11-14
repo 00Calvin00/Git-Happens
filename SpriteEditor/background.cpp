@@ -1,3 +1,5 @@
+/* Reviewed by: Grace */
+
 #include "background.h"
 #include <QPainter>
 
@@ -48,7 +50,7 @@ void Background::paintEvent(QPaintEvent *)
     // Draw onion skinning overlay if enabled
     if (onionSkinningOn && onionSkinningPixmap)
     {
-        painter.setOpacity(0.75);
+        painter.setOpacity(0.40);
         painter.drawPixmap(0, 0, *onionSkinningPixmap);
     }
 }

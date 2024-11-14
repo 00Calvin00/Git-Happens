@@ -12,18 +12,18 @@ SOURCES += \
     background.cpp \
     canvas.cpp \
     canvasscalepopup.cpp \
+    framemanager.cpp \
     jsonreader.cpp \
     main.cpp \
-    mainwindow.cpp \
-    spritemodel.cpp
+    mainwindow.cpp
 
 HEADERS += \
     background.h \
     canvas.h \
     canvasscalepopup.h \
+    framemanager.h \
     jsonreader.h \
-    mainwindow.h \
-    spritemodel.h
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui

@@ -1,3 +1,5 @@
+/* Reviewed by: Grace */
+
 #include "canvas.h"
 #include <QPainter>
 #include <QDebug>
@@ -71,7 +73,9 @@ void Canvas::drawCell(const QPoint &cell, const QColor &color)
 void Canvas::eraseCell(const QPoint &cell)
 {
     QPainter painter(pixmap);
-    painter.fillRect(cell.x(), cell.y(), scale, scale, Qt::white);
+    painter.setCompositionMode(QPainter::CompositionMode_Clear);
+    painter.fillRect(cell.x(), cell.y(), scale, scale, Qt::transparent); // Assuming white is the background color
+
     painter.end();
     update();
     emit updateCanvas();
