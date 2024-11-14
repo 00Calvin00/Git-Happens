@@ -3,6 +3,7 @@
 #include "canvas.h"
 #include "jsonreader.h"
 #include "CanvasScalePopup.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), model(&model)
@@ -182,7 +183,7 @@ void MainWindow::onSaveTriggered()
             QMessageBox::information(this, tr("Save Successful"), tr("Project saved successfully!"));
         } else
         {
-            QMessageBox::warning(this, tr("Save Failed"), tr("Could not save the project."));
+            QMessageBox::warning(this, tr("Save Failed"), tr("Project save failed."));
         }
     }
 }
@@ -230,17 +231,24 @@ void MainWindow::onLoadTriggered()
 
             QMessageBox::information(this, tr("Load Successful"), tr("Project loaded successfully!"));
         } else {
-            QMessageBox::warning(this, tr("Load Failed"), tr("Could not load the project."));
+            QMessageBox::warning(this, tr("Load Failed"), tr("Project load failed."));
         }
 
     }
 }
 
 void MainWindow::onNewTriggered() {
-    qApp->quit(); // Quit the current running application
-    QProcess::startDetached(qApp->arguments()[0], qApp->arguments().mid(1)); // Open and run a new application
-}
+    // Show a message box with Yes and No buttons and get the user's response
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, tr("Warning"), tr("Opening a new project will discard any unsaved progress. Continue?"),
+                                  QMessageBox::Yes | QMessageBox::No);
 
+    // Check if the user clicked Yes
+    if (reply == QMessageBox::Yes) {
+        qApp->quit(); // Quit the current running application
+        QProcess::startDetached(qApp->arguments()[0], qApp->arguments().mid(1)); // Open and run a new application
+    }
+}
 
 void MainWindow::AddInitalFrame(QPixmap* initialFrame) {
     canvas->setPixmap(initialFrame);
@@ -255,9 +263,6 @@ void MainWindow::FrameListChanged(int newIndex, QPixmap* newFrame) {
     {
         QListWidgetItem *scaledFrame = new QListWidgetItem(QIcon(framePtr->scaled(100, 100)), "");
         ui->frameNavigator->addItem(scaledFrame);
-
-        // QListWidgetItem scaledFrame(QIcon(framePtr->scaled(100, 100)), "", ui->frameNavigator);
-        // ui->frameNavigator->addItem(&scaledFrame);
     }
     ui->frameNavigator->setCurrentRow(model->currentIndex);
 }
@@ -279,18 +284,12 @@ void MainWindow::OnFrameSelected(int newIndex) {
 }
 
 void MainWindow::UpdateSelectedFrameIcon(){
-    // if (model->pixmapList.size() == 0) {
-    //     ui->frameNavigator->currentItem()->setIcon(QIcon(model->pixmapList[0]->scaled(100, 100)));
-    // }
-    // else
-    // {
-        QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
+    QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
 
-        // Checks if a frame is selected before updating current selected frame
-        if (ui->frameNavigator->currentItem() != nullptr) {
-            ui->frameNavigator->currentItem()->setIcon(QIcon(selectedFrame->scaled(100, 100)));
-        }
-    // }
+    // Checks if a frame is selected before updating current selected frame
+    if (ui->frameNavigator->currentItem() != nullptr) {
+        ui->frameNavigator->currentItem()->setIcon(QIcon(selectedFrame->scaled(100, 100)));
+    }
 }
 
 void MainWindow::UpdateAnimation(QList<QPixmap*> newPixMap) {
