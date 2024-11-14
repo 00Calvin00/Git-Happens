@@ -1,4 +1,4 @@
-#include "CanvasScalePopup.h"
+#include "canvasscalepopup.h"
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QComboBox>

@@ -27,6 +27,8 @@ class Canvas : public QWidget
     Q_OBJECT
 
 public:
+    int scale;        ///< The scale factor to zoom the canvas.
+
     /**
      * @brief Constructor for initializing the Canvas.
      *

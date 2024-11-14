@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QProcess>
 #include <QMessageBox>
+
 #include "spritemodel.h"
 #include "canvas.h"
 #include "background.h"
@@ -23,23 +24,14 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(Model& model, int canvasSize = 64, QWidget *parent = nullptr) ;
-    Canvas *canvas;  // Pointer to Canvas
+    Canvas *canvas;
     Background *background;
     ~MainWindow();
 
 private slots:
-    void updateCanvasDisplay();             // Update the canvas display
-    void updateColorWithCustom();           // Update the color to custom color
-    void updateColorWithPreset(QColor);     // Update the color to quick access color
-
-
-    /**
-     * @brief Saves the current project to a JSON file, including frames and scale.
-     *
-     * Opens a file dialog for the user to choose a save location and file name.
-     * Encodes the current frames and canvas scale in JSON format and writes this data
-     * to the specified file. Displays a success or error message based on the outcome.
-     */
+    void updateCanvasDisplay();
+    void updateColorWithCustom();
+    void updateColorWithPreset(QColor);
     void onSaveTriggered();
 
     /**
@@ -51,17 +43,10 @@ private slots:
      */
     void onLoadTriggered();
 
-    void onNewTriggered();
-
     /**
-     * @brief Adds an initial frame to the project’s frame list of pixmaps.
-     *
-     * Retrieves the starting frame from the canvas and adds it to the model’s pixmap list
-     * and updates the canvas to display this initial frame.
-     *
-     * @param initialFrame A pointer to the QPixmap representing the initial frame to add.
+     * @brief onNewTriggered
      */
-    void AddInitalFrame(QPixmap* initialFrame);
+    void onNewTriggered();
 
     void FrameListChanged(int newIndex, QPixmap* newFrame);
     void OnFrameSelected(int);
