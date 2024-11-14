@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QDebug>
 
+// Constructor initializes canvas with white background and drawing mode enabled
 Canvas::Canvas(QWidget *parent, int scale) : QWidget(parent), scale(scale)
 {
     pixmap = new QPixmap(512, 512);
@@ -11,43 +12,43 @@ Canvas::Canvas(QWidget *parent, int scale) : QWidget(parent), scale(scale)
     erasing = false;
 }
 
-// Destructor to clean up the allocated pixmap
+// Destructor to clean up allocated pixmap
 Canvas::~Canvas()
 {
-    if (pixmap)
-    {
-        delete pixmap;
-    }
+    delete pixmap;
 }
 
+// Gets the current scale factor
 int Canvas::getScale() const
 {
     return scale;
 }
 
+// Sets a new scale and triggers an update to the UI
 void Canvas::setScale(int newScale)
 {
     scale = newScale;
     update();
 }
 
+// Paints the current pixmap and any active cell colors on the canvas
 void Canvas::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, false);
 
-    // Ensure that the pixmap is correctly drawn before filling cells
-    if (pixmap) {
+    if (pixmap)
+    {
         painter.drawPixmap(0, 0, *pixmap);
     }
 
-    // Draw filled cells with stored colors
-    for (auto it = cellColors.begin(); it != cellColors.end(); ++it) {
+    for (auto it = cellColors.begin(); it != cellColors.end(); ++it)
+    {
         painter.fillRect(it.key().x(), it.key().y(), scale, scale, it.value());
     }
 }
 
-// Convert a screen position to the nearest cell position on the grid
+// Maps a screen position to the nearest cell on the grid
 QPoint Canvas::mapToCell(const QPoint &position) const
 {
     int x = (position.x() / scale) * scale;
@@ -55,36 +56,27 @@ QPoint Canvas::mapToCell(const QPoint &position) const
     return QPoint(x, y);
 }
 
-// Draw a cell at the specified grid position with the current pen color
+// Draws the specified cell with the current pen color
 void Canvas::drawCell(const QPoint &cell, const QColor &color)
 {
-    // Update the pixmap with the new color at the cell position
     QPainter painter(pixmap);
     painter.fillRect(cell.x(), cell.y(), scale, scale, color);
-    painter.end();  // End painter to save changes to the pixmap
-
-    // Store the color in cellColors for later reference
-    //cellColors[cell] = color;
-
+    painter.end();
     update();
-    emit updateCanvas(); // Notify main window to refresh UI
+    emit updateCanvas();
 }
 
-// Erase the cell at the specified grid position
+// Erases the specified cell by resetting it to white
 void Canvas::eraseCell(const QPoint &cell)
 {
-    // Remove the color from cellColors
-    //cellColors.remove(cell);
-
-    // Update the pixmap by filling the erased cell with white (or default color)
     QPainter painter(pixmap);
-    painter.fillRect(cell.x(), cell.y(), scale, scale, Qt::white); // Assuming white is the background color
+    painter.fillRect(cell.x(), cell.y(), scale, scale, Qt::white);
     painter.end();
-
     update();
-    emit updateCanvas(); // Notify main window to refresh UI
+    emit updateCanvas();
 }
 
+// Begins drawing or erasing on mouse press
 void Canvas::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
@@ -92,57 +84,60 @@ void Canvas::mousePressEvent(QMouseEvent *event)
         pressed = true;
         QPoint cellPosition = mapToCell(event->pos());
 
-        // Draw or erase based on the current mode
-        if (drawing) {
+        if (drawing)
+        {
             drawCell(cellPosition, penColor);
-        } else if (erasing) {
+        } else if (erasing)
+        {
             eraseCell(cellPosition);
         }
     }
 }
 
+// Stops drawing or erasing on mouse release
 void Canvas::mouseReleaseEvent(QMouseEvent *)
 {
     pressed = false;
 }
 
+// Continues drawing or erasing as mouse moves while pressed
 void Canvas::mouseMoveEvent(QMouseEvent *event)
 {
-    if (pressed) {
+    if (pressed)
+    {
         QPoint cellPosition = mapToCell(event->pos());
 
-        // Draw or erase continuously while moving
-        if (drawing) {
+        if (drawing)
+        {
             drawCell(cellPosition, penColor);
-        } else if (erasing) {
+        } else if (erasing)
+        {
             eraseCell(cellPosition);
         }
     }
 }
 
-// Slot to activate the drawing mode
+// Activates drawing mode
 void Canvas::drawActivated()
 {
     drawing = true;
     erasing = false;
 }
 
-// Slot to activate the erasing mode
+// Activates erasing mode
 void Canvas::eraseActivated()
 {
     drawing = false;
     erasing = true;
 }
 
-
-// Function to get the current pixmap, pixmap is the actual thing we are drawing on
+// Returns the current pixmap
 QPixmap* Canvas::getPixmap() const
 {
     return pixmap;
 }
 
-
-// Function to set a new pixmap and update the canvas
+// Sets a new pixmap and refreshes canvas
 void Canvas::setPixmap(QPixmap* newPixmap)
 {
     pixmap = newPixmap;
@@ -150,7 +145,7 @@ void Canvas::setPixmap(QPixmap* newPixmap)
     repaint();
 }
 
-// Get the canvas size
+// Returns the canvas size in pixels
 int Canvas::getCanvasSize() const
 {
     return canvasSize;

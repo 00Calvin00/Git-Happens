@@ -12,202 +12,172 @@
  * @class Canvas
  * @brief A widget that allows the user to draw and erase on a canvas.
  *
- * The `Canvas` class provides a simple drawing surface where users can
- * interact with the canvas by drawing pixels with the mouse or erasing them.
- * It uses a `QPixmap` to store the drawing data, which is rendered on the widget
- * in a scaled fashion to simulate larger pixels. The class supports both drawing
- * and erasing modes, and it provides methods to retrieve and modify the pixmap
- * that represents the current canvas content.
- *
- * Users can activate drawing or erasing modes through public slots (`drawActivated()`
- * and `eraseActivated()`). The canvas emits a signal (`updateCanvas()`) whenever
- * the drawing is modified, so the UI can be updated accordingly.
+ * The `Canvas` class provides an interactive drawing surface that can display
+ * scalable pixels, making it suitable for pixel art applications. Users can toggle
+ * between drawing and erasing modes and can adjust the canvas scale factor.
  *
  * Key features:
- * - Draw pixels on the canvas with the mouse.
- * - Erase pixels from the canvas with the mouse.
- * - Scaled rendering of pixels for easy visibility.
- * - Easy integration with other UI components, such as the main window,
- *   through the `updateCanvas` signal.
- *
- * @note The `Canvas` widget is designed to be used as part of a larger application
- * where it can be embedded in a layout or handled as a standalone widget. It is
- * particularly useful for applications that require pixel-based editing or simple
- * drawing functionality.
+ * - Draw or erase pixels using the mouse
+ * - Scalable pixel rendering for flexible visual adjustment
+ * - Emits `updateCanvas()` signal on modification for UI updates
+ * - Allows integration with main UI components via QWidget
  */
-
 class Canvas : public QWidget
 {
     Q_OBJECT
 
 public:
-
-    int scale;        ///< The scale factor to zoom the canvas.
-
-
     /**
-     * @brief Constructor to initialize the canvas.
+     * @brief Constructor for initializing the Canvas.
      *
-     * Initializes the canvas with a specified size, scale, and pen color.
-     * The canvas is filled with a default background color (white),
-     * and the drawing mode is set to "drawing" by default.
+     * Sets up the canvas with a specified size and scale factor. The canvas starts in
+     * drawing mode, and the background is initialized as white.
      *
      * @param parent The parent widget.
-     * @param canvasSize The size of the canvas (in pixels).
-     * @param scale The scale factor for zooming the canvas (for rendering larger pixels).
-     * @param color The initial pen color to use for drawing.
+     * @param scale The scale factor for rendering, adjusting pixel size.
      */
-    explicit Canvas(QWidget *parent, int scale = 8); //Had to set a default value for scale because the .ui file constructor for canvas won't update to match this one.
+    explicit Canvas(QWidget *parent, int scale = 8);
 
     /**
-     * @brief Destructor to clean up the canvas resources.
+     * @brief Destructor for Canvas.
      *
-     * Deletes the pixmap to free allocated memory.
+     * Deletes allocated resources (e.g., pixmap).
      */
     ~Canvas();
 
     /**
-     * @brief Set the pixmap for the canvas.
+     * @brief Sets a new pixmap to replace the current canvas content.
      *
-     * Replaces the current pixmap with the provided one.
-     * This method triggers a repaint of the canvas to reflect the new pixmap.
+     * Used to load or reset a saved state of the canvas. Triggers a UI update.
      *
-     * @param newPixmap The new QPixmap to set for the canvas.
+     * @param newPixmap The new pixmap to display.
      */
     void setPixmap(QPixmap* newPixmap);
 
     /**
-     * @brief Get the current pixmap of the canvas.
+     * @brief Retrieves the current pixmap of the canvas.
      *
-     * @return The current QPixmap representing the canvas.
+     * @return Pointer to the pixmap storing the canvas's drawing data.
      */
     QPixmap* getPixmap() const;
 
-    QColor penColor;  ///< The current pen color for drawing.
-
     /**
-     * @brief Get the size of the canvas.
+     * @brief Gets the current canvas size.
      *
-     * @return The size of the canvas in pixels.
+     * @return The canvas size in pixels.
      */
     int getCanvasSize() const;
 
     /**
-     * @brief getScale
-     * @return
+     * @brief Returns the current scale factor for the canvas.
+     *
+     * @return The scale factor.
      */
     int getScale() const;
 
     /**
-     * @brief getScale
-     * @return
+     * @brief Sets a new scale factor for the canvas.
+     *
+     * Triggers an update to reflect the new scale visually.
+     *
+     * @param newScale The updated scale factor.
      */
     void setScale(int newScale);
 
+    QColor penColor; ///< Current pen color for drawing.
+
 signals:
     /**
-     * @brief Signal to notify that the canvas needs to be updated.
+     * @brief Signal emitted when the canvas content is modified.
      *
-     * This signal is emitted whenever the canvas content is modified,
-     * so that the main window or parent widget can update the display.
+     * Used to notify connected UI elements to update and display the latest canvas state.
      */
     void updateCanvas();
 
 public slots:
     /**
-     * @brief Slot to activate the erasing mode.
-     *
-     * This method switches the mode to erasing, allowing the user to erase pixels.
+     * @brief Activates erasing mode, allowing the user to remove pixels.
      */
     void eraseActivated();
 
     /**
-     * @brief Slot to activate the drawing mode.
-     *
-     * This method switches the mode to drawing, allowing the user to draw pixels.
+     * @brief Activates drawing mode, allowing the user to add pixels.
      */
     void drawActivated();
 
 protected:
     /**
-     * @brief Paint event to render the canvas.
+     * @brief Handles repainting the canvas.
      *
-     * This method is called whenever the canvas needs to be redrawn.
-     * It paints the current pixmap onto the widget.
+     * Uses QPainter to draw the current pixmap and any stored cell colors.
      *
-     * @param event The paint event passed to the method.
+     * @param event Paint event data.
      */
     void paintEvent(QPaintEvent *event) override;
 
     /**
-     * @brief Mouse press event to handle drawing or erasing on click.
+     * @brief Handles mouse press events for drawing or erasing.
      *
-     * This method is called when the mouse button is pressed. It triggers either
-     * drawing or erasing depending on the current mode.
+     * Initiates a drawing/erasing action based on current mode.
      *
-     * @param event The mouse event that contains the mouse position and button clicked.
+     * @param event Mouse event data.
      */
     void mousePressEvent(QMouseEvent *event) override;
 
     /**
-     * @brief Mouse release event to reset the pressed state.
+     * @brief Handles mouse release events, resetting drawing/erasing state.
      *
-     * This method is called when the mouse button is released.
-     * It resets the pressed state to allow for new drawing or erasing actions.
-     *
-     * @param event The mouse event that contains the mouse position and button released.
+     * @param event Mouse event data.
      */
     void mouseReleaseEvent(QMouseEvent *event) override;
 
     /**
-     * @brief Mouse move event to continue drawing or erasing.
+     * @brief Handles mouse movement events to continue drawing or erasing.
      *
-     * This method is called when the mouse moves. It continues drawing or erasing
-     * while the mouse is pressed.
+     * Continues action based on mode while the mouse is pressed.
      *
-     * @param event The mouse event that contains the updated mouse position.
+     * @param event Mouse event data.
      */
     void mouseMoveEvent(QMouseEvent *event) override;
 
 private:
     /**
-     * @brief Convert a screen position to the nearest cell on the grid.
+     * @brief Maps a screen position to the nearest grid cell.
      *
-     * This method maps a given position to the corresponding cell in the grid
-     * based on the current scaling factor.
+     * Computes the grid cell coordinates corresponding to a screen position
+     * based on the current scale.
      *
-     * @param position The screen position.
-     * @return The top-left corner of the nearest cell.
+     * @param position Screen position.
+     * @return Top-left corner of the nearest grid cell.
      */
     QPoint mapToCell(const QPoint &position) const;
 
     /**
-     * @brief Draw on the canvas at the specified cell.
+     * @brief Draws a cell on the canvas at the specified position.
      *
-     * This method is called when drawing is activated, and it draws a "pixel" at
-     * the specified cell using the current pen color.
+     * Fills the cell with the current pen color.
      *
-     * @param cell The grid cell position.
-     * @param color The color to draw.
+     * @param cell The target grid cell position.
+     * @param color Color to draw.
      */
     void drawCell(const QPoint &cell, const QColor &color);
 
     /**
-     * @brief Erase from the canvas at the specified cell.
+     * @brief Erases a cell on the canvas at the specified position.
      *
-     * This method is called when erasing is activated, and it clears the "pixel"
-     * at the specified cell position.
+     * Clears the cell's color to white.
      *
-     * @param cell The grid cell position.
+     * @param cell The target grid cell position.
      */
     void eraseCell(const QPoint &cell);
 
-    QHash<QPoint, QColor> cellColors;  ///< Stores the color of each cell.
-    QPixmap *pixmap;  ///< The pixmap that stores the canvas content.
-    int canvasSize;   ///< The size of the canvas in pixels.
-    bool pressed;     ///< Boolean to check if the mouse is pressed.
-    bool drawing;     ///< Boolean to check if drawing mode is active.
-    bool erasing;     ///< Boolean to check if erasing mode is active.
+    int scale;                  ///< Scale factor for rendering.
+    int canvasSize;             ///< Canvas size in pixels.
+    bool pressed;               ///< Tracks if the mouse is pressed.
+    bool drawing;               ///< Tracks if drawing mode is active.
+    bool erasing;               ///< Tracks if erasing mode is active.
+    QPixmap *pixmap;            ///< Pixmap storing the canvas data.
+    QHash<QPoint, QColor> cellColors; ///< Hash table storing cell colors.
 };
 
 #endif // CANVAS_H
