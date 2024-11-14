@@ -29,8 +29,6 @@ bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, Canvas* canvas, c
         // Convert each QPixmap to a QImage
         QImage image = pixmap -> toImage();
 
-        qDebug() << "Saved Top-left pixel color:" << QColor(image.pixel(0, 0)).name();
-
         QByteArray byteArray;
         QBuffer buffer(&byteArray);
         buffer.open(QIODevice::WriteOnly);
@@ -61,8 +59,6 @@ bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, Canvas* canvas, c
 
     jsonFile.write(jsonDoc.toJson(QJsonDocument::Indented));
     jsonFile.close();
-
-     qDebug() << "Saved frames count: " << pixmapList.size();
 
     return true;
 }
@@ -123,15 +119,11 @@ bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, Canvas* canvas
             return false;
         }
 
-        qDebug() << "Loaded Top-left pixel color:" << QColor(image.pixel(0, 0)).name();
-
         // Convert the QImage to QPixmap and add to the list
         QPixmap* newMap = new QPixmap(QPixmap::fromImage(image));
 
         pixmapList.append(newMap);
     }
-
-     qDebug() << "Loaded frames count: " << pixmapList.size();
 
     return true;
 }

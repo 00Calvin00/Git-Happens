@@ -20,40 +20,45 @@ void FrameManager::AddInitialFrame(Canvas* canvas)
     currentIndex = 0;  // Set the initial selected index
 }
 
-void FrameManager::AddFrame() {
-    if (pixmapList.size() != 0) {
+void FrameManager::AddFrame()
+{
+    if (pixmapList.size() != 0)
+    {
         currentIndex++;
     }
-
-    //QPixmap newMap = *new QPixmap(canvasSize, canvasSize); //heap allocation
 
     QPixmap* newMap = new QPixmap(canvasSize, canvasSize);
 
 
     newMap->fill(Qt::transparent);
-    if (pixmapList.size() != currentIndex && pixmapList.size() != 0) {
+    if (pixmapList.size() != currentIndex && pixmapList.size() != 0)
+    {
         pixmapList.insert(currentIndex, newMap); // Insert inserts before i, turning i into the new object
     }
-    else {
+    else
+    {
         pixmapList.append(newMap); // Else we are at the end, so simply append the newMap, since we already increased the index
     }
     emit SendFrameListChanged(currentIndex, newMap);
     emit SendUpdateAnimation(pixmapList);
 }
 
-void FrameManager::DeleteFrame() {
+void FrameManager::DeleteFrame()
+{
     // If there’s more than one item, remove the current frame
     if (pixmapList.size() > 1)
     {
         pixmapList.remove(currentIndex);
 
         // Set currentIndex to last index if out of bounds
-        if (currentIndex >= pixmapList.size()) {
+        if (currentIndex >= pixmapList.size())
+        {
             currentIndex = pixmapList.size() - 1;
         }
     }
     // If there’s only one item, remove it and add a new blank frame
-    else {
+    else
+    {
         pixmapList.remove(currentIndex);
         AddFrame();
         currentIndex = 0;
@@ -64,18 +69,17 @@ void FrameManager::DeleteFrame() {
     emit SendUpdateAnimation(pixmapList);
 }
 
-void FrameManager::SelectFrame(int i) {
-    if (currentIndex >= 0 && currentIndex < pixmapList.size()) {
+void FrameManager::SelectFrame(int i)
+{
+    if (currentIndex >= 0 && currentIndex < pixmapList.size())
+    {
         currentIndex = i;
         QPixmap* newMap = pixmapList.at(i);
         emit SendFrameListChanged(currentIndex, newMap);
-    } else {
+    } else
+    {
         qDebug() << "Index out of bounds";
     }
-
-    qDebug() << "Current frame selected at index:" << currentIndex;
-    qDebug() << "Full frame list size:" << pixmapList.size();
-
 }
 
 void FrameManager::setPixmapList(const QList<QPixmap*>& newPixmapList)
