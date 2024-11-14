@@ -42,11 +42,7 @@ class Canvas : public QWidget
 {
     Q_OBJECT
 
-public:
-
-    int scale;        ///< The scale factor to zoom the canvas.
-
-
+public:    
     /**
      * @brief Constructor to initialize the canvas.
      *
@@ -206,6 +202,7 @@ private:
 
     QHash<QPoint, QColor> cellColors;  ///< Stores the color of each cell.
     QPixmap *pixmap;  ///< The pixmap that stores the canvas content.
+    int scale;        ///< The scale factor to zoom the canvas.
     int canvasSize;   ///< The size of the canvas in pixels.
     bool pressed;     ///< Boolean to check if the mouse is pressed.
     bool drawing;     ///< Boolean to check if drawing mode is active.

@@ -24,10 +24,10 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(FrameManager& model, int canvasSize = 64, QWidget *parent = nullptr) ;
+    explicit MainWindow(FrameManager& model, int canvasSize, QWidget *parent = nullptr) ;
+    ~MainWindow();
     Canvas *canvas;  // Pointer to Canvas
     Background *background;
-    ~MainWindow();
 
 private slots:
     void updateCanvasDisplay();             // Update the canvas display
@@ -53,7 +53,7 @@ private slots:
      */
     void onLoadTriggered();
 
-    void onNewTriggered();
+    void OnNewTriggered();
 
     /**
      * @brief Adds an initial frame to the project’s frame list of pixmaps.

@@ -12,6 +12,7 @@ class FrameManager : public QObject
     Q_OBJECT
 private:
     int canvasSize = 512;
+
 public:
     FrameManager();
     ~FrameManager();
