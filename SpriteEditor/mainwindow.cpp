@@ -11,6 +11,7 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
     ui->setupUi(this);
     this->showMaximized(); // Fill the screen with the sprite editor
     ui->deleteFramePopUp->setVisible(false); // Hide deletion confirmation popup
+
     // Set up the canvas
     canvas = ui->uiCanvas;
     background = ui->background;
@@ -36,11 +37,11 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
         close(); // Close app if no size is selected
     }
 
-
     // Center canvas in the main window
     canvas->move(370, 0);
     model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
     FrameListChanged(0, model.pixmapList[0]);
+    ui->frameNavigator->setDragDropMode(QAbstractItemView::NoDragDrop);
 
     // AddInitalFrame(model.pixmapList[0]);
 

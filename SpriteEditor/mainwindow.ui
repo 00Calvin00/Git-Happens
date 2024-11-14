@@ -727,7 +727,7 @@
      <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="sizeAdjustPolicy">
-     <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContentsOnFirstShow</enum>
+     <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents</enum>
     </property>
     <property name="autoScroll">
      <bool>false</bool>
@@ -739,7 +739,7 @@
      <bool>false</bool>
     </property>
     <property name="dragDropMode">
-     <enum>QAbstractItemView::DragDropMode::DragDrop</enum>
+     <enum>QAbstractItemView::DragDropMode::NoDragDrop</enum>
     </property>
     <property name="defaultDropAction">
      <enum>Qt::DropAction::IgnoreAction</enum>
@@ -985,7 +985,7 @@
   <customwidget>
    <class>Canvas</class>
    <extends>QWidget</extends>
-   <header location="global">canvas.h</header>
+   <header>canvas.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
