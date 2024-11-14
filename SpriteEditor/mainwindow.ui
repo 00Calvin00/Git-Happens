@@ -936,6 +936,7 @@
     </property>
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
+    <addaction name="actionNew"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -972,6 +973,11 @@
    </property>
    <property name="text">
     <string>Grid Display</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
    </property>
   </action>
  </widget>

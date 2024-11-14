@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QColorDialog>
 #include <QTimer>
+#include <QFileDialog>
+#include <QProcess>
+#include <QMessageBox>
 #include "spritemodel.h"
 #include "canvas.h"
 #include "background.h"
@@ -30,6 +33,7 @@ private slots:
     void updateColorWithPreset(QColor);     // Update the color to quick access color
     void onSaveTriggered();
     void onLoadTriggered();
+    void onNewTriggered();
     void AddInitalFrame(QPixmap* initialFrame);
     void FrameListChanged(int newIndex, QPixmap* newFrame);
     void OnFrameSelected(int);
