@@ -278,12 +278,12 @@ void MainWindow::UpdateSelectedFrameIcon(){
     // }
     // else
     // {
-        QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
+    QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
 
-        // Checks if a frame is selected before updating current selected frame
-        if (ui->frameNavigator->currentItem() != nullptr) {
-            ui->frameNavigator->currentItem()->setIcon(QIcon(selectedFrame->scaled(100, 100)));
-        }
+    // Checks if a frame is selected before updating current selected frame
+    if (ui->frameNavigator->currentItem() != nullptr) {
+        ui->frameNavigator->currentItem()->setIcon(QIcon(selectedFrame->scaled(100, 100)));
+    }
     // }
 }
 
