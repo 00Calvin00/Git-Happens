@@ -899,30 +899,34 @@
       <height>512</height>
      </rect>
     </property>
-    <widget class="Background" name="background" native="true">
+   </widget>
+   <widget class="Background" name="background" native="true">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>340</y>
+      <width>512</width>
+      <height>512</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <widget class="QLabel" name="onionSkinningBackground">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>512</width>
-       <height>512</height>
+       <width>511</width>
+       <height>511</height>
       </rect>
      </property>
-     <widget class="QLabel" name="onionSkinningBackground">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>511</width>
-        <height>511</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
+     <property name="text">
+      <string/>
+     </property>
     </widget>
    </widget>
+   <zorder>background</zorder>
    <zorder>animationPreviewOptions</zorder>
    <zorder>colorSelector</zorder>
    <zorder>drawButton</zorder>
@@ -940,7 +944,7 @@
      <x>0</x>
      <y>0</y>
      <width>1262</width>
-     <height>17</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">
@@ -997,12 +1001,17 @@
     <string>Checkered Background</string>
    </property>
   </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
    <class>Canvas</class>
    <extends>QWidget</extends>
-   <header location="global">canvas.h</header>
+   <header>canvas.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

@@ -7,10 +7,10 @@ Background::Background(QWidget *parent, int scale)
     setFixedSize(512, 512); // Adjust based on canvas size
 }
 
-
 void Background::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
+
     if(gridOn)
     {
         painter.setPen(Qt::lightGray);
@@ -26,6 +26,7 @@ void Background::paintEvent(QPaintEvent *)
     if(checkeredBackgroundOn)
     {
         painter.setOpacity(0.5);
+
         bool isFilled = true;
         for (int x = 0; x <= width(); x += 2*scale) // 2 * scale because we want nice big sqaures that scale
         {
