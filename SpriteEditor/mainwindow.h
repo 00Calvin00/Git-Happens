@@ -34,7 +34,6 @@ private slots:
     void FrameListChanged(int newIndex, QPixmap* newFrame);
     void OnFrameSelected(int);
     void UpdateSelectedFrameIcon();
-    void UpdateAnimation(QList<QPixmap*> newPixMap);
     void DeleteFramePopUp();
     void DeleteFramePopUpClose();
     void IteratePreview();

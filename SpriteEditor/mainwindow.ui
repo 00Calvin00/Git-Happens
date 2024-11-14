@@ -908,6 +908,19 @@
        <height>512</height>
       </rect>
      </property>
+     <widget class="QLabel" name="onionSkinningBackground">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>511</width>
+        <height>511</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
    </widget>
    <zorder>animationPreviewOptions</zorder>
@@ -927,7 +940,7 @@
      <x>0</x>
      <y>0</y>
      <width>1262</width>
-     <height>18</height>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuhallo">
@@ -941,8 +954,9 @@
     <property name="title">
      <string>Settings</string>
     </property>
-    <addaction name="actionOnion_Skinning"/>
-    <addaction name="gridSwitch"/>
+    <addaction name="onionSkinningToggle"/>
+    <addaction name="gridToggle"/>
+    <addaction name="checkeredBackgroundToggle"/>
    </widget>
    <addaction name="menuhallo"/>
    <addaction name="menuSettings"/>
@@ -958,7 +972,7 @@
     <string>Load</string>
    </property>
   </action>
-  <action name="actionOnion_Skinning">
+  <action name="onionSkinningToggle">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -966,12 +980,20 @@
     <string>Onion Skinning</string>
    </property>
   </action>
-  <action name="gridSwitch">
+  <action name="gridToggle">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
     <string>Grid Display</string>
+   </property>
+  </action>
+  <action name="checkeredBackgroundToggle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Checkered Background</string>
    </property>
   </action>
  </widget>
