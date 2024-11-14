@@ -3,6 +3,7 @@
 
 #include <QPixmap>
 #include <QString>
+#include "canvas.h"
 
 /**
  * @class JsonReader
@@ -19,9 +20,17 @@ class JsonReader
 public:
     JsonReader();
 
-    static bool savePixmapsToJson(QList<QPixmap*> pixmaps, const QString &filePath);
+    /**
+     * @brief Retrieves the actual current frames from the PixmapList
+     * @return The current QPixmap representing the canvas.
+     */
+    static bool savePixmapsToJson(QList<QPixmap*> pixmaps, Canvas* canvas, const QString &filePath);
 
-    static bool loadPixmapsFromJson(QList<QPixmap*>& pixmaps, const QString &filePath);
+    /**
+     * @brief Retrieves the actual current frames from the PixmapList
+     * @return The current QPixmap representing the canvas.
+     */
+    static bool loadPixmapsFromJson(QList<QPixmap*>& pixmaps, Canvas* canvas, const QString &filePath);
 
 };
 

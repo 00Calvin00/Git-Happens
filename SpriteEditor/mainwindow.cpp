@@ -179,7 +179,7 @@ void MainWindow::onSaveTriggered()
         QList<QPixmap*> pixmapList = model->getPixmapListValues();
 
         // Save all frames using the JsonReader
-        if (JsonReader::savePixmapsToJson(pixmapList, filePath))
+        if (JsonReader::savePixmapsToJson(pixmapList, canvas, filePath))
         {
             QMessageBox::information(this, tr("Save Successful"), tr("Project saved successfully!"));
         } else
@@ -201,7 +201,7 @@ void MainWindow::onLoadTriggered()
         QList<QPixmap*> pixmapList = model->getPixmapListObjects();
 
         // Load the project frames using the JsonReader
-        if (JsonReader::loadPixmapsFromJson(pixmapList, filePath)) {
+        if (JsonReader::loadPixmapsFromJson(pixmapList, canvas, filePath)) {
             // Successfully loaded frames, update the model with the new
             //Load is not properly replacing the model instances pixmaps with the loaded pixmaps. There are
             // two pixmaps in memory at this time, the loaded one and the model instance's pixmap

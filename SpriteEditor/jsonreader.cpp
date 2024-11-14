@@ -13,7 +13,7 @@ JsonReader::JsonReader()
 
 }
 
-bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, const QString& filePath)
+bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, Canvas* canvas, const QString& filePath)
 {
 
     // Create a JSON object for saving multiple frames
@@ -22,7 +22,8 @@ bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, const QString& fi
     // Create a JSON array to store the frames
     QJsonArray framesArray;
 
-    for (QPixmap* pixmap : pixmapList) {
+    for (QPixmap* pixmap : pixmapList)
+    {
         // Convert each QPixmap to a QImage
         QImage image = pixmap -> toImage();
 
@@ -43,11 +44,15 @@ bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, const QString& fi
     // Add the frames array to the JSON object
     json["frames"] = framesArray;
 
+    // Add scale to the Json object
+    json["scale"] = canvas->getScale();
+
     // Write the JSON object to file
     QJsonDocument jsonDoc(json);
     QFile jsonFile(filePath);
 
-    if (!jsonFile.open(QIODevice::WriteOnly)) {
+    if (!jsonFile.open(QIODevice::WriteOnly))
+    {
         qWarning("Could not open file for writing.");
         return false;
     }
@@ -60,10 +65,11 @@ bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, const QString& fi
     return true;
 }
 
-bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, const QString& filePath)
+bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, Canvas* canvas, const QString& filePath)
 {
     QFile jsonFile(filePath);
-    if (!jsonFile.open(QIODevice::ReadOnly)) {
+    if (!jsonFile.open(QIODevice::ReadOnly))
+    {
         qWarning() << "Could not open file for reading:" << filePath;
         return false;
     }
@@ -73,24 +79,34 @@ bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, const QString&
 
     // Parse the JSON data
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData);
-    if (jsonDoc.isNull()) {
+    if (jsonDoc.isNull())
+    {
         qWarning() << "Failed to parse JSON";
         return false;
     }
 
     // Extract the frames array from JSON
     QJsonObject jsonObject = jsonDoc.object();
-    if (!jsonObject.contains("frames")) {
+    if (!jsonObject.contains("frames"))
+    {
         qWarning() << "No frames data found in JSON";
         return false;
     }
 
+    // Extract the scale
+    if (jsonObject.contains("scale"))
+    {
+        int scale = jsonObject["scale"].toInt();
+        canvas->setScale(scale);
+    }
+
     // Delete all existing pixmaps in the list before loading new ones
-    qDeleteAll(pixmapList); // This deletes all QPixmap pointers in the list, maybe the list was not passed in properly
-    pixmapList.clear(); // Clears the list
+    qDeleteAll(pixmapList);
+    pixmapList.clear();
 
     QJsonArray framesArray = jsonObject["frames"].toArray();
-    for (const QJsonValue& value : framesArray) {
+    for (const QJsonValue& value : framesArray)
+    {
         QString base64String = value.toString();
 
         // Decode the base64 string
@@ -98,7 +114,8 @@ bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, const QString&
 
         // Load the QByteArray into a QImage
         QImage image;
-        if (!image.loadFromData(byteArray, "PNG")) {
+        if (!image.loadFromData(byteArray, "PNG"))
+        {
             qWarning() << "Failed to load image from data";
             return false;
         }
