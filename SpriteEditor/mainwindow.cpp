@@ -37,12 +37,12 @@ MainWindow::MainWindow(Model& model, int canvasSize, QWidget *parent)
         close(); // Close app if no size is selected
     }
 
-
     // Center canvas in the main window
     background->move(370, 0);
     canvas->move(370, 0);
     model.AddInitialFrame(canvas); // Add the first frame from the canvas into the list of frames
     FrameListChanged(0, model.pixmapList[0]);
+    ui->frameNavigator->setDragDropMode(QAbstractItemView::NoDragDrop);
 
     // AddInitalFrame(model.pixmapList[0]);
 
