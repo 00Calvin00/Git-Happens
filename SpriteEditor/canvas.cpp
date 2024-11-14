@@ -71,7 +71,7 @@ void Canvas::drawCell(const QPoint &cell, const QColor &color)
     painter.end();  // End painter to save changes to the pixmap
 
     // Store the color in cellColors for later reference
-    cellColors[cell] = color;
+    //cellColors[cell] = color;
 
     update();
     emit updateCanvas(); // Notify main window to refresh UI
@@ -81,7 +81,7 @@ void Canvas::drawCell(const QPoint &cell, const QColor &color)
 void Canvas::eraseCell(const QPoint &cell)
 {
     // Remove the color from cellColors
-    cellColors.remove(cell);
+    //cellColors.remove(cell);
 
     // Update the pixmap by filling the erased cell with white (or default color)
     QPainter painter(pixmap);
@@ -155,7 +155,9 @@ QPixmap* Canvas::getPixmap() const
 // Function to set a new pixmap and update the canvas
 void Canvas::setPixmap(QPixmap* newPixmap)
 {
+    //pixmap = newPixmap;
     pixmap = newPixmap;
+    //cellColors.clear(); //Won't this override old data we want to sticl around though??
     update();
     repaint();
 }
