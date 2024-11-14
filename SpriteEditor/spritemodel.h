@@ -18,10 +18,22 @@ public:
     QList<QPixmap*> pixmapList;
     int currentIndex = 0;  // Track the "current" pixmap
     void updateCanvasData(); // Example: method to interact with Canvas if needed
+
+    /**
+     * @brief Updates the currentIndex to the currently selectly one, emits a sendframeListChanged signal to the model, and
+     * triggers the FrameListChanged slot in the mainwindow.
+     * @param int i frame to select
+     */
     void SelectFrame(int i);
     void DuplicateFrame(QPixmap importedMap);
     void AddFrame();
     void DeleteFrame();
+
+    /**
+     * @brief Updates the currentIndex to the currently selectly one, emits a sendframeListChanged signal to the model, and
+     * triggers the FrameListChanged slot in the mainwindow.
+     * @param int i frame to select
+     */
     void AddInitialFrame(Canvas* canvas);
 
     /**

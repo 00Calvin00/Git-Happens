@@ -194,38 +194,21 @@ void MainWindow::onLoadTriggered()
     // Open QFileDialog for user to choose a filepath
     QString filePath = QFileDialog::getOpenFileName(this, tr("Open Project"), "", tr("JSON Files (*.json);;All Files (*)"));
 
-    if (!filePath.isEmpty()) {
-        //QList<QPixmap*> pixmapList;
+    if (!filePath.isEmpty())
+    {
         // Get the model's pixmap list
-
         QList<QPixmap*> pixmapList = model->getPixmapListObjects();
 
         // Load the project frames using the JsonReader
-        if (JsonReader::loadPixmapsFromJson(pixmapList, canvas, filePath)) {
-            // Successfully loaded frames, update the model with the new
-            //Load is not properly replacing the model instances pixmaps with the loaded pixmaps. There are
-            // two pixmaps in memory at this time, the loaded one and the model instance's pixmap
-
+        if (JsonReader::loadPixmapsFromJson(pixmapList, canvas, filePath))
+        {
+            // Update the model with the loaded pixmapList
             model->setPixmapList(pixmapList);
 
-            // Update the model with the loaded pixmapList
-            QList<QPixmap*> modelPixmapList = model->getPixmapListValues();
-
-            //Debugging for the current model frame contents
-            // for (QPixmap* frame : modelPixmapList) {
-            //     QPixmap tempPixmapCopy = *frame; // Copy the pixmap
-            //     QImage imageCopy = tempPixmapCopy.toImage();
-
-            //     // Check the top-left pixel color of the copied image
-            //     QColor topLeftColor = QColor(imageCopy.pixel(0, 0));
-            //     qDebug() << "Top-left pixel color in Model Frames:" << topLeftColor.name();
-            // }
-
             // Update the canvas with the first frame if there are frames
-            if (model->getPixmapListValues().size() > 0) {
-                model->SelectFrame(0); // Select frame updates the index to the current one, emits a sendframeListChanged signal
-                // to the model, and triggers the FrameListChanged slot in the mainwindow, that sets the canvas pixmap to the new map at
-                // index 0 of the loaded project.
+            if (model->getPixmapListValues().size() > 0)
+            {
+                model->SelectFrame(0); // Select the first frame in the project
                 canvas->repaint();
 
             }
@@ -250,6 +233,7 @@ void MainWindow::onNewTriggered() {
         QProcess::startDetached(qApp->arguments()[0], qApp->arguments().mid(1)); // Open and run a new application
     }
 }
+
 
 void MainWindow::AddInitalFrame(QPixmap* initialFrame) {
     canvas->setPixmap(initialFrame);
