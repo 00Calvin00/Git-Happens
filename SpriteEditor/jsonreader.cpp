@@ -17,7 +17,6 @@ JsonReader::JsonReader()
 
 bool JsonReader::savePixmapsToJson(QList<QPixmap*> pixmapList, Canvas* canvas, const QString& filePath)
 {
-
     // Create a JSON object for saving multiple frames
     QJsonObject json;
 
