@@ -69,14 +69,15 @@ MainWindow::MainWindow(FrameManager& model, int canvasSize, QWidget *parent)
         background->setScale(canvas->getScale());
         background->update();
         updateCanvasDisplay();
-    } else {
+    } else
+    {
         close(); // Default to 8x8 if no size is selected
     }
 
     // Connect the signals for save, load, and new Actions from the File Menu
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::onSaveTriggered);
     connect(ui->actionLoad, &QAction::triggered, this, &MainWindow::onLoadTriggered);
-    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::OnNewTriggered);
+    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::onNewTriggered);
 
     // Connect the signals for grid, onionSkinning, and checkeredBackground Toggles from the Settings Menu
     connect(ui->gridToggle, &QAction::toggled, background, &Background::setGridOn);
@@ -85,32 +86,33 @@ MainWindow::MainWindow(FrameManager& model, int canvasSize, QWidget *parent)
 
     // Set up Frame Navigator
     ui->frameNavigator->setDragDropMode(QAbstractItemView::NoDragDrop);
-    model.AddInitialFrame(canvas);
-    FrameListChanged(0, model.pixmapList[0]);
+    model.addInitialFrame(canvas);
+    frameListChanged(0, model.pixmapList[0]);
 
     // Set up Frame Navigator timer
     selectedFrameTimer = new QTimer(this);
     selectedFrameTimer->start(1000/fps);
-    connect(selectedFrameTimer, &QTimer::timeout, this, &MainWindow::UpdateSelectedFrameIcon);
+    connect(selectedFrameTimer, &QTimer::timeout, this, &MainWindow::updateSelectedFrameIcon);
 
     // Connect the signals for Frame Navigator
-    connect(&model, &FrameManager::SendFrameListChanged, this, &MainWindow::FrameListChanged);
-    connect(ui->frameNavigator, &QListWidget::currentRowChanged, this, &MainWindow::OnFrameSelected);
-    connect(ui->addFrameButton, &QPushButton::clicked, &model, &FrameManager::AddFrame);
-    connect(ui->deleteFrameButton, &QPushButton::clicked, this, &MainWindow::DeleteFramePopUp);
-    connect(ui->deleteConfirmation->button(QDialogButtonBox::Yes), &QPushButton::clicked, &model, &FrameManager::DeleteFrame);
-    connect(ui->deleteConfirmation->button(QDialogButtonBox::Yes), &QPushButton::clicked, this, &MainWindow::DeleteFramePopUpClose);
-    connect(ui->deleteConfirmation->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &MainWindow::DeleteFramePopUpClose);
+    connect(&model, &FrameManager::sendFrameListChanged, this, &MainWindow::frameListChanged);
+    connect(ui->frameNavigator, &QListWidget::currentRowChanged, this, &MainWindow::onFrameSelected);
+    connect(ui->addFrameButton, &QPushButton::clicked, &model, &FrameManager::addFrame);
+    connect(ui->deleteFrameButton, &QPushButton::clicked, this, &MainWindow::deleteFramePopUp);
+    connect(ui->deleteConfirmation->button(QDialogButtonBox::Yes), &QPushButton::clicked, &model, &FrameManager::deleteFrame);
+    connect(ui->deleteConfirmation->button(QDialogButtonBox::Yes), &QPushButton::clicked, this, &MainWindow::deleteFramePopUpClose);
+    connect(ui->deleteConfirmation->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &MainWindow::deleteFramePopUpClose);
 
     // Set up Animation Preview timer
     previewIterationTimer = new QTimer(this);
     previewIterationTimer->start(1000/fps);
-    connect(previewIterationTimer, &QTimer::timeout, this, &MainWindow::IteratePreview);
+    connect(previewIterationTimer, &QTimer::timeout, this, &MainWindow::iteratePreview);
 
     // Connect the signals for Animation Preview slider
     connect(ui->animationFPSSlider, &QSlider::valueChanged, this, [=](int value){ui->animationFPSNumber->setNum(value);});
     connect(ui->animationFPSSlider, &QSlider::valueChanged, this, [=](int value){
-        if(value == 0) {
+        if(value == 0)
+        {
             previewIterationTimer->stop();
         }
         else {
@@ -154,7 +156,8 @@ void MainWindow::onSaveTriggered()
     // Open QFileDialog for user to choose a filepath
     QString filePath = QFileDialog::getSaveFileName(this, tr("Save Project"), "", tr("JSON Files (*.json);;All Files (*)"));
 
-    if (!filePath.isEmpty()) {
+    if (!filePath.isEmpty())
+    {
         // Get the list of frames from the model
         QList<QPixmap*> pixmapList = model->getPixmapListValues();
 
@@ -188,7 +191,7 @@ void MainWindow::onLoadTriggered()
             // Update the canvas with the first frame if there are frames
             if (model->getPixmapListValues().size() > 0)
             {
-                model->SelectFrame(0); // Select the first frame in the project
+                model->selectFrame(0); // Select the first frame in the project
                 canvas->repaint();
 
             }
@@ -201,7 +204,8 @@ void MainWindow::onLoadTriggered()
     }
 }
 
-void MainWindow::OnNewTriggered() {
+void MainWindow::onNewTriggered()
+{
     // Show a message box with Yes and No buttons and get the user's response
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, tr("Warning"), tr("Opening a new project will discard any unsaved progress. Continue?"),
@@ -213,7 +217,8 @@ void MainWindow::OnNewTriggered() {
     }
 }
 
-void MainWindow::FrameListChanged(int newIndex, QPixmap* newFrame) {
+void MainWindow::frameListChanged(int newIndex, QPixmap* newFrame)
+{
     if (model->currentIndex != 0)
     {
         QPixmap* previousFrame = model->pixmapList.at(model->currentIndex-1);
@@ -234,7 +239,8 @@ void MainWindow::FrameListChanged(int newIndex, QPixmap* newFrame) {
     ui->frameNavigator->setCurrentRow(model->currentIndex);
 }
 
-void MainWindow::OnFrameSelected(int newIndex) {
+void MainWindow::onFrameSelected(int newIndex)
+{
     // Check if the index is within bounds of the list
     if (newIndex == -1) {
         if (model->currentIndex != 0) {
@@ -258,7 +264,8 @@ void MainWindow::OnFrameSelected(int newIndex) {
     canvas->setPixmap(selectedFrame);
 }
 
-void MainWindow::UpdateSelectedFrameIcon(){
+void MainWindow::updateSelectedFrameIcon()
+{
     QPixmap* selectedFrame = model->pixmapList.at(model->currentIndex);
 
     // Checks if a frame is selected before updating current selected frame
@@ -267,16 +274,20 @@ void MainWindow::UpdateSelectedFrameIcon(){
     }
 }
 
-void MainWindow::DeleteFramePopUp() {
+void MainWindow::deleteFramePopUp()
+{
     ui->deleteFramePopUp->setVisible(true);
 }
 
-void MainWindow::DeleteFramePopUpClose() {
+void MainWindow::deleteFramePopUpClose()
+{
     ui->deleteFramePopUp->setVisible(false);
 }
 
-void MainWindow::IteratePreview() {
-    if(++curPreviewIndex >= model->pixmapList.length()) {
+void MainWindow::iteratePreview()
+{
+    if(++curPreviewIndex >= model->pixmapList.length())
+    {
         curPreviewIndex = 0;
     }
 

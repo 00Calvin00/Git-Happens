@@ -127,5 +127,3 @@ bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, Canvas* canvas
 
     return true;
 }
-
-

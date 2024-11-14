@@ -7,6 +7,19 @@
 #include <QObject>
 #include "canvas.h"
 
+/**
+ * @class FrameManager
+ * @brief Manages a collection of frames represented as QPixmaps in a list.
+ *
+ * FrameManager is responsible for maintaining and manipulating a list of frames
+ * (QPixmaps). It provides functionality to add, delete, select, and update frames.
+ * The class emits signals to notify other components of changes to the frame list or selection.
+ *
+ * The class holds a list of frames (`pixmapList`), an integer `currentIndex` to track
+ * the currently selected frame, and functions for interacting with the frame list.
+ * FrameManager integrates with the Canvas class to retrieve and manage QPixmaps for drawing.
+ */
+
 class FrameManager : public QObject
 {
     Q_OBJECT
@@ -33,18 +46,18 @@ public:
      * triggers the FrameListChanged slot in the mainwindow.
      * @param int i frame to select
      */
-    void SelectFrame(int i);
+    void selectFrame(int i);
 
     /**
      * @brief Adds a new blank frame to the pixmap list.
      */
-    void AddFrame();
+    void addFrame();
 
     /**
      * @brief Deletes the current frame from the pixmap list.
      *
      */
-    void DeleteFrame();
+    void deleteFrame();
 
     /**
      * @brief Adds an initial frame from a Canvas instance to the pixmap list.
@@ -54,7 +67,7 @@ public:
      *
      * @param canvas Pointer to the Canvas from which the initial frame is retrieved.
      */
-    void AddInitialFrame(Canvas* canvas);
+    void addInitialFrame(Canvas* canvas);
 
     /**
      * @brief Retrieves the values of the current frames from the PixmapList
@@ -95,14 +108,14 @@ signals:
      * @param newIndex The new current index after selection or modification.
      * @param newMap The QPixmap associated with the new current frame.
      */
-    void SendFrameListChanged(int newIndex, QPixmap* newMap);
+    void sendFrameListChanged(int newIndex, QPixmap* newMap);
 
     /**
      * @brief Signal emitted to update the animation display with the current frame list.
      *
      * @param newPixMap The updated list of frames as QPixmaps.
      */
-    void SendUpdateAnimation(QList<QPixmap*> newPixMap);
+    void sendUpdateAnimation(QList<QPixmap*> newPixMap);
 };
 
 #endif // MODEL_H

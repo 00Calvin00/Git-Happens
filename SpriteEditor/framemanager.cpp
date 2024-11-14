@@ -11,7 +11,7 @@ FrameManager::~FrameManager()
     pixmapList.clear();  // Clear the list
 }
 
-void FrameManager::AddInitialFrame(Canvas* canvas)
+void FrameManager::addInitialFrame(Canvas* canvas)
 {
     // Store pointer to QPixmap in the list
     //pixmapList.append(canvas->getPixmap());  // Assuming getPixmap() returns QPixmap*
@@ -20,7 +20,7 @@ void FrameManager::AddInitialFrame(Canvas* canvas)
     currentIndex = 0;  // Set the initial selected index
 }
 
-void FrameManager::AddFrame()
+void FrameManager::addFrame()
 {
     if (pixmapList.size() != 0)
     {
@@ -39,11 +39,11 @@ void FrameManager::AddFrame()
     {
         pixmapList.append(newMap); // Else we are at the end, so simply append the newMap, since we already increased the index
     }
-    emit SendFrameListChanged(currentIndex, newMap);
-    emit SendUpdateAnimation(pixmapList);
+    emit sendFrameListChanged(currentIndex, newMap);
+    emit sendUpdateAnimation(pixmapList);
 }
 
-void FrameManager::DeleteFrame()
+void FrameManager::deleteFrame()
 {
     // If there’s more than one item, remove the current frame
     if (pixmapList.size() > 1)
@@ -60,22 +60,22 @@ void FrameManager::DeleteFrame()
     else
     {
         pixmapList.remove(currentIndex);
-        AddFrame();
+        addFrame();
         currentIndex = 0;
     }
 
     QPixmap* newMap = pixmapList.at(currentIndex);
-    emit SendFrameListChanged(currentIndex, newMap);
-    emit SendUpdateAnimation(pixmapList);
+    emit sendFrameListChanged(currentIndex, newMap);
+    emit sendUpdateAnimation(pixmapList);
 }
 
-void FrameManager::SelectFrame(int i)
+void FrameManager::selectFrame(int i)
 {
     if (currentIndex >= 0 && currentIndex < pixmapList.size())
     {
         currentIndex = i;
         QPixmap* newMap = pixmapList.at(i);
-        emit SendFrameListChanged(currentIndex, newMap);
+        emit sendFrameListChanged(currentIndex, newMap);
     } else
     {
         qDebug() << "Index out of bounds";
@@ -86,7 +86,7 @@ void FrameManager::setPixmapList(const QList<QPixmap*>& newPixmapList)
 {
     pixmapList = newPixmapList;
     currentIndex = 0;  // Reset selected to start
-    emit SendUpdateAnimation(pixmapList);
+    emit sendUpdateAnimation(pixmapList);
 }
 
 const QList<QPixmap*> FrameManager::getPixmapListValues()

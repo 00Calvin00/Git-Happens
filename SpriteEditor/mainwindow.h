@@ -44,18 +44,18 @@ private slots:
      */
     void onLoadTriggered();
 
-    void OnNewTriggered();
+    void onNewTriggered();
 
     /**
      * @brief onNewTriggered
      */
 
-    void FrameListChanged(int newIndex, QPixmap* newFrame);
-    void OnFrameSelected(int);
-    void UpdateSelectedFrameIcon();
-    void DeleteFramePopUp();
-    void DeleteFramePopUpClose();
-    void IteratePreview();
+    void frameListChanged(int newIndex, QPixmap* newFrame);
+    void onFrameSelected(int);
+    void updateSelectedFrameIcon();
+    void deleteFramePopUp();
+    void deleteFramePopUpClose();
+    void iteratePreview();
 
 private:
     void initializeCanvas(int canvasSize);
