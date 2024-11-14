@@ -204,20 +204,8 @@ void MainWindow::onLoadTriggered()
             //Load is not properly replacing the model instances pixmaps with the loaded pixmaps. There are
             // two pixmaps in memory at this time, the loaded one and the model instance's pixmap
 
-            model->setPixmapList(pixmapList);
-
             // Update the model with the loaded pixmapList
-            QList<QPixmap*> modelPixmapList = model->getPixmapListValues();
-
-            //Debugging for the current model frame contents
-            // for (QPixmap* frame : modelPixmapList) {
-            //     QPixmap tempPixmapCopy = *frame; // Copy the pixmap
-            //     QImage imageCopy = tempPixmapCopy.toImage();
-
-            //     // Check the top-left pixel color of the copied image
-            //     QColor topLeftColor = QColor(imageCopy.pixel(0, 0));
-            //     qDebug() << "Top-left pixel color in Model Frames:" << topLeftColor.name();
-            // }
+            model->setPixmapList(pixmapList);
 
             // Update the canvas with the first frame if there are frames
             if (model->getPixmapListValues().size() > 0) {

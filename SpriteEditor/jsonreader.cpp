@@ -78,6 +78,7 @@ bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, Canvas* canvas
         return false;
     }
 
+
     // Extract the frames array from JSON
     QJsonObject jsonObject = jsonDoc.object();
     if (!jsonObject.contains("frames")) {
@@ -85,8 +86,14 @@ bool JsonReader::loadPixmapsFromJson(QList<QPixmap*>& pixmapList, Canvas* canvas
         return false;
     }
 
+    // Extract the canvas size from the scale array in JSON
+    if (jsonObject.contains("scale")) {
+        int scale = jsonObject["scale"].toInt();
+        canvas->setScale(scale);
+    }
+
     // Delete all existing pixmaps in the list before loading new ones
-    qDeleteAll(pixmapList); // This deletes all QPixmap pointers in the list, maybe the list was not passed in properly
+    qDeleteAll(pixmapList); // This deletes all QPixmap pointers in the list
     pixmapList.clear(); // Clears the list
 
     QJsonArray framesArray = jsonObject["frames"].toArray();
